@@ -1,0 +1,12 @@
+{
+  "accessToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInVzZXJJZCI6MSwicm9sZSI6IkFETUlOIn0.SAMPLE_SIGNATURE_8H",
+  "tokenType": "Bearer",
+  "expiresIn": 28800,
+  "user": {
+    "id": 1,
+    "username": "admin",
+    "fullName": "Administrator",
+    "email": "admin@ves.local",
+    "role": "ADMIN"
+  }
+}

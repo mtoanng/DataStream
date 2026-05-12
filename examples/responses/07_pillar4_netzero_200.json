@@ -1,0 +1,46 @@
+{
+  "targetYear": 2050,
+  "currentYear": 2026,
+  "overallProgressPct": 23.5,
+  "renewableCapacityMw": 5400,
+  "emissionIntensityKgPerMwh": 580,
+  "emissionTarget": 100,
+  "regions": [
+    {
+      "regionCode": "VN_NINHTHUAN",
+      "renewableShare": 65.0,
+      "emissionIntensity": 320,
+      "status": "ON_TRACK"
+    },
+    {
+      "regionCode": "VN_DANANG",
+      "renewableShare": 42.5,
+      "emissionIntensity": 480,
+      "status": "ON_TRACK"
+    },
+    {
+      "regionCode": "VN_HCM",
+      "renewableShare": 18.3,
+      "emissionIntensity": 750,
+      "status": "LAGGING"
+    },
+    {
+      "regionCode": "VN_HANOI",
+      "renewableShare": 15.8,
+      "emissionIntensity": 720,
+      "status": "LAGGING"
+    },
+    {
+      "regionCode": "VN_HAIPHONG",
+      "renewableShare": 9.2,
+      "emissionIntensity": 890,
+      "status": "OFF_TRACK"
+    },
+    {
+      "regionCode": "VN_CANTHO",
+      "renewableShare": 32.4,
+      "emissionIntensity": 540,
+      "status": "ON_TRACK"
+    }
+  ]
+}

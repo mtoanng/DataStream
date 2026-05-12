@@ -1,0 +1,7 @@
+{
+  "timestamp": "2026-05-12T10:30:00Z",
+  "status": 401,
+  "error": "Unauthorized",
+  "message": "JWT token expired",
+  "path": "/api/security/score"
+}

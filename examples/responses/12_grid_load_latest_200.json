@@ -1,0 +1,56 @@
+[
+  {
+    "id": 5001,
+    "regionCode": "VN_HANOI",
+    "loadMw": 10620,
+    "capacityMw": 12000,
+    "loadPct": 88.5,
+    "isPeakHour": true,
+    "eventTime": "2026-05-12T10:30:00Z"
+  },
+  {
+    "id": 5002,
+    "regionCode": "VN_HCM",
+    "loadMw": 14736,
+    "capacityMw": 16000,
+    "loadPct": 92.1,
+    "isPeakHour": true,
+    "eventTime": "2026-05-12T10:30:00Z"
+  },
+  {
+    "id": 5003,
+    "regionCode": "VN_HAIPHONG",
+    "loadMw": 5761,
+    "capacityMw": 7000,
+    "loadPct": 82.3,
+    "isPeakHour": true,
+    "eventTime": "2026-05-12T10:30:00Z"
+  },
+  {
+    "id": 5004,
+    "regionCode": "VN_DANANG",
+    "loadMw": 2616,
+    "capacityMw": 4000,
+    "loadPct": 65.4,
+    "isPeakHour": false,
+    "eventTime": "2026-05-12T10:30:00Z"
+  },
+  {
+    "id": 5005,
+    "regionCode": "VN_CANTHO",
+    "loadMw": 1767,
+    "capacityMw": 3000,
+    "loadPct": 58.9,
+    "isPeakHour": false,
+    "eventTime": "2026-05-12T10:30:00Z"
+  },
+  {
+    "id": 5006,
+    "regionCode": "VN_NINHTHUAN",
+    "loadMw": 970,
+    "capacityMw": 2000,
+    "loadPct": 48.5,
+    "isPeakHour": false,
+    "eventTime": "2026-05-12T10:30:00Z"
+  }
+]

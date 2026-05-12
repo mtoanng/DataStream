@@ -1,0 +1,7 @@
+{
+  "id": 42,
+  "status": "ACKNOWLEDGED",
+  "acknowledgedAt": "2026-05-12T11:00:00Z",
+  "acknowledgedBy": 1,
+  "note": "Đã chuyển stock theo plan, hoàn tất 2026-05-13"
+}

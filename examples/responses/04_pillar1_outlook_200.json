@@ -1,0 +1,38 @@
+[
+  {
+    "regionCode": "VN_HANOI",
+    "fuelType": "GASOLINE",
+    "stockDays": 56.6,
+    "targetDays": 90,
+    "deficitDays": 33.4,
+    "supplyStatus": "WARNING",
+    "recommendationText": "Chuyển 5000 KL từ Ninh Thuận về Hà Nội trước 2026-05-20"
+  },
+  {
+    "regionCode": "VN_HCM",
+    "fuelType": "DIESEL",
+    "stockDays": 22.5,
+    "targetDays": 90,
+    "deficitDays": 67.5,
+    "supplyStatus": "CRITICAL",
+    "recommendationText": "Khẩn cấp nhập 8000 KL diesel từ Singapore trong 7 ngày"
+  },
+  {
+    "regionCode": "VN_DANANG",
+    "fuelType": "GASOLINE",
+    "stockDays": 95.2,
+    "targetDays": 90,
+    "deficitDays": 0,
+    "supplyStatus": "SECURE",
+    "recommendationText": null
+  },
+  {
+    "regionCode": "VN_NINHTHUAN",
+    "fuelType": "GASOLINE",
+    "stockDays": 110.8,
+    "targetDays": 90,
+    "deficitDays": 0,
+    "supplyStatus": "SECURE",
+    "recommendationText": "Có thể điều chuyển bớt 5000 KL ra HN/HCM"
+  }
+]

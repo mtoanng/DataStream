@@ -1,0 +1,82 @@
+[
+  {
+    "id": 42,
+    "pillar": 1,
+    "actionType": "TRANSFER_STOCK",
+    "severity": "WARNING",
+    "title": "Chuyển 5000 KL Gasoline NINHTHUAN → HANOI",
+    "message": "Hà Nội còn 56.6 ngày tồn kho, dưới target 90. Đề xuất chuyển 5000 KL từ kho Cát Lái (NINHTHUAN tồn 110 ngày) về Hà Nội trong 7 ngày.",
+    "suggestedData": {
+      "from": "VN_NINHTHUAN",
+      "to": "VN_HANOI",
+      "volumeKl": 5000,
+      "fuel": "GASOLINE"
+    },
+    "status": "PENDING",
+    "suggestedAt": "2026-05-12T08:15:00Z",
+    "acknowledgedAt": null,
+    "acknowledgedBy": null,
+    "note": null,
+    "expiresAt": "2026-05-19T08:15:00Z"
+  },
+  {
+    "id": 43,
+    "pillar": 2,
+    "actionType": "PRICE_HEDGE",
+    "severity": "WARNING",
+    "title": "Hedge 50,000 thùng Brent forward 3 tháng",
+    "message": "Brent crude tăng 12% trong 24h, volatility index 18.7 > ngưỡng 15. Đề xuất hedge 50,000 thùng forward Aug 2026 tại $85/bbl.",
+    "suggestedData": {
+      "fuel": "BRENT_CRUDE",
+      "volumeBbl": 50000,
+      "strikePrice": 85.0,
+      "tenorMonths": 3
+    },
+    "status": "PENDING",
+    "suggestedAt": "2026-05-12T09:50:00Z",
+    "acknowledgedAt": null,
+    "acknowledgedBy": null,
+    "note": null,
+    "expiresAt": "2026-05-15T09:50:00Z"
+  },
+  {
+    "id": 44,
+    "pillar": 3,
+    "actionType": "LOAD_SHED",
+    "severity": "CRITICAL",
+    "title": "Cut 1500MW KCN Tân Tạo + Linh Trung",
+    "message": "HCM load 92.1% peak. Cut 1500MW công nghiệp non-essential để bảo vệ lưới.",
+    "suggestedData": {
+      "region": "VN_HCM",
+      "shedMw": 1500,
+      "targets": ["KCN_TAN_TAO", "KCN_LINH_TRUNG"],
+      "durationMin": 120
+    },
+    "status": "PENDING",
+    "suggestedAt": "2026-05-12T10:25:00Z",
+    "acknowledgedAt": null,
+    "acknowledgedBy": null,
+    "note": null,
+    "expiresAt": "2026-05-12T18:25:00Z"
+  },
+  {
+    "id": 45,
+    "pillar": 4,
+    "actionType": "RENEWABLE_RAMPUP",
+    "severity": "INFO",
+    "title": "Đẩy mạnh solar Ninh Thuận thêm 200MW",
+    "message": "Ninh Thuận đang dư 1030MW công suất. Cấp tốc dự án solar 200MW Phước Dinh có thể export điện sạch ra Bắc.",
+    "suggestedData": {
+      "region": "VN_NINHTHUAN",
+      "project": "PHUOC_DINH_SOLAR",
+      "capacityMw": 200,
+      "estimatedYears": 1.5
+    },
+    "status": "PENDING",
+    "suggestedAt": "2026-05-11T14:00:00Z",
+    "acknowledgedAt": null,
+    "acknowledgedBy": null,
+    "note": null,
+    "expiresAt": "2026-06-11T14:00:00Z"
+  }
+]

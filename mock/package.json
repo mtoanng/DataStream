@@ -1,0 +1,14 @@
+{
+  "name": "ves-monitor-mock",
+  "version": "1.0.0",
+  "description": "json-server mock backend for VES Monitor Mobile (Android)",
+  "private": true,
+  "scripts": {
+    "start": "json-server --watch db.json --routes routes.json --port 8090 --host 0.0.0.0",
+    "start:localhost": "json-server --watch db.json --routes routes.json --port 8090"
+  },
+  "devDependencies": {
+    "json-server": "0.17.4"
+  },
+  "license": "Educational"
+}

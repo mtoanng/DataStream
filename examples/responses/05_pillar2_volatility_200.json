@@ -1,0 +1,42 @@
+[
+  {
+    "fuelType": "BRENT_CRUDE",
+    "latestPrice": 87.5,
+    "priceUnit": "USD/barrel",
+    "priceChangePct": 12.3,
+    "volatilityIndex": 18.7,
+    "trend": "INCREASING",
+    "signal": "ELEVATED",
+    "windowHours": 24
+  },
+  {
+    "fuelType": "WTI_CRUDE",
+    "latestPrice": 84.2,
+    "priceUnit": "USD/barrel",
+    "priceChangePct": 10.5,
+    "volatilityIndex": 15.4,
+    "trend": "INCREASING",
+    "signal": "ELEVATED",
+    "windowHours": 24
+  },
+  {
+    "fuelType": "GASOLINE",
+    "latestPrice": 3.21,
+    "priceUnit": "USD/gallon",
+    "priceChangePct": 5.2,
+    "volatilityIndex": 8.9,
+    "trend": "INCREASING",
+    "signal": "STABLE",
+    "windowHours": 24
+  },
+  {
+    "fuelType": "DIESEL",
+    "latestPrice": 3.85,
+    "priceUnit": "USD/gallon",
+    "priceChangePct": 1.1,
+    "volatilityIndex": 4.2,
+    "trend": "STABLE",
+    "signal": "STABLE",
+    "windowHours": 24
+  }
+]

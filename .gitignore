@@ -1,0 +1,53 @@
+# ============= Android Studio / IntelliJ =============
+.gradle/
+.idea/
+.kotlin/
+build/
+captures/
+out/
+*.iml
+*.ipr
+*.iws
+
+# Build outputs
+app/build/
+*/build/
+local.properties
+proguard/
+.cxx/
+
+# Generated files
+bin/
+gen/
+release/
+
+# Keystore (NEVER commit)
+*.jks
+*.keystore
+keystore.properties
+
+# Mock server
+mock/node_modules/
+mock/package-lock.json
+mock/.cache/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs / temp
+*.log
+*.tmp
+*.bak
+.tmp/
+tmp/
+
+# VS Code (if used as editor)
+.vscode/
+*.code-workspace
+
+# Environment / secrets
+.env
+.env.local
+secrets.properties

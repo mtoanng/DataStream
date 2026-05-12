@@ -1,0 +1,54 @@
+[
+  {
+    "id": 1001,
+    "ruleId": 5,
+    "metricType": "GRID_LOAD_PCT",
+    "fuelType": null,
+    "region": "VN_HCM",
+    "severity": "CRITICAL",
+    "message": "Grid load HCM = 92.1% > threshold 90%",
+    "triggeredValue": 92.1,
+    "threshold": 90.0,
+    "eventTimestamp": "2026-05-12T10:25:00Z",
+    "alertTimestamp": "2026-05-12T10:25:03Z"
+  },
+  {
+    "id": 1002,
+    "ruleId": 3,
+    "metricType": "FUEL_PRICE",
+    "fuelType": "BRENT_CRUDE",
+    "region": null,
+    "severity": "WARNING",
+    "message": "Brent crude tăng 12.3% trong 24h, vượt threshold 10%",
+    "triggeredValue": 12.3,
+    "threshold": 10.0,
+    "eventTimestamp": "2026-05-12T09:50:00Z",
+    "alertTimestamp": "2026-05-12T09:50:05Z"
+  },
+  {
+    "id": 1003,
+    "ruleId": 7,
+    "metricType": "EMISSION_INTENSITY",
+    "fuelType": null,
+    "region": "VN_HAIPHONG",
+    "severity": "WARNING",
+    "message": "Emission intensity Hải Phòng = 890 kg/MWh, vượt cảnh báo 800",
+    "triggeredValue": 890,
+    "threshold": 800,
+    "eventTimestamp": "2026-05-12T08:30:00Z",
+    "alertTimestamp": "2026-05-12T08:30:02Z"
+  },
+  {
+    "id": 1004,
+    "ruleId": 2,
+    "metricType": "INVENTORY_DAYS",
+    "fuelType": "DIESEL",
+    "region": "VN_HCM",
+    "severity": "CRITICAL",
+    "message": "Tồn kho diesel HCM = 22.5 ngày, dưới ngưỡng 30",
+    "triggeredValue": 22.5,
+    "threshold": 30.0,
+    "eventTimestamp": "2026-05-12T07:00:00Z",
+    "alertTimestamp": "2026-05-12T07:00:01Z"
+  }
+]

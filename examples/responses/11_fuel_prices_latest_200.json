@@ -1,0 +1,52 @@
+[
+  {
+    "id": 9999,
+    "eventTimestamp": "2026-05-12T10:00:00Z",
+    "fuelType": "BRENT_CRUDE",
+    "price": 87.50,
+    "priceUnit": "USD/barrel",
+    "location": "Global Market",
+    "region": null,
+    "source": "WORLD_BANK"
+  },
+  {
+    "id": 9998,
+    "eventTimestamp": "2026-05-12T09:00:00Z",
+    "fuelType": "BRENT_CRUDE",
+    "price": 86.20,
+    "priceUnit": "USD/barrel",
+    "location": "Global Market",
+    "region": null,
+    "source": "WORLD_BANK"
+  },
+  {
+    "id": 9997,
+    "eventTimestamp": "2026-05-12T08:00:00Z",
+    "fuelType": "WTI_CRUDE",
+    "price": 84.15,
+    "priceUnit": "USD/barrel",
+    "location": "Global Market",
+    "region": null,
+    "source": "EIA"
+  },
+  {
+    "id": 9996,
+    "eventTimestamp": "2026-05-12T07:00:00Z",
+    "fuelType": "GASOLINE",
+    "price": 3.21,
+    "priceUnit": "USD/gallon",
+    "location": "US Retail",
+    "region": null,
+    "source": "EIA"
+  },
+  {
+    "id": 9995,
+    "eventTimestamp": "2026-05-12T06:00:00Z",
+    "fuelType": "DIESEL",
+    "price": 3.85,
+    "priceUnit": "USD/gallon",
+    "location": "US Retail",
+    "region": null,
+    "source": "EIA"
+  }
+]

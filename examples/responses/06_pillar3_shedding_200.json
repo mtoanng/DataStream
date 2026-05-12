@@ -1,0 +1,46 @@
+{
+  "totalRegions": 6,
+  "criticalRegions": 2,
+  "regions": [
+    {
+      "regionCode": "VN_HANOI",
+      "loadPct": 88.5,
+      "loadMw": 10620,
+      "capacityMw": 12000,
+      "isPeakHour": true,
+      "sheddingPriority": "P1",
+      "recommendedShedMw": 800,
+      "rationale": "Load 88.5% trong khung 18-22h. Cut KCN Thăng Long (~800MW) để giảm tải về 82%."
+    },
+    {
+      "regionCode": "VN_HCM",
+      "loadPct": 92.1,
+      "loadMw": 14736,
+      "capacityMw": 16000,
+      "isPeakHour": true,
+      "sheddingPriority": "P1",
+      "recommendedShedMw": 1500,
+      "rationale": "Load 92% — critical. Cut KCN Tân Tạo + Linh Trung (1500MW) ngay."
+    },
+    {
+      "regionCode": "VN_HAIPHONG",
+      "loadPct": 82.3,
+      "loadMw": 5761,
+      "capacityMw": 7000,
+      "isPeakHour": true,
+      "sheddingPriority": "P2",
+      "recommendedShedMw": 300,
+      "rationale": "Load 82% — chuẩn bị plan B nếu vượt 88%."
+    },
+    {
+      "regionCode": "VN_DANANG",
+      "loadPct": 65.4,
+      "loadMw": 2616,
+      "capacityMw": 4000,
+      "isPeakHour": false,
+      "sheddingPriority": "NONE",
+      "recommendedShedMw": 0,
+      "rationale": "Tải bình thường, không cần action."
+    }
+  ]
+}
