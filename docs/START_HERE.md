@@ -25,11 +25,11 @@
          port 8090, 14/14 endpoint verified PASS
 ```
 
-**Quan hệ giữa 2 đồ án:**
-- Đồ án Java (của Leader, độc lập): https://github.com/mtoanng/Real-time-processing-with-Kafka-Flink-Postgres
-- Đồ án Android (bạn): **chính là repo này**, có repo Git riêng
+**Quan hệ giữa 2 repo:**
+- Backend Server: https://github.com/mtoanng/Real-time-processing-with-Kafka-Flink-Postgres
+- Android App: **chính là repo này**, có repo Git riêng
 
-Bạn KHÔNG cần đọc / chạy code Java. Chỉ cần biết backend trả gì (qua `docs/API_CONTRACT.md`) và mock backend chạy thế nào (qua `mock/README.md`).
+KHÔNG cần đọc / chạy code Java. Chỉ cần biết backend trả gì (qua `docs/API_CONTRACT.md`) và mock backend chạy thế nào (qua `mock/README.md`).
 
 ---
 
