@@ -9,10 +9,13 @@
 
 ## 👋 Bắt đầu từ đâu?
 
-> 🆕 **Lần đầu vào repo này?** Đọc 3 file theo thứ tự (tổng ~30 phút):
+> 🆕 **Lần đầu vào repo này?** → Mở **[`docs/START_HERE.md`](docs/START_HERE.md)** trước hết. File đó là tour guide từ Day -1 đến PR cuối, có checklist + troubleshooting + skill self-assessment.
+>
+> Sau khi đọc START_HERE, đọc tiếp 3 file theo thứ tự (tổng ~30 phút):
 
 | # | File | Mô tả |
 |---|------|-------|
+| 🧭 | **[`docs/START_HERE.md`](docs/START_HERE.md)** | **Tour guide 4 tuần — đọc TRƯỚC TẤT CẢ** |
 | 1 | **[`docs/ANDROID_ONBOARDING.md`](docs/ANDROID_ONBOARDING.md)** | Briefing đầy đủ: bối cảnh, scope, stack khuyến nghị, prerequisites, first-day setup, kickoff agenda |
 | 2 | **[`docs/API_CONTRACT.md`](docs/API_CONTRACT.md)** | Đặc tả 14 endpoint + sample request/response — bookmark khi code |
 | 3 | **[`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)** | Khuyến nghị MVVM single-module + file structure + Gradle dependencies |
@@ -27,7 +30,8 @@ DataStream/
 ├── .gitignore                   # Android Studio gitignore
 │
 ├── docs/
-│   ├── ANDROID_ONBOARDING.md   # 📖 Briefing đầy đủ (đọc đầu tiên)
+│   ├── START_HERE.md           # 🧭 Tour guide 4 tuần (đọc đầu tiên)
+│   ├── ANDROID_ONBOARDING.md   # 📖 Briefing đầy đủ
 │   ├── API_CONTRACT.md         # 📋 Đặc tả 14 endpoint
 │   ├── ARCHITECTURE.md         # 🏛️ MVVM + file structure + Gradle deps
 │   └── KICKOFF_AGENDA.md       # 🤝 Agenda meeting đầu với Leader
@@ -165,7 +169,8 @@ Chi tiết: `docs/ANDROID_ONBOARDING.md §10`.
 
 | File | Nội dung |
 |------|----------|
-| [docs/ANDROID_ONBOARDING.md](docs/ANDROID_ONBOARDING.md) | Onboarding đầy đủ — đọc đầu tiên |
+| **[docs/START_HERE.md](docs/START_HERE.md)** | **🧭 Tour guide 4 tuần — Day -1 → PR7 → demo** |
+| [docs/ANDROID_ONBOARDING.md](docs/ANDROID_ONBOARDING.md) | Onboarding chi tiết bối cảnh + scope |
 | [docs/API_CONTRACT.md](docs/API_CONTRACT.md) | Đặc tả 14 endpoint + JSON samples |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | MVVM structure + Gradle deps + 7 màn breakdown |
 | [docs/KICKOFF_AGENDA.md](docs/KICKOFF_AGENDA.md) | Agenda meeting đầu với Leader (45') |
