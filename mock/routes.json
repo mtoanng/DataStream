@@ -1,5 +1,4 @@
 {
-  "/api/auth/login": "/auth_login",
   "/api/security/score": "/security_score",
   "/api/security/cascade-risks": "/security_cascade",
   "/api/pillars/1/outlook": "/pillar1_outlook",
@@ -8,7 +7,6 @@
   "/api/pillars/4/net-zero-progress": "/pillar4_netzero",
   "/api/alerts/active": "/alerts_active",
   "/api/recommendations": "/recommendations",
-  "/api/recommendations/:id/acknowledge": "/ack_response",
   "/api/raw/fuel-prices/latest": "/fuel_prices_latest",
   "/api/raw/grid-load/latest": "/grid_load_latest",
   "/api/health": "/health"

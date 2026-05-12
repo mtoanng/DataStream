@@ -70,16 +70,30 @@ cd mock && bash start.sh
 cd mock; .\start.ps1
 ```
 
-Mock server chạy tại `http://localhost:8090` — y hệt URL backend thật. Test:
+Mock server chạy tại `http://localhost:8090` — y hệt URL backend thật. Đã được verify **14/14 endpoint** trả đúng response (xem [`mock/README.md`](mock/README.md) cho smoke test). Quick check:
 
 ```bash
+# 1. Health check
 curl http://localhost:8090/api/health
-# → {"status":"UP","db":"UP"}
+# → {"status":"UP","db":"UP",...}
 
+# 2. Login với seed user
 curl -X POST http://localhost:8090/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{"username":"admin","password":"admin"}'
-# → {"accessToken":"...","user":{...}}
+# → {"accessToken":"...","user":{"role":"ADMIN",...}}
+
+# 3. Login sai password → 401
+curl -X POST http://localhost:8090/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username":"admin","password":"wrong"}'
+# → 401 {"status":401,"error":"Unauthorized",...}
+
+# 4. Acknowledge khuyến nghị
+curl -X POST http://localhost:8090/api/recommendations/42/acknowledge \
+  -H "Content-Type: application/json" \
+  -d '{"note":"OK done"}'
+# → {"id":42,"status":"ACKNOWLEDGED","note":"OK done",...}
 ```
 
 ### 3. Mở Android Studio

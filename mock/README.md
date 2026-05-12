@@ -34,6 +34,16 @@ cd mock
 
 Lần đầu chạy, `npx` sẽ tự download `json-server` (~20MB, ~30s).
 
+### 🌐 Lưu ý npm registry
+
+Folder này có sẵn `.npmrc` ép dùng `registry=https://registry.npmjs.org/` (public) + `strict-ssl=false`. Lý do:
+
+- Một số corporate laptop (vd Bosch) cấu hình npm trỏ Artifactory nội bộ yêu cầu auth → `npm install` báo `E401` hoặc SSL cert verify fail.
+- File `.npmrc` ở scope folder này override config global, KHÔNG ảnh hưởng các dự án npm khác.
+- `strict-ssl=false` chỉ dùng để install `json-server` (dev tool, không phải runtime code), không có rủi ro production.
+
+Nếu máy bạn bình thường (không proxy) → file `.npmrc` này vô hại, npm sẽ dùng public registry như mặc định.
+
 ---
 
 ## 🧪 Smoke test (sau khi chạy mock)
@@ -156,15 +166,28 @@ Hoặc dùng [Android Studio Network Profiler] → throttle download speed.
 
 | Tính năng | Mock support | Backend live |
 |-----------|--------------|--------------|
-| GET endpoint | ✅ Đầy đủ | ✅ |
-| POST login → token | ✅ (static token) | ✅ (real JWT) |
-| Validate JWT | ❌ (mọi request 200) | ✅ (401 nếu sai) |
-| POST acknowledge → mutate state | ❌ (luôn trả `ack_response` static) | ✅ (update DB) |
+| GET endpoint | ✅ Đầy đủ (12 GET) | ✅ |
+| POST `/api/auth/login` | ✅ Validate seed users (admin/manager/viewer), trả 401 nếu sai password | ✅ Real JWT |
+| Validate JWT header trên endpoint khác | ❌ Mọi request 200 dù có/không Authorization header | ✅ 401 nếu sai |
+| POST `/api/recommendations/:id/acknowledge` | ✅ Trả `ack_response` với ID echo từ URL + note echo từ body, KHÔNG mutate db.json | ✅ Update DB |
 | Pagination | ❌ | ✅ (sẽ thêm nếu cần) |
-| Real-time push | ❌ | ❌ (mọi UI dùng pull) |
+| Real-time push | ❌ | ❌ (mọi UI dùng pull/refresh) |
 | OpenAPI `/v3/api-docs` | ❌ | ✅ |
 
-→ **Mock đủ cho UI/UX dev**, nhưng test "happy path" cuối phải làm với backend live.
+→ **Mock đủ cho UI/UX dev** + **test happy path đăng nhập & acknowledge**, nhưng test JWT validation thực sự phải làm với backend live.
+
+### 🔧 Architecture chi tiết
+
+Mock dùng **2 cơ chế**:
+
+1. **`routes.json` (12 GET endpoint)** → json-server rewrite URL public-style (`/api/security/score`) sang internal key (`/security_score`) → trả về object/array từ `db.json`.
+
+2. **`middleware.js` (2 POST endpoint)** → intercept **trước khi** request đến rewriter/router:
+   - `POST /api/auth/login` → đọc `db.auth_login`, customize user data theo username, trả 200 hoặc 401.
+   - `POST /api/recommendations/:id/acknowledge` → đọc `db.ack_response`, echo `id` từ URL + `note` từ body.
+   - Middleware **không gọi `next()`** với 2 path này → request không đến router → `db.json` không bị mutate. 🛡️
+
+> 💡 Lý do dùng middleware cho 2 POST này: json-server default behavior cho POST đến singleton route là "create entity" — nó echo request body và **ghi đè** `db.json`. Middleware tránh việc đó.
 
 ---
 

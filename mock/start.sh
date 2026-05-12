@@ -26,7 +26,7 @@ echo ""
 if [ "$MODE" = "local" ]; then
     echo "URL       : http://localhost:$PORT"
     echo "Emulator  : http://10.0.2.2:$PORT (loopback to host)"
-    npx json-server --watch db.json --routes routes.json --port $PORT
+    npx json-server --watch db.json --routes routes.json --middlewares middleware.js --port $PORT
 else
     HOST_IP=$(hostname -I 2>/dev/null | awk '{print $1}' || ipconfig getifaddr en0 2>/dev/null || echo "<your-ip>")
     echo "URL local : http://localhost:$PORT"
@@ -47,5 +47,5 @@ else
     echo "Stop with Ctrl+C"
     echo "================================================"
     echo ""
-    npx json-server --watch db.json --routes routes.json --port $PORT --host 0.0.0.0
+    npx json-server --watch db.json --routes routes.json --middlewares middleware.js --port $PORT --host 0.0.0.0
 fi

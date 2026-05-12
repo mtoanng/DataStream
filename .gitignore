@@ -30,6 +30,9 @@ keystore.properties
 mock/node_modules/
 mock/package-lock.json
 mock/.cache/
+mock/server.pid
+mock/server.log
+mock/server.err
 
 # OS
 .DS_Store
