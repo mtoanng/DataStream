@@ -54,22 +54,20 @@
 
 | # | Severity | Category | File / line | Before | After | Status | Commit |
 |---:|---|---|---|---|---|---|---|
-| 1 | 🔴 CRITICAL | A. Gradle | `gradle/wrapper/gradle-wrapper.jar` | (file missing) | restored from Gradle 8.5 official release, sha256 `d3b261c2820e9e3d8d639ed084900f11f4a86050a8f83342ade7b6bc9b0d2bdd`, 43 462 bytes | ⚠ FIXED | tbd-1 |
-| 2 | 🟠 MAJOR | B. Manifest | `app/src/main/AndroidManifest.xml:17` | `android:usesCleartextTraffic="true"` (redundant + lints) | attribute removed (NSC governs cleartext) | ⚠ FIXED | tbd-2 |
-| 3 | 🟠 MAJOR | B. Manifest | `app/src/main/AndroidManifest.xml:20` | no `tools:replace` | added `tools:replace="android:allowBackup,android:fullBackupContent"` — pre-empts the most common AGP 8.2 manifest-merger conflict when third-party libs declare a competing default | ⚠ FIXED | tbd-2 |
-| 4 | 🟠 MAJOR | C. NSC | `app/src/main/res/xml/network_security_config.xml` | `<domain>192.168.0.0</domain>` (literal-IP, matches nothing usable) | replaced with 8 concrete router-default IPs (`192.168.0.1`, `192.168.1.1`, …) + inline comment showing the user how to add their own LAN IP | ⚠ FIXED | tbd-2 |
-| 5 | 🟠 MAJOR | N. Gradle | `gradle.properties` | no proxy block | added commented-out HTTPS proxy template + `nonProxyHosts` defaults for LAN; documented when to enable it | ⚠ FIXED | tbd-3 |
-| 6 | 🟡 MINOR | A. Gradle | `app/proguard-rules.pro` | basic Moshi DTO keep rules only | expanded to cover Retrofit method annotations, OkHttp/Okio `dontwarn`, MPAndroidChart full keep, Coroutines volatile fields, custom views, and ViewModel reflection | ⚠ FIXED | tbd-3 |
-| 7 | 🟡 MINOR | O. AGP | `gradle.properties` | no `org.gradle.daemon` declared (default true) | explicit `org.gradle.daemon=true` for clarity | ⚠ FIXED | tbd-3 |
+| 1 | 🔴 CRITICAL | A. Gradle | `gradle/wrapper/gradle-wrapper.jar` | (file missing) | restored from Gradle 8.5 official release, sha256 `d3b261c2820e9e3d8d639ed084900f11f4a86050a8f83342ade7b6bc9b0d2bdd`, 43 462 bytes | ⚠ FIXED | `026e628` |
+| 2 | 🟠 MAJOR | B. Manifest | `app/src/main/AndroidManifest.xml:17` | `android:usesCleartextTraffic="true"` (redundant + lints) | attribute removed (NSC governs cleartext) | ⚠ FIXED | `eb3afb6` |
+| 3 | 🟠 MAJOR | B. Manifest | `app/src/main/AndroidManifest.xml:20` | no `tools:replace` | added `tools:replace="android:allowBackup,android:fullBackupContent"` — pre-empts the most common AGP 8.2 manifest-merger conflict when third-party libs declare a competing default | ⚠ FIXED | `eb3afb6` |
+| 4 | 🟠 MAJOR | C. NSC | `app/src/main/res/xml/network_security_config.xml` | `<domain>192.168.0.0</domain>` (literal-IP, matches nothing usable) | replaced with 8 concrete router-default IPs (`192.168.0.1`, `192.168.1.1`, …) + inline comment showing the user how to add their own LAN IP | ⚠ FIXED | `eb3afb6` |
+| 5 | 🟠 MAJOR | N. Gradle | `gradle.properties` | no proxy block | added commented-out HTTPS proxy template + `nonProxyHosts` defaults for LAN; documented when to enable it | ⚠ FIXED | `9ec186e` |
+| 6 | 🟡 MINOR | A. Gradle | `app/proguard-rules.pro` | basic Moshi DTO keep rules only | expanded to cover Retrofit method annotations, OkHttp/Okio `dontwarn`, MPAndroidChart full keep, Coroutines volatile fields, custom views, and ViewModel reflection | ⚠ FIXED | `9ec186e` |
+| 7 | 🟡 MINOR | O. AGP | `gradle.properties` | no `org.gradle.daemon` declared (default true) | explicit `org.gradle.daemon=true` for clarity | ⚠ FIXED | `9ec186e` |
 | 8 | 🟡 MINOR | M. Mipmap | `app/src/main/res/mipmap-*/` | only `mipmap-anydpi-v26/` (no PNG fallback) | DOCUMENTED ONLY — `minSdk=26` makes this safe (adaptive icon supported since API 26). Lint warning only. | 📝 DOCUMENTED | — |
 | 9 | 🟡 MINOR | I. Strings | `res/values-vi/strings.xml` | 36 keys present in `values/strings.xml` are absent in `values-vi/` | DOCUMENTED ONLY — graceful fallback to default English locale per Android resource resolution rules. Not a build break. | 📝 DOCUMENTED | — |
 | 10 | ⚪ COSMETIC | A. Gradle | `settings.gradle.kts:17` | `rootProject.name = "VES-Monitor"` (inconsistent with GitHub repo name `DataStream`) | LEFT AS-IS — "VES-Monitor" matches the in-app `<string name="app_name">` and the desktop JavaFX app, so renaming would create a different inconsistency. | 📝 DOCUMENTED | — |
 | 11 | ⚪ COSMETIC | F. Nav | `nav_graph.xml` | each `<fragment>` redeclares `xmlns:tools=...` per element (verbose) | LEFT AS-IS — valid XML, no impact on build. | 📝 DOCUMENTED | — |
 | 12 | ⚪ COSMETIC | A. Gradle | `app/build.gradle.kts:43-45` | `kotlinOptions { jvmTarget = "17" }` (legacy DSL) | LEFT AS-IS — still works in Kotlin 1.9.21; modernisation deferred. | 📝 DOCUMENTED | — |
 | 13 | ⚪ COSMETIC | I. Strings | `values/strings.xml` | `app_name` is "VES-Monitor"; repo name is "DataStream" | LEFT AS-IS — intentional brand split. | 📝 DOCUMENTED | — |
-| 14 | 🟢 INFO | docs | repo root | no `TROUBLESHOOTING.md` / no `SETUP_CHECKLIST.md` / no `docs/AUDIT_REPORT_ANDROID.md` | added all three | ⚠ FIXED | tbd-4 |
-
-> Commit refs (`tbd-*`) are placeholders; the actual SHAs are appended in the section below after `git push`.
+| 14 | 🟢 INFO | docs | repo root | no `TROUBLESHOOTING.md` / no `SETUP_CHECKLIST.md` / no `docs/AUDIT_REPORT_ANDROID.md` | added all three | ⚠ FIXED | `ed38940` |
 
 ---
 
