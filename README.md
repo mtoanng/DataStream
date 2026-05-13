@@ -69,7 +69,7 @@ app/
     │   └── res/                               # 22 layouts + Material 3 theme (light/dark)
     │                                          # bilingual strings (values/, values-vi/)
     │                                          # network_security_config.xml (allow 10.0.2.2 + LAN)
-    └── test/                                  # JUnit + Mockito + MockWebServer (8 tests)
+    └── test/                                  # JUnit + Mockito + MockWebServer (15 tests across 3 files)
 ```
 
 ### 📐 Architecture decisions (locked)

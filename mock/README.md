@@ -54,7 +54,7 @@ Nếu máy bạn bình thường (không proxy) → file `.npmrc` này vô hại
 
 ```bash
 curl http://localhost:8090/api/health
-# Expected: {"status":"UP","db":"UP","timestamp":"2026-05-12T10:30:00Z"}
+# Expected: {"service":"ves-backend-api","timestamp":"2026-05-13T10:30:00Z","db":"UP","status":"UP"}
 ```
 
 ### Test login → lấy token
