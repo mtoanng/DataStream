@@ -5,7 +5,90 @@
 >
 > 🆕 **Synced với Java backend `v1.0.0` + Phase 7.6/7.7** (commit `e64d447`, 13/05/2026). Pillar taxonomy đã refactor IEA/APERC. Backward-compat aliases giữ nguyên — code Android cũ KHÔNG break, nhưng shape DTO đã đổi. Đọc [`docs/API_CONTRACT.md`](docs/API_CONTRACT.md) để biết chi tiết.
 
-[![Status](https://img.shields.io/badge/status-Bootstrapping-blue)]() [![Platform](https://img.shields.io/badge/platform-Android%207.0%2B-green)]() [![Language](https://img.shields.io/badge/language-Kotlin-purple)]()
+[![Status](https://img.shields.io/badge/status-App%20Source%20Ready-brightgreen)]() [![Platform](https://img.shields.io/badge/platform-Android%208.0%2B-green)]() [![Language](https://img.shields.io/badge/language-Kotlin-purple)]() [![Build](https://img.shields.io/badge/Gradle-8.5-blueviolet)]() [![AGP](https://img.shields.io/badge/AGP-8.2.0-orange)]()
+
+---
+
+## 🚀 Quickstart (Android Studio)
+
+> **App source code is ready.** Clone, open in Android Studio, hit Run.
+
+1. **Clone**
+   ```powershell
+   git clone https://github.com/mtoanng/DataStream.git
+   ```
+2. Open `DataStream/` in **Android Studio Hedgehog (2023.1)**, **Iguana (2023.2)**, or **Jellyfish (2024.1+)**.
+3. Wait for **Gradle sync** (~3–5 min first time, pulls ~150 MB of deps from Maven Central / Google Maven / JitPack).
+   - Android Studio will auto-generate `gradle/wrapper/gradle-wrapper.jar` on first sync — that's expected, the wrapper script + properties are already in the repo.
+   - JDK 17 is required (AGP 8.2). JDK 21 also works because AGP targets bytecode 17. AS bundles its own JDK 17 — usually no extra setup.
+4. Start the **Java backend** on the host machine (port `8090`) — see [Real-time-processing-with-Kafka-Flink-Postgres](https://github.com/mtoanng/Real-time-processing-with-Kafka-Flink-Postgres). Or use the bundled `mock/` server (see below) for UI-only dev.
+5. Pick a **Pixel 5 / API 34** emulator and hit ▶ Run.
+6. Login with `admin` / `admin` (seed user pre-filled in the form).
+7. The default server URL is `http://10.0.2.2:8090` (the emulator's host loopback). For a **real device** on Wi-Fi, open the **Settings** tab → set Base URL to `http://<your-laptop-LAN-IP>:8090`.
+
+App auto-refreshes the dashboard every 30 s when in foreground. Pull-to-refresh works on every list. Swipe between Pillar tabs.
+
+### 🧪 Testing without backend (mock server)
+
+If you don't want to run the full Java stack:
+
+```powershell
+cd mock
+.\start.ps1   # PowerShell
+# or: bash start.sh   # WSL / git-bash
+```
+
+Mock server listens on `http://localhost:8090` with the same JSON shapes as the real backend. The emulator reaches it at `http://10.0.2.2:8090`.
+
+### 🧰 What's in the `app/` module
+
+```
+app/
+├── build.gradle.kts                           # Module Gradle config (min/target/compile SDK 26/34/34)
+├── proguard-rules.pro
+└── src/
+    ├── main/
+    │   ├── AndroidManifest.xml                # 2 activities + INTERNET + cleartext config
+    │   ├── java/com/mtoanng/datastream/
+    │   │   ├── DataStreamApp.kt               # Manual DI container + Timber init
+    │   │   ├── data/
+    │   │   │   ├── network/                   # Retrofit + OkHttp + Moshi + AuthInterceptor
+    │   │   │   ├── dto/                       # 16 DTOs matching backend v1.0.0 + Phase 7.6/7.7
+    │   │   │   ├── repository/                # Auth/Security/Pillar/Alert/Recommendation
+    │   │   │   └── prefs/                     # TokenManager + AppConfig (SharedPreferences)
+    │   │   ├── ui/
+    │   │   │   ├── login/                     # LoginActivity + ViewModel
+    │   │   │   ├── main/                      # Single-Activity host (BottomNav + NavGraph)
+    │   │   │   ├── home/                      # ESI gauge + 2x2 pillar mini-cards
+    │   │   │   ├── pillars/                   # TabLayout + ViewPager2 + 4 pillar tabs
+    │   │   │   ├── alerts/                    # RecyclerView + severity chips + bottom sheet
+    │   │   │   ├── recommendations/           # RecyclerView + ACK dialog
+    │   │   │   ├── settings/                  # Server URL + /api/health test + logout
+    │   │   │   └── common/                    # PillarScoreView gauge + StatusBadge chip
+    │   │   └── util/                          # Formatters, Extensions, EnergySecurityHelper
+    │   └── res/                               # 22 layouts + Material 3 theme (light/dark)
+    │                                          # bilingual strings (values/, values-vi/)
+    │                                          # network_security_config.xml (allow 10.0.2.2 + LAN)
+    └── test/                                  # JUnit + Mockito + MockWebServer (8 tests)
+```
+
+### 📐 Architecture decisions (locked)
+
+| | |
+|---|---|
+| Language | Kotlin 1.9.21 |
+| Build | Gradle 8.5 + AGP 8.2.0 (Kotlin DSL + version catalog) |
+| Min / target / compile SDK | 26 / 34 / 34 |
+| UI | XML Views + ViewBinding (no Jetpack Compose) |
+| Architecture | MVVM, single-Activity + Fragments + Navigation Component |
+| DI | Manual (no Hilt/Dagger/Koin) |
+| Network | Retrofit 2.9 + OkHttp 4.12 + Moshi 1.15 |
+| Async | Coroutines + LiveData |
+| Charts | MPAndroidChart 3.1.0 (via JitPack) |
+| Persistence | SharedPreferences only (no Room) |
+| Logging | Timber 5.0.1 |
+| Theming | Material 3 DayNight + brand palette matching the JavaFX desktop |
+| i18n | EN (default) + VI (`values-vi/`) |
 
 ---
 
@@ -29,29 +112,40 @@
 ```
 DataStream/
 ├── README.md                    # 👈 Bạn đang đọc
-├── .gitignore                   # Android Studio gitignore
+├── .gitignore
+├── build.gradle.kts             # Root Gradle config (AGP 8.2 + Kotlin 1.9.21)
+├── settings.gradle.kts
+├── gradle.properties
+├── gradlew / gradlew.bat        # Wrapper scripts (jar auto-generated by AS)
+├── gradle/
+│   ├── libs.versions.toml       # Dependency version catalog
+│   └── wrapper/gradle-wrapper.properties
+├── local.properties.template
+│
+├── app/                         # ★ Android Studio module (package com.mtoanng.datastream)
+│   ├── build.gradle.kts
+│   ├── proguard-rules.pro
+│   └── src/
+│       ├── main/                # AndroidManifest, Kotlin sources, layouts, resources
+│       └── test/                # JUnit unit tests
 │
 ├── docs/
-│   ├── START_HERE.md           # 🧭 Tour guide 4 tuần (đọc đầu tiên)
-│   ├── ANDROID_ONBOARDING.md   # 📖 Briefing đầy đủ
-│   ├── API_CONTRACT.md         # 📋 Đặc tả 14 endpoint
-│   ├── ARCHITECTURE.md         # 🏛️ MVVM + file structure + Gradle deps
-│   └── KICKOFF_AGENDA.md       # 🤝 Agenda meeting đầu với Leader
+│   ├── START_HERE.md
+│   ├── ANDROID_ONBOARDING.md
+│   ├── API_CONTRACT.md
+│   ├── ARCHITECTURE.md
+│   └── KICKOFF_AGENDA.md
 │
-├── mock/                        # 🎭 Mock backend (json-server)
-│   ├── db.json                 # Dữ liệu mẫu 14 endpoint
-│   ├── routes.json             # Route mapping
-│   ├── start.sh / start.ps1    # Script chạy mock (port 8090)
-│   └── README.md               # Hướng dẫn chạy mock
+├── mock/                        # Mock backend (json-server)
+│   ├── db.json
+│   ├── routes.json
+│   ├── start.sh / start.ps1
+│   └── README.md
 │
-└── examples/responses/          # 📦 14 JSON file sample response
-    ├── 01_login_200.json
-    ├── 02_security_score_200.json
-    ├── ...
-    └── README.md
+└── examples/responses/          # 14 JSON sample payloads
 ```
 
-Khi Android Dev start code, sẽ tạo thêm folder `app/` ở root chứa project Android Studio.
+> ✅ The `app/` module + Gradle wrapper are now in place — open in Android Studio and sync. See the [Quickstart](#-quickstart-android-studio) section above.
 
 ---
 
@@ -109,27 +203,13 @@ curl -X POST http://localhost:8090/api/recommendations/42/acknowledge \
 
 ### 3. Mở Android Studio
 
-Khi bắt đầu code (theo `docs/ANDROID_ONBOARDING.md §7`):
+Repo đã sẵn module `app/` (package `com.mtoanng.datastream`, min SDK 26, Gradle 8.5 + AGP 8.2.0). Mở thư mục root → Android Studio sync Gradle → ▶ Run.
 
-```
-Android Studio → New Project → Empty Activity
-  Name        : VES Monitor Mobile
-  Package     : vn.edu.ves.mobile
-  Language    : Kotlin
-  Min SDK     : API 24 (Android 7.0)
-  Build       : Kotlin DSL
-  Location    : <repo-root>/app/
-```
+Xem [§ Quickstart](#-quickstart-android-studio) ở đầu file này để biết chi tiết.
 
-Sync Gradle → run trên emulator.
+### 4. Đổi server URL
 
-### 4. Trỏ app vào mock URL
-
-Trong `app/src/main/java/.../data/api/ApiClient.kt`:
-
-```kotlin
-const val BASE_URL = "http://10.0.2.2:8090"  // emulator → host loopback
-```
+Default là `http://10.0.2.2:8090` (emulator's host loopback). Đổi qua màn **Settings** trong app — không cần rebuild APK.
 
 ---
 
@@ -188,21 +268,21 @@ Chi tiết: `docs/ANDROID_ONBOARDING.md §10`.
 
 ---
 
-## 🛠️ Tech stack (khuyến nghị)
+## 🛠️ Tech stack (đã chốt)
 
 ```
-Language      : Kotlin 1.9+
-Min SDK       : 24 (Android 7.0)
+Language      : Kotlin 1.9.21
+Min SDK       : 26 (Android 8.0)
 Target SDK    : 34 (Android 14)
-Architecture  : MVVM single-module
-UI            : XML + Material 3 + ViewBinding
-Network       : Retrofit 2 + OkHttp + Gson
-Async         : Kotlin Coroutines
-Chart         : MPAndroidChart
-Storage       : SharedPreferences (JWT + settings)
-Logging       : Timber
-Test          : JUnit 4 + Mockito
-Build         : Gradle KTS
+Architecture  : MVVM single-module + Navigation Component
+UI            : XML Views + Material 3 + ViewBinding
+Network       : Retrofit 2.9 + OkHttp 4.12 + Moshi 1.15
+Async         : Kotlin Coroutines + LiveData
+Chart         : MPAndroidChart 3.1.0 (JitPack)
+Storage       : SharedPreferences (TokenManager + AppConfig)
+Logging       : Timber 5.0.1
+Test          : JUnit 4 + Mockito-Kotlin + MockWebServer
+Build         : Gradle 8.5 + AGP 8.2.0 + Kotlin DSL + version catalog
 ```
 
 Chi tiết + alternative: `docs/ARCHITECTURE.md`.
