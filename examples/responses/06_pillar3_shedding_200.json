@@ -1,46 +1,62 @@
-{
-  "totalRegions": 6,
-  "criticalRegions": 2,
-  "regions": [
-    {
-      "regionCode": "VN_HANOI",
-      "loadPct": 88.5,
-      "loadMw": 10620,
-      "capacityMw": 12000,
-      "isPeakHour": true,
-      "sheddingPriority": "P1",
-      "recommendedShedMw": 800,
-      "rationale": "Load 88.5% trong khung 18-22h. Cut KCN Thăng Long (~800MW) để giảm tải về 82%."
-    },
-    {
-      "regionCode": "VN_HCM",
-      "loadPct": 92.1,
-      "loadMw": 14736,
-      "capacityMw": 16000,
-      "isPeakHour": true,
-      "sheddingPriority": "P1",
-      "recommendedShedMw": 1500,
-      "rationale": "Load 92% — critical. Cut KCN Tân Tạo + Linh Trung (1500MW) ngay."
-    },
-    {
-      "regionCode": "VN_HAIPHONG",
-      "loadPct": 82.3,
-      "loadMw": 5761,
-      "capacityMw": 7000,
-      "isPeakHour": true,
-      "sheddingPriority": "P2",
-      "recommendedShedMw": 300,
-      "rationale": "Load 82% — chuẩn bị plan B nếu vượt 88%."
-    },
-    {
-      "regionCode": "VN_DANANG",
-      "loadPct": 65.4,
-      "loadMw": 2616,
-      "capacityMw": 4000,
-      "isPeakHour": false,
-      "sheddingPriority": "NONE",
-      "recommendedShedMw": 0,
-      "rationale": "Tải bình thường, không cần action."
-    }
-  ]
-}
+[
+  {
+    "regionCode": "VN_HANOI",
+    "reserveMarginPct": 11.50,
+    "peakLoadFactor": 1.243,
+    "sheddingProb": 0.0125,
+    "freqStabilityIdx": 91.30,
+    "pillar3Score": 78.42,
+    "status": "ELEVATED",
+    "computedAt": "2026-05-13T10:30:00Z"
+  },
+  {
+    "regionCode": "VN_HCM",
+    "reserveMarginPct": 7.90,
+    "peakLoadFactor": 1.318,
+    "sheddingProb": 0.0834,
+    "freqStabilityIdx": 84.65,
+    "pillar3Score": 64.12,
+    "status": "ELEVATED",
+    "computedAt": "2026-05-13T10:30:00Z"
+  },
+  {
+    "regionCode": "VN_HAIPHONG",
+    "reserveMarginPct": 17.70,
+    "peakLoadFactor": 1.195,
+    "sheddingProb": 0.0000,
+    "freqStabilityIdx": 93.75,
+    "pillar3Score": 90.56,
+    "status": "SECURE",
+    "computedAt": "2026-05-13T10:30:00Z"
+  },
+  {
+    "regionCode": "VN_DANANG",
+    "reserveMarginPct": 34.60,
+    "peakLoadFactor": 1.082,
+    "sheddingProb": 0.0000,
+    "freqStabilityIdx": 96.40,
+    "pillar3Score": 95.78,
+    "status": "SECURE",
+    "computedAt": "2026-05-13T10:30:00Z"
+  },
+  {
+    "regionCode": "VN_CANTHO",
+    "reserveMarginPct": 41.10,
+    "peakLoadFactor": 1.041,
+    "sheddingProb": 0.0000,
+    "freqStabilityIdx": 97.92,
+    "pillar3Score": 97.25,
+    "status": "SECURE",
+    "computedAt": "2026-05-13T10:30:00Z"
+  },
+  {
+    "regionCode": "VN_NINHTHUAN",
+    "reserveMarginPct": 51.50,
+    "peakLoadFactor": 1.029,
+    "sheddingProb": 0.0000,
+    "freqStabilityIdx": 98.71,
+    "pillar3Score": 99.04,
+    "status": "SECURE",
+    "computedAt": "2026-05-13T10:30:00Z"
+  }
+]

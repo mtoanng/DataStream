@@ -2,6 +2,8 @@
 
 > Đồ án môn **Phát triển ứng dụng di động (Android)** — ứng dụng giám sát **An ninh năng lượng Việt Nam** thời gian thực.
 > Repo này **độc lập** với đồ án Java (backend Spring Boot + Flink + Postgres). Mobile app chỉ consume **14 endpoint REST API** mà backend đó expose.
+>
+> 🆕 **Synced với Java backend `v1.0.0` + Phase 7.6/7.7** (commit `e64d447`, 13/05/2026). Pillar taxonomy đã refactor IEA/APERC. Backward-compat aliases giữ nguyên — code Android cũ KHÔNG break, nhưng shape DTO đã đổi. Đọc [`docs/API_CONTRACT.md`](docs/API_CONTRACT.md) để biết chi tiết.
 
 [![Status](https://img.shields.io/badge/status-Bootstrapping-blue)]() [![Platform](https://img.shields.io/badge/platform-Android%207.0%2B-green)]() [![Language](https://img.shields.io/badge/language-Kotlin-purple)]()
 
@@ -79,13 +81,13 @@ Mock server chạy tại `http://localhost:8090` — y hệt URL backend thật.
 ```bash
 # 1. Health check
 curl http://localhost:8090/api/health
-# → {"status":"UP","db":"UP",...}
+# → {"service":"ves-backend-api","timestamp":"...","db":"UP","status":"UP"}
 
 # 2. Login với seed user
 curl -X POST http://localhost:8090/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{"username":"admin","password":"admin"}'
-# → {"accessToken":"...","user":{"role":"ADMIN",...}}
+# → {"accessToken":"...","expiresInMs":28800000,"user":{"role":"ADMIN","enabled":true,...}}
 
 # 3. Login sai password → 401
 curl -X POST http://localhost:8090/api/auth/login \
@@ -93,11 +95,16 @@ curl -X POST http://localhost:8090/api/auth/login \
   -d '{"username":"admin","password":"wrong"}'
 # → 401 {"status":401,"error":"Unauthorized",...}
 
-# 4. Acknowledge khuyến nghị
+# 4. Pillar 1 (canonical hoặc legacy alias đều work, cùng shape)
+curl http://localhost:8090/api/pillars/1/supply-security
+curl http://localhost:8090/api/pillars/1/outlook
+# → [{"regionCode":"VN_HANOI","fuelType":"GASOLINE","idr":0.842,"sfri":56.6,...}]
+
+# 5. Acknowledge khuyến nghị (Phase 7.6 shape)
 curl -X POST http://localhost:8090/api/recommendations/42/acknowledge \
   -H "Content-Type: application/json" \
-  -d '{"note":"OK done"}'
-# → {"id":42,"status":"ACKNOWLEDGED","note":"OK done",...}
+  -d '{"status":"ACKNOWLEDGED","note":"OK done"}'
+# → {"id":42,"newStatus":"ACKNOWLEDGED","acknowledgedBy":1}
 ```
 
 ### 3. Mở Android Studio
@@ -133,10 +140,12 @@ const val BASE_URL = "http://10.0.2.2:8090"  // emulator → host loopback
 | **Repo backend** | https://github.com/mtoanng/Real-time-processing-with-Kafka-Flink-Postgres |
 | **Backend stack** | Spring Boot 2.7 + JWT + JdbcTemplate + Postgres 15 |
 | **Backend port** | 8090 (mặc định) |
-| **API spec** | 14 endpoint REST, JWT Bearer auth, OpenAPI 3.0 |
+| **API spec** | 14 endpoint REST + 6 legacy alias (20 paths trong OpenAPI), JWT Bearer auth, OpenAPI 3.0 |
+| **Pillar taxonomy** | IEA/APERC: P1 supply-security · P2 market-resilience · P3 grid-reliability · P4 energy-transition (legacy paths `/outlook`, `/volatility`, `/shedding[-plan]`, `/netzero`/`/net-zero` vẫn work) |
 | **Khi backend live** | Đổi `BASE_URL` trong `ApiClient.kt` (hoặc qua màn Settings của app) |
+| **Backend tag hiện tại** | `v1.0.0` (commit `3d30b39`, 13/05/2026) + post-release fixes Phase 7.6/7.7 trên `origin/main` (commit `e64d447`) — REST 13/13 endpoint `200 OK` |
 
-> 📌 Backend hiện đang ở Phase 4.5 — **code-complete nhưng build pending** (Bosch NTLM proxy block Maven repo). Sẽ build trên hotspot 4G hoặc CI. Trong khi chờ, **dùng mock server trong repo này** để dev song song.
+> 📌 Backend đã được build + verify E2E với Docker Lite stack (5 container, ~1.6 GB RAM). 13/13 REST endpoint trả `200 OK`. Mock server trong repo này đã sync với shape mới.
 
 ---
 

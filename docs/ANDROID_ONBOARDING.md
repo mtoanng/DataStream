@@ -3,6 +3,27 @@
 > Tài liệu **single-shot** (~15 phút đọc) giúp bạn nắm scope đồ án Android, hiểu cách tích hợp với REST API có sẵn, biết cần chuẩn bị những gì trước buổi kickoff.
 >
 > 🔗 **Repo backend (đồ án Java, độc lập)**: https://github.com/mtoanng/Real-time-processing-with-Kafka-Flink-Postgres
+>
+> 🆕 **Synced với Java backend `v1.0.0` + Phase 7.6/7.7** (commit `e64d447` trên `origin/main`, 13/05/2026). Pillar taxonomy đã refactor theo IEA/APERC — xem callout dưới + `docs/API_CONTRACT.md` để biết shape mới.
+
+---
+
+## 🆕 Post-v1.0.0 update (13/05/2026)
+
+Backend Java đã release `v1.0.0` rồi tiếp tục có 2 post-release fix (Phase 7.6 + 7.7) trên `origin/main`:
+
+1. **Pillar taxonomy refactor (IEA/APERC chuẩn quốc tế)** — 4 pillar đổi tên + endpoint:
+   - P1 `outlook` → **`supply-security`** (Availability)
+   - P2 `volatility` → **`market-resilience`** (Affordability)
+   - P3 `shedding[-plan]` → **`grid-reliability`** (Accessibility)
+   - P4 `netzero / net-zero` → **`energy-transition`** (Acceptability)
+   - **Backward-compat**: legacy alias path vẫn work, nên code Android cũ KHÔNG break. Nhưng **shape response đã đổi** (cùng IEA-shaped DTO mới cho cả 2 path) — DTO Android phải refactor theo. Recommend code mới target canonical path.
+2. **Endpoint shape changes** — login (`expiresInMs`, không có `tokenType`), security score (`computedAt`, status enum `SECURE/ELEVATED/STRESSED/CRITICAL`, không có `trend`), alerts (`triggeredPrice`, thêm `ruleName/operator/ageSeconds`), recommendations (`?limit=` thay `?status=`, không có `status/note` trong list), acknowledge (response `{id, newStatus, acknowledgedBy}`), grid-load (`peakHour` thay `isPeakHour`, thêm `regionName/status`).
+3. **Path đổi không có alias**: `/api/raw/fuel-prices/latest` → `/api/fuel-prices/latest`, `/api/raw/grid-load/latest` → `/api/grid-load/latest`. Mock server trong repo này **vẫn route cả 2** để khỏi break code Android cũ, nhưng backend live chỉ chấp nhận đường mới.
+4. **Cascade-risks deprecated**: `GET /api/security/cascade-risks` vẫn 200 OK nhưng body luôn là `[]`. UI nên hide hoặc render placeholder.
+5. **Endpoint mới**: `GET /api/auth/me` trả `UserDto` của session hiện tại — hữu ích cho màn Profile / Settings.
+
+→ Chi tiết đầy đủ + sample JSON: **[`docs/API_CONTRACT.md`](API_CONTRACT.md)** (đã được rewrite hoàn toàn).
 
 ---
 
@@ -144,118 +165,131 @@ Lưu ý dev:
   - `manager` / `manager` — xem + acknowledge
   - `viewer` / `viewer` — read-only
 
-### 5.3 Bảng 14 endpoint
+### 5.3 Bảng endpoint (Phase 7.6/7.7 — IEA/APERC taxonomy)
 
-| # | Method | Path | Mô tả | Auth |
-|---|--------|------|-------|------|
-| 1 | POST | `/api/auth/login` | Đăng nhập, trả JWT | Public |
-| 2 | GET | `/api/security/score` | Energy Security Score 0-100 + 4 sub-score | ✅ |
-| 3 | GET | `/api/security/cascade-risks` | Rủi ro tổng hợp đa pillar | ✅ |
-| 4 | GET | `/api/pillars/1/outlook` | Pillar 1 — Dự báo tồn kho nhiên liệu | ✅ |
-| 5 | GET | `/api/pillars/2/volatility` | Pillar 2 — Biến động giá nhiên liệu | ✅ |
-| 6 | GET | `/api/pillars/3/shedding-plan` | Pillar 3 — Plan ngắt tải lưới điện | ✅ |
-| 7 | GET | `/api/pillars/4/net-zero-progress` | Pillar 4 — Tiến độ phát thải / Net Zero | ✅ |
-| 8 | GET | `/api/alerts/active` | Danh sách cảnh báo đang hoạt động | ✅ |
-| 9 | GET | `/api/recommendations?status=PENDING` | Danh sách khuyến nghị | ✅ |
-| 10 | POST | `/api/recommendations/{id}/acknowledge` | Xác nhận khuyến nghị | ✅ (manager+) |
-| 11 | GET | `/api/raw/fuel-prices/latest?limit=50` | Giá nhiên liệu gần nhất | ✅ |
-| 12 | GET | `/api/raw/grid-load/latest?region=VN_NORTH` | Tải lưới gần nhất | ✅ |
-| 13 | GET | `/api/health` | Health check (DB ping) | Public |
-| 14 | GET | `/v3/api-docs` | OpenAPI spec — import vào Postman / OpenAPI Generator | Public |
+| # | Method | Canonical path (recommend) | Legacy alias (vẫn work) | Mô tả | Auth |
+|---|--------|----------------------------|-------------------------|-------|------|
+| 1 | POST | `/api/auth/login` | — | Đăng nhập, trả JWT (`expiresInMs`) | Public |
+| 1b | GET | `/api/auth/me` | — | Thông tin user hiện tại (mới) | ✅ |
+| 2 | GET | `/api/security/score` | — | Composite ESI 0-100 + 4 sub-score, `computedAt`, status SECURE/ELEVATED/STRESSED/CRITICAL | ✅ |
+| 3 | GET | `/api/security/cascade-risks` | — | **DEPRECATED** — luôn trả `[]` | ✅ |
+| 4 | GET | `/api/pillars/1/supply-security` | `/api/pillars/1/outlook` | Pillar 1 — Supply Security (IDR / SFRI / HHI / N-1) | ✅ |
+| 5 | GET | `/api/pillars/2/market-resilience` | `/api/pillars/2/volatility` | Pillar 2 — Market Resilience (σ30d / gap / β / affordability) | ✅ |
+| 6 | GET | `/api/pillars/3/grid-reliability` | `/api/pillars/3/shedding`, `/3/shedding-plan` | Pillar 3 — Grid Reliability (reserve margin / peak / shed prob / freq stability) | ✅ |
+| 7 | GET | `/api/pillars/4/energy-transition` | `/api/pillars/4/netzero`, `/4/net-zero` | Pillar 4 — Energy Transition (renewable% / CO₂ / curtailment / netzero) | ✅ |
+| 8 | GET | `/api/alerts/active?limit=20` | — | Danh sách cảnh báo (max 200) | ✅ |
+| 9 | GET | `/api/recommendations?limit=50` | — | Danh sách khuyến nghị PENDING & chưa expired (max 200, không có `?status=`) | ✅ |
+| 10 | POST | `/api/recommendations/{id}/acknowledge` | — | Acknowledge / Dismiss recommendation | ✅ (manager+) |
+| 11 | GET | `/api/fuel-prices/latest?fuel_type=&limit=20` | `/api/raw/fuel-prices/latest` (mock-only) | Giá nhiên liệu gần nhất (max 500) | ✅ |
+| 12 | GET | `/api/grid-load/latest` | `/api/raw/grid-load/latest` (mock-only) | Tải lưới gần nhất (tất cả region, không có `?region=`) | ✅ |
+| 13 | GET | `/api/health` | — | Health check + DB ping | Public |
+| 14 | GET | `/v3/api-docs` | — | OpenAPI spec ~20 path (legacy + canonical) | Public |
 
 ### 5.4 Sample response — bộ DTO chính
 
-**`POST /api/auth/login` response**:
+**`POST /api/auth/login` response** (Phase 7.6 shape):
 ```json
 {
   "accessToken": "eyJhbGc...",
-  "tokenType": "Bearer",
-  "expiresIn": 28800,
+  "expiresInMs": 28800000,
   "user": {
     "id": 1, "username": "admin",
     "fullName": "Administrator", "email": "admin@ves.local",
-    "role": "ADMIN"
+    "role": "ADMIN", "enabled": true
   }
 }
 ```
 
-**`GET /api/security/score`**:
+**`GET /api/security/score`** (Phase 7.1 IEA composite):
 ```json
 {
-  "overallScore": 76.4,
-  "status": "STABLE",                 // SECURE | STABLE | AT_RISK | CRITICAL
-  "pillar1Score": 82.0,
-  "pillar2Score": 68.5,
-  "pillar3Score": 75.0,
-  "pillar4Score": 80.0,
-  "calculatedAt": "2026-05-12T10:30:00Z",
-  "trend": "DECREASING"               // INCREASING | STABLE | DECREASING
+  "pillar1Score": 64.83,
+  "pillar2Score": 59.59,
+  "pillar3Score": 90.11,
+  "pillar4Score": 72.09,
+  "overallScore": 72.82,
+  "status": "ELEVATED",               // SECURE ≥80 | ELEVATED 60-79 | STRESSED 40-59 | CRITICAL <40
+  "computedAt": "2026-05-13T10:30:00Z"
 }
 ```
 
-**`GET /api/alerts/active`**:
+**`GET /api/alerts/active`** (Phase 7.6 shape):
 ```json
 [
   {
-    "id": 123,
+    "id": 1001,
+    "ruleId": 5,
+    "ruleName": "Grid load CRITICAL >90%",
     "metricType": "GRID_LOAD_PCT",    // FUEL_PRICE | GRID_LOAD_PCT | EMISSION_INTENSITY | INVENTORY_DAYS
     "fuelType": null,
-    "region": "VN_HANOI",
-    "severity": "CRITICAL",           // INFO | WARNING | CRITICAL
-    "message": "Grid load Hà Nội = 92.5% > threshold 92%",
-    "triggeredValue": 92.5,
-    "threshold": 92.0,
-    "eventTimestamp": "2026-05-12T10:25:00Z",
-    "alertTimestamp": "2026-05-12T10:25:03Z"
+    "location": null,
+    "region": "VN_HCM",
+    "triggeredPrice": 92.10,           // tên giữ "price" nhưng có thể là loadPct / intensity / days
+    "threshold": 90.00,
+    "operator": "GT",                  // GT | LT | GTE | LTE | EQ
+    "severity": "CRITICAL",            // INFO | WARNING | CRITICAL
+    "message": "Grid load HCM = 92.1% > threshold 90%",
+    "eventTimestamp": "2026-05-13T10:25:00Z",
+    "alertTimestamp": "2026-05-13T10:25:03Z",
+    "ageSeconds": 297
   }
 ]
 ```
 
-**`GET /api/recommendations`**:
+**`GET /api/recommendations?limit=50`** (Phase 7.6 shape):
 ```json
 [
   {
     "id": 42,
-    "pillar": 1,                      // 1 | 2 | 3 | 4
+    "pillar": 1,                       // 0-4
     "actionType": "TRANSFER_STOCK",
     "severity": "WARNING",
     "title": "Chuyển 5000 KL Gasoline NINHTHUAN → HANOI",
     "message": "Hà Nội còn 56.6 ngày tồn kho, dưới target 90...",
-    "suggestedData": {                // JSON object, structure tuỳ actionType
+    "suggestedData": {                 // JSONB raw (Spring @JsonRawValue)
       "from": "VN_NINHTHUAN",
       "to": "VN_HANOI",
       "volumeKl": 5000
     },
-    "status": "PENDING",              // PENDING | ACKNOWLEDGED | DISMISSED | EXPIRED
-    "suggestedAt": "2026-05-12T08:15:00Z",
-    "expiresAt": "2026-05-19T08:15:00Z"
+    "suggestedAt": "2026-05-13T08:15:00Z",
+    "ageSeconds": 8100,
+    "expiresAt": "2026-05-20T08:15:00Z",
+    "expired": false
   }
 ]
 ```
 
-**`POST /api/recommendations/{id}/acknowledge` request**:
+**`POST /api/recommendations/{id}/acknowledge` request** (body optional):
 ```json
 {
+  "status": "ACKNOWLEDGED",            // ACKNOWLEDGED (default) | DISMISSED
   "note": "Đã chuyển stock theo plan, hoàn tất 2026-05-13"
 }
 ```
 
-**`GET /api/pillars/1/outlook` (sample)**:
+**Response 200**:
+```json
+{ "id": 42, "newStatus": "ACKNOWLEDGED", "acknowledgedBy": 1 }
+```
+
+**`GET /api/pillars/1/supply-security` (alias `/1/outlook`) — Phase 7.1 IEA shape**:
 ```json
 [
   {
     "regionCode": "VN_HANOI",
     "fuelType": "GASOLINE",
-    "stockDays": 56.6,
-    "targetDays": 90,
-    "deficitDays": 33.4,
-    "supplyStatus": "WARNING",       // SECURE | WARNING | CRITICAL
-    "recommendationText": "Chuyển 5000 KL từ Ninh Thuận..."
+    "idr": 0.842,                      // Import Dependency Ratio 0-1
+    "sfri": 56.6,                      // Strategic Fuel Reserve Index = stock days
+    "hhiSupply": 4250.32,              // Herfindahl-Hirschman 0-10000
+    "n1Resilience": 22.4,              // Days cover if largest fuel disrupted
+    "pillar1Score": 58.71,
+    "status": "STRESSED",
+    "computedAt": "2026-05-13T10:30:00Z"
   }
 ]
 ```
 
-> 📦 **Tip**: khi backend Phase 4.5 build xong, bạn có thể import OpenAPI spec từ `http://10.0.2.2:8090/v3/api-docs` → **auto-generate Retrofit interfaces** bằng OpenAPI Generator CLI để tiết kiệm thời gian gõ DTO.
+> 📦 **Tip**: backend live, import OpenAPI spec từ `http://10.0.2.2:8090/v3/api-docs` → **auto-generate Retrofit interfaces** bằng OpenAPI Generator CLI để tiết kiệm thời gian gõ DTO. Spec snapshot lưu trong repo Java tại `docs/openapi.json`.
 
 ### 5.5 Error format
 

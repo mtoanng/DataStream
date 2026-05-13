@@ -1,8 +1,10 @@
 # 🎭 Mock Backend — VES Monitor
 
-Mock backend cho phép Android Dev code **toàn bộ UI + flow** mà không cần đợi backend Java live. Khi backend Phase 4.5 build xong, Android app chỉ cần đổi 1 biến `BASE_URL` → switch sang backend thật, mọi shape DTO/response sẽ tương thích.
+Mock backend cho phép Android Dev code **toàn bộ UI + flow** mà không cần đợi backend Java live. Khi backend live, Android app chỉ cần đổi 1 biến `BASE_URL` → switch sang backend thật, mọi shape DTO/response sẽ tương thích.
 
 > Stack: [json-server](https://github.com/typicode/json-server) `v0.17.4` (Node.js).
+>
+> 🆕 **Synced với Java backend `v1.0.0` + Phase 7.6/7.7** (commit `e64d447`, 13/05/2026). Pillar paths giờ route cả canonical (IEA/APERC) lẫn legacy alias về cùng fixture. Login/security score/alerts/recommendations/grid-load shape đã update theo backend mới.
 
 ---
 
@@ -61,7 +63,7 @@ curl http://localhost:8090/api/health
 curl -X POST http://localhost:8090/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{"username":"admin","password":"admin"}'
-# Expected: {"accessToken":"...","tokenType":"Bearer","expiresIn":28800,"user":{...}}
+# Expected: {"accessToken":"...","expiresInMs":28800000,"user":{"id":1,...,"enabled":true}}
 ```
 
 ### Test endpoint cần auth
@@ -76,24 +78,27 @@ curl -X GET http://localhost:8090/api/security/score \
 
 ---
 
-## 📋 14 Endpoint coverage
+## 📋 Endpoint coverage (Phase 7.6 IEA/APERC + legacy aliases)
 
-| # | Method | Path | Mock JSON key |
-|---|--------|------|---------------|
-| 1 | POST | `/api/auth/login` | `auth_login` |
-| 2 | GET | `/api/security/score` | `security_score` |
-| 3 | GET | `/api/security/cascade-risks` | `security_cascade` |
-| 4 | GET | `/api/pillars/1/outlook` | `pillar1_outlook` |
-| 5 | GET | `/api/pillars/2/volatility` | `pillar2_volatility` |
-| 6 | GET | `/api/pillars/3/shedding-plan` | `pillar3_shedding` |
-| 7 | GET | `/api/pillars/4/net-zero-progress` | `pillar4_netzero` |
-| 8 | GET | `/api/alerts/active` | `alerts_active` |
-| 9 | GET | `/api/recommendations` | `recommendations` |
-| 10 | POST | `/api/recommendations/:id/acknowledge` | `ack_response` |
-| 11 | GET | `/api/raw/fuel-prices/latest` | `fuel_prices_latest` |
-| 12 | GET | `/api/raw/grid-load/latest` | `grid_load_latest` |
-| 13 | GET | `/api/health` | `health` |
-| 14 | GET | `/v3/api-docs` | ❌ Không support (chỉ live backend) |
+| # | Method | Canonical path | Legacy alias (mock cũng route) | Mock JSON key |
+|---|--------|----------------|--------------------------------|---------------|
+| 1 | POST | `/api/auth/login` | — | `auth_login` |
+| 1b | GET | `/api/auth/me` | — | `auth_me` |
+| 2 | GET | `/api/security/score` | — | `security_score` |
+| 3 | GET | `/api/security/cascade-risks` | — | `security_cascade` (always `[]`) |
+| 4 | GET | `/api/pillars/1/supply-security` | `/api/pillars/1/outlook` | `pillar1_supply_security` |
+| 5 | GET | `/api/pillars/2/market-resilience` | `/api/pillars/2/volatility` | `pillar2_market_resilience` |
+| 6 | GET | `/api/pillars/3/grid-reliability` | `/api/pillars/3/shedding`, `/3/shedding-plan` | `pillar3_grid_reliability` |
+| 7 | GET | `/api/pillars/4/energy-transition` | `/api/pillars/4/netzero`, `/4/net-zero` | `pillar4_energy_transition` |
+| 8 | GET | `/api/alerts/active` | — | `alerts_active` |
+| 9 | GET | `/api/recommendations` | — | `recommendations` |
+| 10 | POST | `/api/recommendations/:id/acknowledge` | — | `ack_response` |
+| 11 | GET | `/api/fuel-prices/latest` | `/api/raw/fuel-prices/latest` (mock-only) | `fuel_prices_latest` |
+| 12 | GET | `/api/grid-load/latest` | `/api/raw/grid-load/latest` (mock-only) | `grid_load_latest` |
+| 13 | GET | `/api/health` | — | `health` |
+| 14 | GET | `/v3/api-docs` | — | ❌ Không support (chỉ live backend) |
+
+> 💡 Cả canonical lẫn legacy đều trả **CÙNG response shape mới** (IEA-shaped DTO). Legacy alias chỉ là route forward — không có shape cũ nào còn được serve.
 
 ---
 
@@ -180,11 +185,11 @@ Hoặc dùng [Android Studio Network Profiler] → throttle download speed.
 
 Mock dùng **2 cơ chế**:
 
-1. **`routes.json` (12 GET endpoint)** → json-server rewrite URL public-style (`/api/security/score`) sang internal key (`/security_score`) → trả về object/array từ `db.json`.
+1. **`routes.json` (~20 GET endpoint, gồm canonical + legacy aliases)** → json-server rewrite URL public-style (`/api/security/score`) sang internal key (`/security_score`) → trả về object/array từ `db.json`. Cả `/api/pillars/1/supply-security` lẫn `/api/pillars/1/outlook` đều route về cùng key `/pillar1_supply_security`.
 
 2. **`middleware.js` (2 POST endpoint)** → intercept **trước khi** request đến rewriter/router:
    - `POST /api/auth/login` → đọc `db.auth_login`, customize user data theo username, trả 200 hoặc 401.
-   - `POST /api/recommendations/:id/acknowledge` → đọc `db.ack_response`, echo `id` từ URL + `note` từ body.
+   - `POST /api/recommendations/:id/acknowledge` → đọc `db.ack_response`, echo `id` từ URL + `newStatus` từ body (validate ACKNOWLEDGED/DISMISSED, default ACKNOWLEDGED). Trả 400 nếu status sai.
    - Middleware **không gọi `next()`** với 2 path này → request không đến router → `db.json` không bị mutate. 🛡️
 
 > 💡 Lý do dùng middleware cho 2 POST này: json-server default behavior cho POST đến singleton route là "create entity" — nó echo request body và **ghi đè** `db.json`. Middleware tránh việc đó.

@@ -3,6 +3,25 @@
 > 📅 Tổng thời gian: ~30-35 giờ, trải đều **4 tuần**
 > 🎯 Đầu ra: APK Android demo + báo cáo môn + slide
 > ⚡ Đọc file này **TRƯỚC TẤT CẢ** — nó là tour guide cho repo này.
+>
+> 🆕 **Synced với Java backend `v1.0.0` + Phase 7.6/7.7** (commit `e64d447`, 13/05/2026). Pillar taxonomy đã refactor IEA/APERC — xem callout dưới + `docs/API_CONTRACT.md`.
+
+---
+
+## 🆕 Post-v1.0.0 update (13/05/2026)
+
+Backend Java đã release `v1.0.0` rồi tiếp tục có 2 post-release fix (Phase 7.6 + 7.7) trên `origin/main`:
+
+- **Pillar taxonomy refactor**: P1 `outlook` → `supply-security`, P2 `volatility` → `market-resilience`, P3 `shedding[-plan]` → `grid-reliability`, P4 `netzero / net-zero` → `energy-transition`. Backend giữ legacy alias path nên code Android cũ KHÔNG break, **nhưng shape response đã đổi** sang IEA-shaped DTO mới — DTO Android phải refactor theo. Recommend code mới target canonical path.
+- **Login response**: dùng `expiresInMs` (không phải `expiresIn`), không có `tokenType`, `user` thêm field `enabled`.
+- **Security score**: status enum đổi sang `SECURE / ELEVATED / STRESSED / CRITICAL` (bỏ `STABLE / AT_RISK`), field `calculatedAt` → `computedAt`, không còn `trend`.
+- **Cascade-risks**: deprecated, luôn trả `[]`. UI nên hide/render placeholder.
+- **Acknowledge**: response `{id, newStatus, acknowledgedBy}` (không còn `acknowledgedAt`/`note`); body cho phép `{status: 'ACKNOWLEDGED' | 'DISMISSED', note?}`.
+- **Path đổi**: `/api/raw/fuel-prices/latest` → `/api/fuel-prices/latest`, `/api/raw/grid-load/latest` → `/api/grid-load/latest`. Mock server vẫn route cả 2 path.
+- **Endpoint mới**: `GET /api/auth/me` trả `UserDto` của session hiện tại.
+- **Examples + mock đã sync**: `mock/db.json`, `mock/routes.json`, `mock/middleware.js`, và toàn bộ `examples/responses/*.json` đã được regenerate theo shape mới.
+
+→ Đọc chi tiết: **[`docs/API_CONTRACT.md`](API_CONTRACT.md)**.
 
 ---
 
@@ -25,11 +44,11 @@
          port 8090, 14/14 endpoint verified PASS
 ```
 
-**Quan hệ giữa 2 repo:**
-- Backend Server: https://github.com/mtoanng/Real-time-processing-with-Kafka-Flink-Postgres
-- Android App: **chính là repo này**, có repo Git riêng
+**Quan hệ giữa 2 đồ án:**
+- Đồ án Java (của Leader, độc lập): https://github.com/mtoanng/Real-time-processing-with-Kafka-Flink-Postgres
+- Đồ án Android (bạn): **chính là repo này**, có repo Git riêng
 
-KHÔNG cần đọc / chạy code Java. Chỉ cần biết backend trả gì (qua `docs/API_CONTRACT.md`) và mock backend chạy thế nào (qua `mock/README.md`).
+Bạn KHÔNG cần đọc / chạy code Java. Chỉ cần biết backend trả gì (qua `docs/API_CONTRACT.md`) và mock backend chạy thế nào (qua `mock/README.md`).
 
 ---
 

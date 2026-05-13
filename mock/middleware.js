@@ -64,16 +64,28 @@ module.exports = (req, res, next) => {
     }
 
     // --- POST /api/recommendations/:id/acknowledge → ack response with ID echo ---
+    // Backend (post-Phase 7.6) returns: { id, newStatus, acknowledgedBy }
+    // Body accepts { status?: 'ACKNOWLEDGED' | 'DISMISSED' (default ACKNOWLEDGED), note?: string }.
+    // Mock validates `status` lightly and echoes the chosen one back as `newStatus`.
     const ackMatch = reqPath.match(/^\/api\/recommendations\/(\d+)\/acknowledge$/);
     if (req.method === 'POST' && ackMatch) {
         const db = readDb();
         const id = parseInt(ackMatch[1], 10);
-        const note = (req.body && req.body.note) || null;
+        const rawStatus = (req.body && req.body.status) || 'ACKNOWLEDGED';
+        const newStatus = String(rawStatus).toUpperCase();
+        if (newStatus !== 'ACKNOWLEDGED' && newStatus !== 'DISMISSED') {
+            return res.status(400).json({
+                timestamp: new Date().toISOString(),
+                status: 400,
+                error: 'Bad Request',
+                message: 'status phải là ACKNOWLEDGED hoặc DISMISSED',
+                path: reqPath
+            });
+        }
         return res.status(200).json({
             ...db.ack_response,
             id: id,
-            acknowledgedAt: new Date().toISOString(),
-            note: note
+            newStatus: newStatus
         });
     }
 

@@ -2,37 +2,56 @@
   {
     "regionCode": "VN_HANOI",
     "fuelType": "GASOLINE",
-    "stockDays": 56.6,
-    "targetDays": 90,
-    "deficitDays": 33.4,
-    "supplyStatus": "WARNING",
-    "recommendationText": "Chuyển 5000 KL từ Ninh Thuận về Hà Nội trước 2026-05-20"
+    "idr": 0.842,
+    "sfri": 56.6,
+    "hhiSupply": 4250.32,
+    "n1Resilience": 22.4,
+    "pillar1Score": 58.71,
+    "status": "STRESSED",
+    "computedAt": "2026-05-13T10:30:00Z"
   },
   {
-    "regionCode": "VN_HCM",
+    "regionCode": "VN_HANOI",
     "fuelType": "DIESEL",
-    "stockDays": 22.5,
-    "targetDays": 90,
-    "deficitDays": 67.5,
-    "supplyStatus": "CRITICAL",
-    "recommendationText": "Khẩn cấp nhập 8000 KL diesel từ Singapore trong 7 ngày"
+    "idr": 0.842,
+    "sfri": 71.2,
+    "hhiSupply": 4250.32,
+    "n1Resilience": 22.4,
+    "pillar1Score": 62.45,
+    "status": "ELEVATED",
+    "computedAt": "2026-05-13T10:30:00Z"
   },
   {
     "regionCode": "VN_DANANG",
     "fuelType": "GASOLINE",
-    "stockDays": 95.2,
-    "targetDays": 90,
-    "deficitDays": 0,
-    "supplyStatus": "SECURE",
-    "recommendationText": null
+    "idr": 0.575,
+    "sfri": 95.2,
+    "hhiSupply": 3812.10,
+    "n1Resilience": 41.8,
+    "pillar1Score": 78.94,
+    "status": "ELEVATED",
+    "computedAt": "2026-05-13T10:30:00Z"
+  },
+  {
+    "regionCode": "VN_HCM",
+    "fuelType": "DIESEL",
+    "idr": 0.917,
+    "sfri": 22.5,
+    "hhiSupply": 5180.65,
+    "n1Resilience": 9.7,
+    "pillar1Score": 32.18,
+    "status": "CRITICAL",
+    "computedAt": "2026-05-13T10:30:00Z"
   },
   {
     "regionCode": "VN_NINHTHUAN",
     "fuelType": "GASOLINE",
-    "stockDays": 110.8,
-    "targetDays": 90,
-    "deficitDays": 0,
-    "supplyStatus": "SECURE",
-    "recommendationText": "Có thể điều chuyển bớt 5000 KL ra HN/HCM"
+    "idr": 0.350,
+    "sfri": 110.8,
+    "hhiSupply": 2940.55,
+    "n1Resilience": 58.3,
+    "pillar1Score": 86.12,
+    "status": "SECURE",
+    "computedAt": "2026-05-13T10:30:00Z"
   }
 ]

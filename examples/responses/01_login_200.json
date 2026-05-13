@@ -1,12 +1,12 @@
 {
-  "accessToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInVzZXJJZCI6MSwicm9sZSI6IkFETUlOIn0.SAMPLE_SIGNATURE_8H",
-  "tokenType": "Bearer",
-  "expiresIn": 28800,
+  "accessToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInVzZXJJZCI6MSwicm9sZSI6IkFETUlOIn0.MOCK_SIGNATURE_8H",
+  "expiresInMs": 28800000,
   "user": {
     "id": 1,
     "username": "admin",
-    "fullName": "Administrator",
+    "fullName": "Mock Administrator",
     "email": "admin@ves.local",
-    "role": "ADMIN"
+    "role": "ADMIN",
+    "enabled": true
   }
 }

@@ -1,299 +1,325 @@
 {
   "auth_login": {
     "accessToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInVzZXJJZCI6MSwicm9sZSI6IkFETUlOIn0.MOCK_SIGNATURE_8H",
-    "tokenType": "Bearer",
-    "expiresIn": 28800,
+    "expiresInMs": 28800000,
     "user": {
       "id": 1,
       "username": "admin",
       "fullName": "Mock Administrator",
       "email": "admin@ves.local",
-      "role": "ADMIN"
+      "role": "ADMIN",
+      "enabled": true
     }
+  },
+  "auth_me": {
+    "id": 1,
+    "username": "admin",
+    "fullName": "Mock Administrator",
+    "email": "admin@ves.local",
+    "role": "ADMIN",
+    "enabled": true
   },
   "security_score": {
-    "overallScore": 76.4,
-    "status": "STABLE",
-    "pillar1Score": 82.0,
-    "pillar2Score": 68.5,
-    "pillar3Score": 75.0,
-    "pillar4Score": 80.0,
-    "calculatedAt": "2026-05-12T10:30:00Z",
-    "trend": "DECREASING"
+    "pillar1Score": 64.83,
+    "pillar2Score": 59.59,
+    "pillar3Score": 90.11,
+    "pillar4Score": 72.09,
+    "overallScore": 72.82,
+    "status": "ELEVATED",
+    "computedAt": "2026-05-13T10:30:00Z"
   },
-  "security_cascade": [
-    {
-      "id": 1,
-      "riskType": "CASCADE_SUPPLY_GRID",
-      "severity": "HIGH",
-      "affectedPillars": [1, 3],
-      "affectedRegions": ["VN_HANOI", "VN_HAIPHONG"],
-      "description": "Tồn kho diesel HÀ NỘI < 30 ngày + lưới điện peak 88% → nguy cơ thiếu cả nhiên liệu lẫn điện trong 2 tuần tới",
-      "detectedAt": "2026-05-12T09:15:00Z"
-    },
-    {
-      "id": 2,
-      "riskType": "PRICE_SHOCK_INVENTORY",
-      "severity": "MEDIUM",
-      "affectedPillars": [1, 2],
-      "affectedRegions": ["VN_DANANG"],
-      "description": "Brent crude tăng 12% trong 24h + tồn kho ĐN dưới target → cần hedge trước khi giá leo tiếp",
-      "detectedAt": "2026-05-12T08:00:00Z"
-    }
-  ],
-  "pillar1_outlook": [
+  "security_cascade": [],
+  "pillar1_supply_security": [
     {
       "regionCode": "VN_HANOI",
       "fuelType": "GASOLINE",
-      "stockDays": 56.6,
-      "targetDays": 90,
-      "deficitDays": 33.4,
-      "supplyStatus": "WARNING",
-      "recommendationText": "Chuyển 5000 KL từ Ninh Thuận về Hà Nội trước 2026-05-20"
+      "idr": 0.842,
+      "sfri": 56.6,
+      "hhiSupply": 4250.32,
+      "n1Resilience": 22.4,
+      "pillar1Score": 58.71,
+      "status": "STRESSED",
+      "computedAt": "2026-05-13T10:30:00Z"
     },
     {
       "regionCode": "VN_HANOI",
       "fuelType": "DIESEL",
-      "stockDays": 71.2,
-      "targetDays": 90,
-      "deficitDays": 18.8,
-      "supplyStatus": "WARNING",
-      "recommendationText": "Theo dõi sát, có thể cần bổ sung tuần sau"
+      "idr": 0.842,
+      "sfri": 71.2,
+      "hhiSupply": 4250.32,
+      "n1Resilience": 22.4,
+      "pillar1Score": 62.45,
+      "status": "ELEVATED",
+      "computedAt": "2026-05-13T10:30:00Z"
     },
     {
       "regionCode": "VN_DANANG",
       "fuelType": "GASOLINE",
-      "stockDays": 95.2,
-      "targetDays": 90,
-      "deficitDays": 0,
-      "supplyStatus": "SECURE",
-      "recommendationText": null
+      "idr": 0.575,
+      "sfri": 95.2,
+      "hhiSupply": 3812.10,
+      "n1Resilience": 41.8,
+      "pillar1Score": 78.94,
+      "status": "ELEVATED",
+      "computedAt": "2026-05-13T10:30:00Z"
     },
     {
       "regionCode": "VN_HCM",
       "fuelType": "DIESEL",
-      "stockDays": 22.5,
-      "targetDays": 90,
-      "deficitDays": 67.5,
-      "supplyStatus": "CRITICAL",
-      "recommendationText": "Khẩn cấp nhập 8000 KL diesel từ Singapore trong 7 ngày"
+      "idr": 0.917,
+      "sfri": 22.5,
+      "hhiSupply": 5180.65,
+      "n1Resilience": 9.7,
+      "pillar1Score": 32.18,
+      "status": "CRITICAL",
+      "computedAt": "2026-05-13T10:30:00Z"
     },
     {
       "regionCode": "VN_NINHTHUAN",
       "fuelType": "GASOLINE",
-      "stockDays": 110.8,
-      "targetDays": 90,
-      "deficitDays": 0,
-      "supplyStatus": "SECURE",
-      "recommendationText": "Có thể điều chuyển bớt 5000 KL ra HN/HCM"
+      "idr": 0.350,
+      "sfri": 110.8,
+      "hhiSupply": 2940.55,
+      "n1Resilience": 58.3,
+      "pillar1Score": 86.12,
+      "status": "SECURE",
+      "computedAt": "2026-05-13T10:30:00Z"
     }
   ],
-  "pillar2_volatility": [
+  "pillar2_market_resilience": [
     {
       "fuelType": "BRENT_CRUDE",
-      "latestPrice": 87.5,
-      "priceUnit": "USD/barrel",
-      "priceChangePct": 12.3,
-      "volatilityIndex": 18.7,
-      "trend": "INCREASING",
-      "signal": "ELEVATED",
-      "windowHours": 24
+      "sigma30d": 4.2156,
+      "priceGapPct": 0.00,
+      "betaCrude": 1.000,
+      "affordabilityIdx": 12.50,
+      "pillar2Score": 48.27,
+      "status": "STRESSED",
+      "computedAt": "2026-05-13T10:30:00Z"
     },
     {
       "fuelType": "WTI_CRUDE",
-      "latestPrice": 84.2,
-      "priceUnit": "USD/barrel",
-      "priceChangePct": 10.5,
-      "volatilityIndex": 15.4,
-      "trend": "INCREASING",
-      "signal": "ELEVATED",
-      "windowHours": 24
+      "sigma30d": 3.8540,
+      "priceGapPct": -3.77,
+      "betaCrude": 0.985,
+      "affordabilityIdx": 15.80,
+      "pillar2Score": 52.91,
+      "status": "STRESSED",
+      "computedAt": "2026-05-13T10:30:00Z"
     },
     {
       "fuelType": "GASOLINE",
-      "latestPrice": 3.21,
-      "priceUnit": "USD/gallon",
-      "priceChangePct": 5.2,
-      "volatilityIndex": 8.9,
-      "trend": "INCREASING",
-      "signal": "STABLE",
-      "windowHours": 24
+      "sigma30d": 0.1842,
+      "priceGapPct": -96.32,
+      "betaCrude": 0.043,
+      "affordabilityIdx": 99.68,
+      "pillar2Score": 67.45,
+      "status": "ELEVATED",
+      "computedAt": "2026-05-13T10:30:00Z"
     },
     {
       "fuelType": "DIESEL",
-      "latestPrice": 3.85,
-      "priceUnit": "USD/gallon",
-      "priceChangePct": 1.1,
-      "volatilityIndex": 4.2,
-      "trend": "STABLE",
-      "signal": "STABLE",
-      "windowHours": 24
+      "sigma30d": 0.0925,
+      "priceGapPct": -95.59,
+      "betaCrude": 0.038,
+      "affordabilityIdx": 99.62,
+      "pillar2Score": 69.83,
+      "status": "ELEVATED",
+      "computedAt": "2026-05-13T10:30:00Z"
     }
   ],
-  "pillar3_shedding": {
-    "totalRegions": 6,
-    "criticalRegions": 2,
-    "regions": [
-      {
-        "regionCode": "VN_HANOI",
-        "loadPct": 88.5,
-        "loadMw": 10620,
-        "capacityMw": 12000,
-        "isPeakHour": true,
-        "sheddingPriority": "P1",
-        "recommendedShedMw": 800,
-        "rationale": "Load 88.5% trong khung 18-22h. Cut KCN Thăng Long (~800MW) để giảm tải về 82%."
-      },
-      {
-        "regionCode": "VN_HCM",
-        "loadPct": 92.1,
-        "loadMw": 14736,
-        "capacityMw": 16000,
-        "isPeakHour": true,
-        "sheddingPriority": "P1",
-        "recommendedShedMw": 1500,
-        "rationale": "Load 92% — critical. Cut KCN Tân Tạo + Linh Trung (1500MW) ngay."
-      },
-      {
-        "regionCode": "VN_HAIPHONG",
-        "loadPct": 82.3,
-        "loadMw": 5761,
-        "capacityMw": 7000,
-        "isPeakHour": true,
-        "sheddingPriority": "P2",
-        "recommendedShedMw": 300,
-        "rationale": "Load 82% — chuẩn bị plan B nếu vượt 88%."
-      },
-      {
-        "regionCode": "VN_DANANG",
-        "loadPct": 65.4,
-        "loadMw": 2616,
-        "capacityMw": 4000,
-        "isPeakHour": false,
-        "sheddingPriority": "NONE",
-        "recommendedShedMw": 0,
-        "rationale": "Tải bình thường, không cần action."
-      },
-      {
-        "regionCode": "VN_CANTHO",
-        "loadPct": 58.9,
-        "loadMw": 1767,
-        "capacityMw": 3000,
-        "isPeakHour": false,
-        "sheddingPriority": "NONE",
-        "recommendedShedMw": 0,
-        "rationale": "Tải bình thường."
-      },
-      {
-        "regionCode": "VN_NINHTHUAN",
-        "loadPct": 48.5,
-        "loadMw": 970,
-        "capacityMw": 2000,
-        "isPeakHour": false,
-        "sheddingPriority": "NONE",
-        "recommendedShedMw": 0,
-        "rationale": "Tải thấp, có thể export điện."
-      }
-    ]
-  },
-  "pillar4_netzero": {
-    "targetYear": 2050,
-    "currentYear": 2026,
-    "overallProgressPct": 23.5,
-    "renewableCapacityMw": 5400,
-    "emissionIntensityKgPerMwh": 580,
-    "emissionTarget": 100,
-    "regions": [
-      {
-        "regionCode": "VN_NINHTHUAN",
-        "renewableShare": 65.0,
-        "emissionIntensity": 320,
-        "status": "ON_TRACK"
-      },
-      {
-        "regionCode": "VN_DANANG",
-        "renewableShare": 42.5,
-        "emissionIntensity": 480,
-        "status": "ON_TRACK"
-      },
-      {
-        "regionCode": "VN_HCM",
-        "renewableShare": 18.3,
-        "emissionIntensity": 750,
-        "status": "LAGGING"
-      },
-      {
-        "regionCode": "VN_HANOI",
-        "renewableShare": 15.8,
-        "emissionIntensity": 720,
-        "status": "LAGGING"
-      },
-      {
-        "regionCode": "VN_HAIPHONG",
-        "renewableShare": 9.2,
-        "emissionIntensity": 890,
-        "status": "OFF_TRACK"
-      },
-      {
-        "regionCode": "VN_CANTHO",
-        "renewableShare": 32.4,
-        "emissionIntensity": 540,
-        "status": "ON_TRACK"
-      }
-    ]
-  },
+  "pillar3_grid_reliability": [
+    {
+      "regionCode": "VN_HANOI",
+      "reserveMarginPct": 11.50,
+      "peakLoadFactor": 1.243,
+      "sheddingProb": 0.0125,
+      "freqStabilityIdx": 91.30,
+      "pillar3Score": 78.42,
+      "status": "ELEVATED",
+      "computedAt": "2026-05-13T10:30:00Z"
+    },
+    {
+      "regionCode": "VN_HCM",
+      "reserveMarginPct": 7.90,
+      "peakLoadFactor": 1.318,
+      "sheddingProb": 0.0834,
+      "freqStabilityIdx": 84.65,
+      "pillar3Score": 64.12,
+      "status": "ELEVATED",
+      "computedAt": "2026-05-13T10:30:00Z"
+    },
+    {
+      "regionCode": "VN_HAIPHONG",
+      "reserveMarginPct": 17.70,
+      "peakLoadFactor": 1.195,
+      "sheddingProb": 0.0000,
+      "freqStabilityIdx": 93.75,
+      "pillar3Score": 90.56,
+      "status": "SECURE",
+      "computedAt": "2026-05-13T10:30:00Z"
+    },
+    {
+      "regionCode": "VN_DANANG",
+      "reserveMarginPct": 34.60,
+      "peakLoadFactor": 1.082,
+      "sheddingProb": 0.0000,
+      "freqStabilityIdx": 96.40,
+      "pillar3Score": 95.78,
+      "status": "SECURE",
+      "computedAt": "2026-05-13T10:30:00Z"
+    },
+    {
+      "regionCode": "VN_CANTHO",
+      "reserveMarginPct": 41.10,
+      "peakLoadFactor": 1.041,
+      "sheddingProb": 0.0000,
+      "freqStabilityIdx": 97.92,
+      "pillar3Score": 97.25,
+      "status": "SECURE",
+      "computedAt": "2026-05-13T10:30:00Z"
+    },
+    {
+      "regionCode": "VN_NINHTHUAN",
+      "reserveMarginPct": 51.50,
+      "peakLoadFactor": 1.029,
+      "sheddingProb": 0.0000,
+      "freqStabilityIdx": 98.71,
+      "pillar3Score": 99.04,
+      "status": "SECURE",
+      "computedAt": "2026-05-13T10:30:00Z"
+    }
+  ],
+  "pillar4_energy_transition": [
+    {
+      "regionCode": "VN_NINHTHUAN",
+      "renewablePct": 65.00,
+      "co2Intensity": 320.00,
+      "curtailmentRate": 8.40,
+      "netzeroProgress": 92.86,
+      "pillar4Score": 89.32,
+      "status": "SECURE",
+      "computedAt": "2026-05-13T10:30:00Z"
+    },
+    {
+      "regionCode": "VN_DANANG",
+      "renewablePct": 42.50,
+      "co2Intensity": 480.00,
+      "curtailmentRate": 5.20,
+      "netzeroProgress": 60.71,
+      "pillar4Score": 76.18,
+      "status": "ELEVATED",
+      "computedAt": "2026-05-13T10:30:00Z"
+    },
+    {
+      "regionCode": "VN_CANTHO",
+      "renewablePct": 32.40,
+      "co2Intensity": 540.00,
+      "curtailmentRate": 4.10,
+      "netzeroProgress": 46.29,
+      "pillar4Score": 68.94,
+      "status": "ELEVATED",
+      "computedAt": "2026-05-13T10:30:00Z"
+    },
+    {
+      "regionCode": "VN_HCM",
+      "renewablePct": 18.30,
+      "co2Intensity": 750.00,
+      "curtailmentRate": 2.80,
+      "netzeroProgress": 26.14,
+      "pillar4Score": 52.71,
+      "status": "STRESSED",
+      "computedAt": "2026-05-13T10:30:00Z"
+    },
+    {
+      "regionCode": "VN_HANOI",
+      "renewablePct": 15.80,
+      "co2Intensity": 720.00,
+      "curtailmentRate": 3.10,
+      "netzeroProgress": 22.57,
+      "pillar4Score": 50.83,
+      "status": "STRESSED",
+      "computedAt": "2026-05-13T10:30:00Z"
+    },
+    {
+      "regionCode": "VN_HAIPHONG",
+      "renewablePct": 9.20,
+      "co2Intensity": 890.00,
+      "curtailmentRate": 1.50,
+      "netzeroProgress": 13.14,
+      "pillar4Score": 38.92,
+      "status": "CRITICAL",
+      "computedAt": "2026-05-13T10:30:00Z"
+    }
+  ],
   "alerts_active": [
     {
       "id": 1001,
       "ruleId": 5,
+      "ruleName": "Grid load CRITICAL >90%",
       "metricType": "GRID_LOAD_PCT",
       "fuelType": null,
+      "location": null,
       "region": "VN_HCM",
+      "triggeredPrice": 92.10,
+      "threshold": 90.00,
+      "operator": "GT",
       "severity": "CRITICAL",
       "message": "Grid load HCM = 92.1% > threshold 90%",
-      "triggeredValue": 92.1,
-      "threshold": 90.0,
-      "eventTimestamp": "2026-05-12T10:25:00Z",
-      "alertTimestamp": "2026-05-12T10:25:03Z"
+      "eventTimestamp": "2026-05-13T10:25:00Z",
+      "alertTimestamp": "2026-05-13T10:25:03Z",
+      "ageSeconds": 297
     },
     {
       "id": 1002,
       "ruleId": 3,
+      "ruleName": "Brent crude shock >10%",
       "metricType": "FUEL_PRICE",
       "fuelType": "BRENT_CRUDE",
+      "location": "Global Market",
       "region": null,
+      "triggeredPrice": 87.50,
+      "threshold": 80.00,
+      "operator": "GT",
       "severity": "WARNING",
       "message": "Brent crude tăng 12.3% trong 24h, vượt threshold 10%",
-      "triggeredValue": 12.3,
-      "threshold": 10.0,
-      "eventTimestamp": "2026-05-12T09:50:00Z",
-      "alertTimestamp": "2026-05-12T09:50:05Z"
+      "eventTimestamp": "2026-05-13T09:50:00Z",
+      "alertTimestamp": "2026-05-13T09:50:05Z",
+      "ageSeconds": 2395
     },
     {
       "id": 1003,
       "ruleId": 7,
+      "ruleName": "Emission intensity >800 kg/MWh",
       "metricType": "EMISSION_INTENSITY",
       "fuelType": null,
+      "location": null,
       "region": "VN_HAIPHONG",
+      "triggeredPrice": 890.00,
+      "threshold": 800.00,
+      "operator": "GT",
       "severity": "WARNING",
       "message": "Emission intensity Hải Phòng = 890 kg/MWh, vượt cảnh báo 800",
-      "triggeredValue": 890,
-      "threshold": 800,
-      "eventTimestamp": "2026-05-12T08:30:00Z",
-      "alertTimestamp": "2026-05-12T08:30:02Z"
+      "eventTimestamp": "2026-05-13T08:30:00Z",
+      "alertTimestamp": "2026-05-13T08:30:02Z",
+      "ageSeconds": 7198
     },
     {
       "id": 1004,
       "ruleId": 2,
+      "ruleName": "Diesel inventory <30 days",
       "metricType": "INVENTORY_DAYS",
       "fuelType": "DIESEL",
+      "location": null,
       "region": "VN_HCM",
+      "triggeredPrice": 22.50,
+      "threshold": 30.00,
+      "operator": "LT",
       "severity": "CRITICAL",
       "message": "Tồn kho diesel HCM = 22.5 ngày, dưới ngưỡng 30",
-      "triggeredValue": 22.5,
-      "threshold": 30.0,
-      "eventTimestamp": "2026-05-12T07:00:00Z",
-      "alertTimestamp": "2026-05-12T07:00:01Z"
+      "eventTimestamp": "2026-05-13T07:00:00Z",
+      "alertTimestamp": "2026-05-13T07:00:01Z",
+      "ageSeconds": 12599
     }
   ],
   "recommendations": [
@@ -310,12 +336,10 @@
         "volumeKl": 5000,
         "fuel": "GASOLINE"
       },
-      "status": "PENDING",
-      "suggestedAt": "2026-05-12T08:15:00Z",
-      "acknowledgedAt": null,
-      "acknowledgedBy": null,
-      "note": null,
-      "expiresAt": "2026-05-19T08:15:00Z"
+      "suggestedAt": "2026-05-13T08:15:00Z",
+      "ageSeconds": 8100,
+      "expiresAt": "2026-05-20T08:15:00Z",
+      "expired": false
     },
     {
       "id": 43,
@@ -323,19 +347,17 @@
       "actionType": "PRICE_HEDGE",
       "severity": "WARNING",
       "title": "Hedge 50,000 thùng Brent forward 3 tháng",
-      "message": "Brent crude tăng 12% trong 24h, volatility index 18.7 > ngưỡng 15. Đề xuất hedge 50,000 thùng forward Aug 2026 tại $85/bbl.",
+      "message": "Brent crude tăng 12% trong 24h, σ30d = 4.21 → STRESSED. Đề xuất hedge 50,000 thùng forward Aug 2026 tại $85/bbl.",
       "suggestedData": {
         "fuel": "BRENT_CRUDE",
         "volumeBbl": 50000,
         "strikePrice": 85.0,
         "tenorMonths": 3
       },
-      "status": "PENDING",
-      "suggestedAt": "2026-05-12T09:50:00Z",
-      "acknowledgedAt": null,
-      "acknowledgedBy": null,
-      "note": null,
-      "expiresAt": "2026-05-15T09:50:00Z"
+      "suggestedAt": "2026-05-13T09:50:00Z",
+      "ageSeconds": 2400,
+      "expiresAt": "2026-05-16T09:50:00Z",
+      "expired": false
     },
     {
       "id": 44,
@@ -343,19 +365,17 @@
       "actionType": "LOAD_SHED",
       "severity": "CRITICAL",
       "title": "Cut 1500MW KCN Tân Tạo + Linh Trung",
-      "message": "HCM load 92.1% peak. Cut 1500MW công nghiệp non-essential để bảo vệ lưới.",
+      "message": "HCM reserve_margin 7.9% + shedding_prob 0.0834 → ELEVATED. Cut 1500MW công nghiệp non-essential để bảo vệ lưới.",
       "suggestedData": {
         "region": "VN_HCM",
         "shedMw": 1500,
         "targets": ["KCN_TAN_TAO", "KCN_LINH_TRUNG"],
         "durationMin": 120
       },
-      "status": "PENDING",
-      "suggestedAt": "2026-05-12T10:25:00Z",
-      "acknowledgedAt": null,
-      "acknowledgedBy": null,
-      "note": null,
-      "expiresAt": "2026-05-12T18:25:00Z"
+      "suggestedAt": "2026-05-13T10:25:00Z",
+      "ageSeconds": 300,
+      "expiresAt": "2026-05-13T18:25:00Z",
+      "expired": false
     },
     {
       "id": 45,
@@ -363,32 +383,28 @@
       "actionType": "RENEWABLE_RAMPUP",
       "severity": "INFO",
       "title": "Đẩy mạnh solar Ninh Thuận thêm 200MW",
-      "message": "Ninh Thuận đang dư 1030MW công suất. Cấp tốc dự án solar 200MW Phước Dinh có thể export điện sạch ra Bắc.",
+      "message": "Ninh Thuận renewable_pct 65% (SECURE), netzero_progress 92.86%. Cấp tốc dự án solar 200MW Phước Dinh có thể export điện sạch ra Bắc.",
       "suggestedData": {
         "region": "VN_NINHTHUAN",
         "project": "PHUOC_DINH_SOLAR",
         "capacityMw": 200,
         "estimatedYears": 1.5
       },
-      "status": "PENDING",
-      "suggestedAt": "2026-05-11T14:00:00Z",
-      "acknowledgedAt": null,
-      "acknowledgedBy": null,
-      "note": null,
-      "expiresAt": "2026-06-11T14:00:00Z"
+      "suggestedAt": "2026-05-12T14:00:00Z",
+      "ageSeconds": 81000,
+      "expiresAt": "2026-06-12T14:00:00Z",
+      "expired": false
     }
   ],
   "ack_response": {
     "id": 42,
-    "status": "ACKNOWLEDGED",
-    "acknowledgedAt": "2026-05-12T11:00:00Z",
-    "acknowledgedBy": 1,
-    "note": "Mock acknowledgement response — note thực sẽ lấy từ request body khi backend live"
+    "newStatus": "ACKNOWLEDGED",
+    "acknowledgedBy": 1
   },
   "fuel_prices_latest": [
     {
       "id": 9999,
-      "eventTimestamp": "2026-05-12T10:00:00Z",
+      "eventTimestamp": "2026-05-13T10:00:00Z",
       "fuelType": "BRENT_CRUDE",
       "price": 87.50,
       "priceUnit": "USD/barrel",
@@ -398,7 +414,7 @@
     },
     {
       "id": 9998,
-      "eventTimestamp": "2026-05-12T09:00:00Z",
+      "eventTimestamp": "2026-05-13T09:00:00Z",
       "fuelType": "BRENT_CRUDE",
       "price": 86.20,
       "priceUnit": "USD/barrel",
@@ -408,7 +424,7 @@
     },
     {
       "id": 9997,
-      "eventTimestamp": "2026-05-12T08:00:00Z",
+      "eventTimestamp": "2026-05-13T08:00:00Z",
       "fuelType": "WTI_CRUDE",
       "price": 84.15,
       "priceUnit": "USD/barrel",
@@ -418,7 +434,7 @@
     },
     {
       "id": 9996,
-      "eventTimestamp": "2026-05-12T07:00:00Z",
+      "eventTimestamp": "2026-05-13T07:00:00Z",
       "fuelType": "GASOLINE",
       "price": 3.21,
       "priceUnit": "USD/gallon",
@@ -428,7 +444,7 @@
     },
     {
       "id": 9995,
-      "eventTimestamp": "2026-05-12T06:00:00Z",
+      "eventTimestamp": "2026-05-13T06:00:00Z",
       "fuelType": "DIESEL",
       "price": 3.85,
       "priceUnit": "USD/gallon",
@@ -439,63 +455,70 @@
   ],
   "grid_load_latest": [
     {
-      "id": 5001,
       "regionCode": "VN_HANOI",
-      "loadMw": 10620,
-      "capacityMw": 12000,
-      "loadPct": 88.5,
-      "isPeakHour": true,
-      "eventTime": "2026-05-12T10:30:00Z"
+      "regionName": "Hà Nội",
+      "loadMw": 10620.00,
+      "capacityMw": 12000.00,
+      "loadPct": 88.50,
+      "peakHour": true,
+      "status": "ELEVATED",
+      "eventTime": "2026-05-13T10:30:00Z"
     },
     {
-      "id": 5002,
       "regionCode": "VN_HCM",
-      "loadMw": 14736,
-      "capacityMw": 16000,
-      "loadPct": 92.1,
-      "isPeakHour": true,
-      "eventTime": "2026-05-12T10:30:00Z"
+      "regionName": "Hồ Chí Minh",
+      "loadMw": 14736.00,
+      "capacityMw": 16000.00,
+      "loadPct": 92.10,
+      "peakHour": true,
+      "status": "CRITICAL",
+      "eventTime": "2026-05-13T10:30:00Z"
     },
     {
-      "id": 5003,
       "regionCode": "VN_HAIPHONG",
-      "loadMw": 5761,
-      "capacityMw": 7000,
-      "loadPct": 82.3,
-      "isPeakHour": true,
-      "eventTime": "2026-05-12T10:30:00Z"
+      "regionName": "Hải Phòng",
+      "loadMw": 5761.00,
+      "capacityMw": 7000.00,
+      "loadPct": 82.30,
+      "peakHour": true,
+      "status": "ELEVATED",
+      "eventTime": "2026-05-13T10:30:00Z"
     },
     {
-      "id": 5004,
       "regionCode": "VN_DANANG",
-      "loadMw": 2616,
-      "capacityMw": 4000,
-      "loadPct": 65.4,
-      "isPeakHour": false,
-      "eventTime": "2026-05-12T10:30:00Z"
+      "regionName": "Đà Nẵng",
+      "loadMw": 2616.00,
+      "capacityMw": 4000.00,
+      "loadPct": 65.40,
+      "peakHour": false,
+      "status": "NORMAL",
+      "eventTime": "2026-05-13T10:30:00Z"
     },
     {
-      "id": 5005,
       "regionCode": "VN_CANTHO",
-      "loadMw": 1767,
-      "capacityMw": 3000,
-      "loadPct": 58.9,
-      "isPeakHour": false,
-      "eventTime": "2026-05-12T10:30:00Z"
+      "regionName": "Cần Thơ",
+      "loadMw": 1767.00,
+      "capacityMw": 3000.00,
+      "loadPct": 58.90,
+      "peakHour": false,
+      "status": "NORMAL",
+      "eventTime": "2026-05-13T10:30:00Z"
     },
     {
-      "id": 5006,
       "regionCode": "VN_NINHTHUAN",
-      "loadMw": 970,
-      "capacityMw": 2000,
-      "loadPct": 48.5,
-      "isPeakHour": false,
-      "eventTime": "2026-05-12T10:30:00Z"
+      "regionName": "Ninh Thuận",
+      "loadMw": 970.00,
+      "capacityMw": 2000.00,
+      "loadPct": 48.50,
+      "peakHour": false,
+      "status": "NORMAL",
+      "eventTime": "2026-05-13T10:30:00Z"
     }
   ],
   "health": {
-    "status": "UP",
+    "service": "ves-backend-api",
+    "timestamp": "2026-05-13T10:30:00Z",
     "db": "UP",
-    "timestamp": "2026-05-12T10:30:00Z"
+    "status": "UP"
   }
 }

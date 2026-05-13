@@ -1,6 +1,8 @@
 # 🏛️ Architecture — VES-Monitor Mobile
 
 > Hướng dẫn kiến trúc + file structure + Gradle deps **khuyến nghị** cho intermediate Android dev. Bạn có thể tự chọn alternative — đây là baseline để báo cáo Chương 5 môn Android.
+>
+> 🆕 **Synced với Java backend `v1.0.0` + Phase 7.6/7.7** (commit `e64d447`, 13/05/2026). API endpoint + DTO trong skeleton dưới đã match canonical IEA/APERC paths. Xem `docs/API_CONTRACT.md` để biết shape mới.
 
 ---
 
@@ -82,20 +84,24 @@ DataStream/
 │       │   │   │   │   ├── AuthInterceptor.kt  # Inject Bearer header
 │       │   │   │   │   └── ErrorInterceptor.kt # Map 401 → trigger logout
 │       │   │   │   │
-│       │   │   │   ├── dto/                  # Match backend DTO (camelCase)
+│       │   │   │   ├── dto/                  # Match backend DTO (camelCase, Phase 7.6 IEA names)
 │       │   │   │   │   ├── auth/
-│       │   │   │   │   │   ├── LoginRequest.kt, LoginResponse.kt
-│       │   │   │   │   │   └── UserDto.kt
+│       │   │   │   │   │   ├── LoginRequest.kt, LoginResponse.kt   # expiresInMs, no tokenType
+│       │   │   │   │   │   └── UserDto.kt                          # adds `enabled: Boolean`
 │       │   │   │   │   ├── security/
-│       │   │   │   │   │   ├── SecurityScoreDto.kt, CascadeRiskDto.kt
-│       │   │   │   │   ├── pillar/
-│       │   │   │   │   │   ├── Pillar1OutlookDto.kt ... Pillar4NetZeroDto.kt
+│       │   │   │   │   │   ├── SecurityScoreDto.kt, CascadeRiskDto.kt   # cascade always []
+│       │   │   │   │   ├── pillar/                                 # IEA/APERC names (Phase 7.1)
+│       │   │   │   │   │   ├── Pillar1SupplySecurityDto.kt          # idr/sfri/hhiSupply/n1Resilience
+│       │   │   │   │   │   ├── Pillar2MarketResilienceDto.kt        # sigma30d/priceGapPct/betaCrude/affordabilityIdx
+│       │   │   │   │   │   ├── Pillar3GridReliabilityDto.kt         # reserveMarginPct/peakLoadFactor/sheddingProb/freqStabilityIdx
+│       │   │   │   │   │   └── Pillar4EnergyTransitionDto.kt        # renewablePct/co2Intensity/curtailmentRate/netzeroProgress
 │       │   │   │   │   ├── alert/
-│       │   │   │   │   │   └── AlertDto.kt
+│       │   │   │   │   │   └── AlertDto.kt                          # triggeredPrice (not triggeredValue), ruleName, operator, ageSeconds
 │       │   │   │   │   ├── recommendation/
-│       │   │   │   │   │   ├── RecommendationDto.kt, AckRequest.kt
+│       │   │   │   │   │   ├── RecommendationDto.kt, AckRequest.kt  # AckRequest: {status?, note?}
 │       │   │   │   │   └── raw/
-│       │   │   │   │       ├── FuelPriceDto.kt, GridLoadLatestDto.kt
+│       │   │   │   │       ├── FuelPriceDto.kt
+│       │   │   │   │       └── GridLoadLatestDto.kt                  # peakHour (not isPeakHour), regionName, status
 │       │   │   │   │
 │       │   │   │   ├── prefs/
 │       │   │   │   │   └── SessionManager.kt  # SharedPreferences wrapper
@@ -343,7 +349,7 @@ object ApiClient {
 }
 ```
 
-### 4.2 ApiService.kt — Retrofit interface
+### 4.2 ApiService.kt — Retrofit interface (Phase 7.6 paths)
 
 ```kotlin
 interface ApiService {
@@ -351,43 +357,50 @@ interface ApiService {
     @POST("api/auth/login")
     suspend fun login(@Body req: LoginRequest): Response<LoginResponse>
 
+    @GET("api/auth/me")
+    suspend fun me(): Response<UserDto>
+
     @GET("api/security/score")
     suspend fun getSecurityScore(): Response<SecurityScoreDto>
 
+    /** Deprecated by backend (Phase 7.1): always returns []. */
     @GET("api/security/cascade-risks")
     suspend fun getCascadeRisks(): Response<List<CascadeRiskDto>>
 
-    @GET("api/pillars/1/outlook")
-    suspend fun getPillar1Outlook(): Response<List<Pillar1OutlookDto>>
+    // --- Pillars (canonical IEA/APERC paths; legacy aliases /outlook etc. cũng work) ---
 
-    @GET("api/pillars/2/volatility")
-    suspend fun getPillar2Volatility(): Response<List<Pillar2VolatilityDto>>
+    @GET("api/pillars/1/supply-security")
+    suspend fun getPillar1(): Response<List<Pillar1SupplySecurityDto>>
 
-    @GET("api/pillars/3/shedding-plan")
-    suspend fun getPillar3Shedding(): Response<Pillar3SheddingDto>
+    @GET("api/pillars/2/market-resilience")
+    suspend fun getPillar2(): Response<List<Pillar2MarketResilienceDto>>
 
-    @GET("api/pillars/4/net-zero-progress")
-    suspend fun getPillar4NetZero(): Response<Pillar4NetZeroDto>
+    @GET("api/pillars/3/grid-reliability")
+    suspend fun getPillar3(): Response<List<Pillar3GridReliabilityDto>>
+
+    @GET("api/pillars/4/energy-transition")
+    suspend fun getPillar4(): Response<List<Pillar4EnergyTransitionDto>>
 
     @GET("api/alerts/active")
-    suspend fun getActiveAlerts(): Response<List<AlertDto>>
+    suspend fun getActiveAlerts(@Query("limit") limit: Int = 20): Response<List<AlertDto>>
 
     @GET("api/recommendations")
-    suspend fun getRecommendations(
-        @Query("status") status: String = "PENDING"
-    ): Response<List<RecommendationDto>>
+    suspend fun getRecommendations(@Query("limit") limit: Int = 50): Response<List<RecommendationDto>>
 
     @POST("api/recommendations/{id}/acknowledge")
     suspend fun acknowledgeRecommendation(
         @Path("id") id: Long,
-        @Body req: AckRequest
-    ): Response<RecommendationDto>
+        @Body req: AckRequest                    // {status: ACKNOWLEDGED|DISMISSED, note?}
+    ): Response<Map<String, Any>>                 // {id, newStatus, acknowledgedBy}
 
-    @GET("api/raw/fuel-prices/latest")
-    suspend fun getLatestFuelPrices(@Query("limit") limit: Int = 50): Response<List<FuelPriceDto>>
+    @GET("api/fuel-prices/latest")
+    suspend fun getLatestFuelPrices(
+        @Query("fuel_type") fuelType: String? = null,
+        @Query("limit") limit: Int = 20
+    ): Response<List<FuelPriceDto>>
 
-    @GET("api/raw/grid-load/latest")
-    suspend fun getLatestGridLoad(@Query("region") region: String? = null): Response<List<GridLoadLatestDto>>
+    @GET("api/grid-load/latest")
+    suspend fun getLatestGridLoad(): Response<List<GridLoadLatestDto>>
 
     @GET("api/health")
     suspend fun health(): Response<HealthDto>
@@ -431,15 +444,15 @@ sealed class Result<out T> {
 ```kotlin
 class PillarRepository(private val api: ApiService) {
 
-    suspend fun getPillar1Outlook(): Result<List<Pillar1OutlookDto>> = try {
-        val resp = api.getPillar1Outlook()
+    suspend fun getPillar1(): Result<List<Pillar1SupplySecurityDto>> = try {
+        val resp = api.getPillar1()
         if (resp.isSuccessful && resp.body() != null) {
             Result.Success(resp.body()!!)
         } else {
             Result.Error("HTTP ${resp.code()}: ${resp.message()}", resp.code())
         }
     } catch (e: Exception) {
-        Timber.e(e, "getPillar1Outlook failed")
+        Timber.e(e, "getPillar1 failed")
         Result.Error("Network error: ${e.message}")
     }
 
@@ -452,13 +465,13 @@ class PillarRepository(private val api: ApiService) {
 ```kotlin
 class Pillar1ViewModel(private val repo: PillarRepository) : ViewModel() {
 
-    private val _state = MutableLiveData<Result<List<Pillar1OutlookDto>>>(Result.Loading)
-    val state: LiveData<Result<List<Pillar1OutlookDto>>> = _state
+    private val _state = MutableLiveData<Result<List<Pillar1SupplySecurityDto>>>(Result.Loading)
+    val state: LiveData<Result<List<Pillar1SupplySecurityDto>>> = _state
 
     fun load() {
         _state.value = Result.Loading
         viewModelScope.launch {
-            _state.value = repo.getPillar1Outlook()
+            _state.value = repo.getPillar1()
         }
     }
 }
@@ -499,8 +512,8 @@ class Pillar1Fragment : Fragment(R.layout.fragment_pillar1) {
         vm.load()
     }
 
-    private fun renderData(data: List<Pillar1OutlookDto>) {
-        // Render table + chart MPAndroidChart
+    private fun renderData(data: List<Pillar1SupplySecurityDto>) {
+        // Render table (regionCode + fuelType) + bar chart (sfri vs target=90)
     }
 
     override fun onDestroyView() {

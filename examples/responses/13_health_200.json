@@ -1,5 +1,6 @@
 {
-  "status": "UP",
+  "service": "ves-backend-api",
+  "timestamp": "2026-05-13T10:30:00Z",
   "db": "UP",
-  "timestamp": "2026-05-12T10:30:00Z"
+  "status": "UP"
 }

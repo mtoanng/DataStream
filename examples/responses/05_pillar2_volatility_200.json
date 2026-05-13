@@ -1,42 +1,42 @@
 [
   {
     "fuelType": "BRENT_CRUDE",
-    "latestPrice": 87.5,
-    "priceUnit": "USD/barrel",
-    "priceChangePct": 12.3,
-    "volatilityIndex": 18.7,
-    "trend": "INCREASING",
-    "signal": "ELEVATED",
-    "windowHours": 24
+    "sigma30d": 4.2156,
+    "priceGapPct": 0.00,
+    "betaCrude": 1.000,
+    "affordabilityIdx": 12.50,
+    "pillar2Score": 48.27,
+    "status": "STRESSED",
+    "computedAt": "2026-05-13T10:30:00Z"
   },
   {
     "fuelType": "WTI_CRUDE",
-    "latestPrice": 84.2,
-    "priceUnit": "USD/barrel",
-    "priceChangePct": 10.5,
-    "volatilityIndex": 15.4,
-    "trend": "INCREASING",
-    "signal": "ELEVATED",
-    "windowHours": 24
+    "sigma30d": 3.8540,
+    "priceGapPct": -3.77,
+    "betaCrude": 0.985,
+    "affordabilityIdx": 15.80,
+    "pillar2Score": 52.91,
+    "status": "STRESSED",
+    "computedAt": "2026-05-13T10:30:00Z"
   },
   {
     "fuelType": "GASOLINE",
-    "latestPrice": 3.21,
-    "priceUnit": "USD/gallon",
-    "priceChangePct": 5.2,
-    "volatilityIndex": 8.9,
-    "trend": "INCREASING",
-    "signal": "STABLE",
-    "windowHours": 24
+    "sigma30d": 0.1842,
+    "priceGapPct": -96.32,
+    "betaCrude": 0.043,
+    "affordabilityIdx": 99.68,
+    "pillar2Score": 67.45,
+    "status": "ELEVATED",
+    "computedAt": "2026-05-13T10:30:00Z"
   },
   {
     "fuelType": "DIESEL",
-    "latestPrice": 3.85,
-    "priceUnit": "USD/gallon",
-    "priceChangePct": 1.1,
-    "volatilityIndex": 4.2,
-    "trend": "STABLE",
-    "signal": "STABLE",
-    "windowHours": 24
+    "sigma30d": 0.0925,
+    "priceGapPct": -95.59,
+    "betaCrude": 0.038,
+    "affordabilityIdx": 99.62,
+    "pillar2Score": 69.83,
+    "status": "ELEVATED",
+    "computedAt": "2026-05-13T10:30:00Z"
   }
 ]

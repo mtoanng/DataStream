@@ -1,56 +1,62 @@
 [
   {
-    "id": 5001,
     "regionCode": "VN_HANOI",
-    "loadMw": 10620,
-    "capacityMw": 12000,
-    "loadPct": 88.5,
-    "isPeakHour": true,
-    "eventTime": "2026-05-12T10:30:00Z"
+    "regionName": "Hà Nội",
+    "loadMw": 10620.00,
+    "capacityMw": 12000.00,
+    "loadPct": 88.50,
+    "peakHour": true,
+    "status": "ELEVATED",
+    "eventTime": "2026-05-13T10:30:00Z"
   },
   {
-    "id": 5002,
     "regionCode": "VN_HCM",
-    "loadMw": 14736,
-    "capacityMw": 16000,
-    "loadPct": 92.1,
-    "isPeakHour": true,
-    "eventTime": "2026-05-12T10:30:00Z"
+    "regionName": "Hồ Chí Minh",
+    "loadMw": 14736.00,
+    "capacityMw": 16000.00,
+    "loadPct": 92.10,
+    "peakHour": true,
+    "status": "CRITICAL",
+    "eventTime": "2026-05-13T10:30:00Z"
   },
   {
-    "id": 5003,
     "regionCode": "VN_HAIPHONG",
-    "loadMw": 5761,
-    "capacityMw": 7000,
-    "loadPct": 82.3,
-    "isPeakHour": true,
-    "eventTime": "2026-05-12T10:30:00Z"
+    "regionName": "Hải Phòng",
+    "loadMw": 5761.00,
+    "capacityMw": 7000.00,
+    "loadPct": 82.30,
+    "peakHour": true,
+    "status": "ELEVATED",
+    "eventTime": "2026-05-13T10:30:00Z"
   },
   {
-    "id": 5004,
     "regionCode": "VN_DANANG",
-    "loadMw": 2616,
-    "capacityMw": 4000,
-    "loadPct": 65.4,
-    "isPeakHour": false,
-    "eventTime": "2026-05-12T10:30:00Z"
+    "regionName": "Đà Nẵng",
+    "loadMw": 2616.00,
+    "capacityMw": 4000.00,
+    "loadPct": 65.40,
+    "peakHour": false,
+    "status": "NORMAL",
+    "eventTime": "2026-05-13T10:30:00Z"
   },
   {
-    "id": 5005,
     "regionCode": "VN_CANTHO",
-    "loadMw": 1767,
-    "capacityMw": 3000,
-    "loadPct": 58.9,
-    "isPeakHour": false,
-    "eventTime": "2026-05-12T10:30:00Z"
+    "regionName": "Cần Thơ",
+    "loadMw": 1767.00,
+    "capacityMw": 3000.00,
+    "loadPct": 58.90,
+    "peakHour": false,
+    "status": "NORMAL",
+    "eventTime": "2026-05-13T10:30:00Z"
   },
   {
-    "id": 5006,
     "regionCode": "VN_NINHTHUAN",
-    "loadMw": 970,
-    "capacityMw": 2000,
-    "loadPct": 48.5,
-    "isPeakHour": false,
-    "eventTime": "2026-05-12T10:30:00Z"
+    "regionName": "Ninh Thuận",
+    "loadMw": 970.00,
+    "capacityMw": 2000.00,
+    "loadPct": 48.50,
+    "peakHour": false,
+    "status": "NORMAL",
+    "eventTime": "2026-05-13T10:30:00Z"
   }
 ]
