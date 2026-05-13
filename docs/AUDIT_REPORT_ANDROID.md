@@ -254,13 +254,15 @@ Per the audit policy:
 
 ---
 
-## Commit log (filled in after `git push`)
+## Commit log
 
 | Commit | Subject |
 |---|---|
-| `tbd-1` | `chore: restore gradle-wrapper.jar v8.5 for first-sync bootstrap` |
-| `tbd-2` | `chore: Android manifest + NSC hardening for first-build success` |
-| `tbd-3` | `chore: gradle.properties proxy template + proguard rules expansion` |
-| `tbd-4` | `docs: add TROUBLESHOOTING + SETUP_CHECKLIST + AUDIT_REPORT_ANDROID` |
+| `026e628` | `chore: restore gradle-wrapper.jar v8.5 for first-sync bootstrap` |
+| `eb3afb6` | `chore(android): manifest + NSC hardening for first-build success` |
+| `9ec186e` | `chore(android): expand ProGuard rules + add proxy template to gradle.properties` |
+| `ed38940` | `docs(android): add TROUBLESHOOTING + SETUP_CHECKLIST + AUDIT_REPORT_ANDROID` |
 
-Final HEAD on `origin/main`: `tbd-final`.
+Parent commit (before audit): `af6a103` — `test+docs: unit tests + README Android Studio quickstart`.
+
+Final HEAD pushed to `origin/main`: `ed38940` (or the squashed/amended hash if a follow-up patch updates this very report).
