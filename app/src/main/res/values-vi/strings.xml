@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">VES-Monitor</string>
+
+    <string name="login_title">Đăng nhập</string>
+    <string name="login_subtitle">Giám sát An ninh Năng lượng Việt Nam thời gian thực</string>
+    <string name="login_username">Tên đăng nhập</string>
+    <string name="login_password">Mật khẩu</string>
+    <string name="login_button">Đăng nhập</string>
+    <string name="login_help">Tài khoản mẫu: admin / admin</string>
+    <string name="login_configure_server">Cấu hình URL máy chủ…</string>
+
+    <string name="dialog_server_title">URL máy chủ</string>
+    <string name="dialog_server_message">Dùng http://10.0.2.2:8090 cho emulator, hoặc http://&lt;ip-laptop&gt;:8090 cho thiết bị thật.</string>
+    <string name="toast_server_saved">Đã lưu: %1$s</string>
+    <string name="action_save">Lưu</string>
+    <string name="action_cancel">Huỷ</string>
+    <string name="action_acknowledge">Xác nhận</string>
+    <string name="action_test_connection">Kiểm tra kết nối</string>
+    <string name="action_logout">Đăng xuất</string>
+
+    <string name="nav_home">Trang chủ</string>
+    <string name="nav_pillars">Trụ cột</string>
+    <string name="nav_alerts">Cảnh báo</string>
+    <string name="nav_recommendations">Khuyến nghị</string>
+    <string name="nav_settings">Cài đặt</string>
+
+    <string name="pillar_1">Trụ 1 — An ninh nguồn cung</string>
+    <string name="pillar_2">Trụ 2 — Sức bền thị trường</string>
+    <string name="pillar_3">Trụ 3 — Độ tin cậy lưới</string>
+    <string name="pillar_4">Trụ 4 — Chuyển đổi năng lượng</string>
+
+    <string name="pillar_1_short">Cung</string>
+    <string name="pillar_2_short">Thị trường</string>
+    <string name="pillar_3_short">Lưới</string>
+    <string name="pillar_4_short">Chuyển đổi</string>
+
+    <string name="status_secure">An toàn</string>
+    <string name="status_elevated">Tăng cao</string>
+    <string name="status_stressed">Căng thẳng</string>
+    <string name="status_critical">Khủng hoảng</string>
+    <string name="status_normal">Bình thường</string>
+    <string name="status_unknown">Chưa xác định</string>
+    <string name="severity_info">Thông tin</string>
+    <string name="severity_warning">Cảnh báo</string>
+
+    <string name="home_overall_score">Chỉ số An ninh Năng lượng</string>
+    <string name="label_updated_at">Cập nhật %1$s</string>
+    <string name="alerts_title">Cảnh báo đang hoạt động</string>
+    <string name="alerts_empty">Không có cảnh báo nào.</string>
+    <string name="recommendations_title">Khuyến nghị hành động</string>
+    <string name="recommendations_empty">Chưa có khuyến nghị mới.</string>
+    <string name="dialog_ack_title">Xác nhận #%1$d</string>
+    <string name="dialog_ack_note_hint">Ghi chú (lưu ở server)</string>
+
+    <string name="settings_section_server">Máy chủ</string>
+    <string name="settings_section_user">Người dùng</string>
+    <string name="settings_section_about">Thông tin</string>
+    <string name="label_base_url">URL gốc</string>
+    <string name="label_username">Tên</string>
+    <string name="label_full_name">Họ tên</string>
+    <string name="label_email">Email</string>
+    <string name="label_role">Vai trò</string>
+    <string name="label_app_version">Phiên bản ứng dụng: %1$s</string>
+    <string name="label_backend_version">Backend: %1$s</string>
+    <string name="label_github">Mã nguồn trên GitHub →</string>
+</resources>

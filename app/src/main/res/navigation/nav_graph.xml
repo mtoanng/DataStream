@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.mtoanng.datastream.ui.home.HomeFragment"
+        android:label="@string/nav_home"
+        tools:layout="@layout/fragment_home"
+        xmlns:tools="http://schemas.android.com/tools"/>
+
+    <fragment
+        android:id="@+id/pillarsFragment"
+        android:name="com.mtoanng.datastream.ui.pillars.PillarsFragment"
+        android:label="@string/nav_pillars"
+        tools:layout="@layout/fragment_pillars"
+        xmlns:tools="http://schemas.android.com/tools">
+        <argument
+            android:name="pillarTabIndex"
+            app:argType="integer"
+            android:defaultValue="0"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/alertsFragment"
+        android:name="com.mtoanng.datastream.ui.alerts.AlertsFragment"
+        android:label="@string/nav_alerts"
+        tools:layout="@layout/fragment_alerts"
+        xmlns:tools="http://schemas.android.com/tools"/>
+
+    <fragment
+        android:id="@+id/recommendationsFragment"
+        android:name="com.mtoanng.datastream.ui.recommendations.RecommendationsFragment"
+        android:label="@string/nav_recommendations"
+        tools:layout="@layout/fragment_recommendations"
+        xmlns:tools="http://schemas.android.com/tools"/>
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.mtoanng.datastream.ui.settings.SettingsFragment"
+        android:label="@string/nav_settings"
+        tools:layout="@layout/fragment_settings"
+        xmlns:tools="http://schemas.android.com/tools"/>
+</navigation>

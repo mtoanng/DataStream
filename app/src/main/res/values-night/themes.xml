@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.VESMonitor" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">#82B1FF</item>
+        <item name="colorOnPrimary">#0D2752</item>
+        <item name="colorPrimaryContainer">#0D47A1</item>
+        <item name="colorOnPrimaryContainer">#E3F2FD</item>
+
+        <item name="colorSecondary">#80CBC4</item>
+        <item name="colorOnSecondary">#003731</item>
+        <item name="colorSecondaryContainer">#00695C</item>
+        <item name="colorOnSecondaryContainer">#A7FFEB</item>
+
+        <item name="android:colorBackground">@color/background_dark</item>
+        <item name="colorSurface">@color/surface_dark</item>
+        <item name="colorSurfaceVariant">@color/surface_variant_dark</item>
+        <item name="colorOnSurface">@color/text_primary_dark</item>
+        <item name="colorOnSurfaceVariant">@color/text_secondary_dark</item>
+
+        <item name="android:statusBarColor">@color/background_dark</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="Theme.VESMonitor.Login" parent="Theme.VESMonitor">
+        <item name="android:windowBackground">@color/background_dark</item>
+    </style>
+
+</resources>

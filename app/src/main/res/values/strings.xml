@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">VES-Monitor</string>
+
+    <!-- Login -->
+    <string name="login_title">Sign In</string>
+    <string name="login_subtitle">Vietnam Energy Security Real-time Monitor</string>
+    <string name="login_username">Username</string>
+    <string name="login_password">Password</string>
+    <string name="login_button">Sign In</string>
+    <string name="login_help">Default seed: admin / admin</string>
+    <string name="login_configure_server">Configure server URL…</string>
+
+    <!-- Server dialog -->
+    <string name="dialog_server_title">Server URL</string>
+    <string name="dialog_server_message">Use http://10.0.2.2:8090 for the emulator, or http://&lt;laptop-ip&gt;:8090 for a real device.</string>
+    <string name="toast_server_saved">Server saved: %1$s</string>
+    <string name="action_save">Save</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_acknowledge">Acknowledge</string>
+    <string name="action_test_connection">Test connection</string>
+    <string name="action_logout">Logout</string>
+
+    <!-- Bottom navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_pillars">Pillars</string>
+    <string name="nav_alerts">Alerts</string>
+    <string name="nav_recommendations">Actions</string>
+    <string name="nav_settings">Settings</string>
+
+    <!-- Pillar names -->
+    <string name="pillar_1">Pillar 1 — Supply Security</string>
+    <string name="pillar_2">Pillar 2 — Market Resilience</string>
+    <string name="pillar_3">Pillar 3 — Grid Reliability</string>
+    <string name="pillar_4">Pillar 4 — Energy Transition</string>
+
+    <string name="pillar_1_short">Supply</string>
+    <string name="pillar_2_short">Market</string>
+    <string name="pillar_3_short">Grid</string>
+    <string name="pillar_4_short">Transition</string>
+
+    <!-- Pillar 1 sub-indicators -->
+    <string name="metric_idr">Import Dependency Ratio</string>
+    <string name="metric_sfri">Strategic Reserve (days)</string>
+    <string name="metric_hhi">Supply HHI</string>
+    <string name="metric_n1">N-1 Resilience (days)</string>
+
+    <!-- Pillar 2 -->
+    <string name="metric_sigma30d">σ 30d</string>
+    <string name="metric_price_gap">Price gap vs. benchmark</string>
+    <string name="metric_beta">β crude</string>
+    <string name="metric_affordability">Affordability index</string>
+
+    <!-- Pillar 3 -->
+    <string name="metric_reserve_margin">Reserve margin</string>
+    <string name="metric_peak_load">Peak load factor</string>
+    <string name="metric_shedding">Shedding probability</string>
+    <string name="metric_freq">Frequency stability</string>
+
+    <!-- Pillar 4 -->
+    <string name="metric_renewable">Renewable share</string>
+    <string name="metric_co2">CO₂ intensity</string>
+    <string name="metric_curtailment">Curtailment</string>
+    <string name="metric_netzero">Net-zero progress</string>
+
+    <!-- Status / severity -->
+    <string name="status_secure">SECURE</string>
+    <string name="status_elevated">ELEVATED</string>
+    <string name="status_stressed">STRESSED</string>
+    <string name="status_critical">CRITICAL</string>
+    <string name="status_normal">NORMAL</string>
+    <string name="status_unknown">UNKNOWN</string>
+    <string name="severity_info">INFO</string>
+    <string name="severity_warning">WARNING</string>
+
+    <!-- Home -->
+    <string name="home_overall_score">Energy Security Index</string>
+    <string name="label_updated_at">Updated %1$s</string>
+    <string name="label_pillar_n">P%1$d</string>
+    <string name="unit_days">%1$s d</string>
+    <string name="unit_kg_per_mwh">%1$s kg/MWh</string>
+
+    <!-- Alerts -->
+    <string name="alerts_title">Active Alerts</string>
+    <string name="filter_all">All</string>
+    <string name="filter_critical">Critical</string>
+    <string name="filter_warning">Warning</string>
+    <string name="filter_info">Info</string>
+    <string name="alert_value_template">%1$s %2$s %3$s</string>
+    <string name="alerts_empty">No active alerts.</string>
+    <string name="alert_details_title">Alert details</string>
+
+    <!-- Recommendations -->
+    <string name="recommendations_title">Recommendations</string>
+    <string name="recommendations_empty">No pending recommendations.</string>
+    <string name="dialog_ack_title">Acknowledge #%1$d</string>
+    <string name="dialog_ack_note_hint">Optional note (server-side only)</string>
+
+    <!-- Settings -->
+    <string name="settings_section_server">Server</string>
+    <string name="settings_section_user">User</string>
+    <string name="settings_section_about">About</string>
+    <string name="label_base_url">Base URL</string>
+    <string name="label_username">Username</string>
+    <string name="label_full_name">Name</string>
+    <string name="label_email">Email</string>
+    <string name="label_role">Role</string>
+    <string name="label_app_version">App version: %1$s</string>
+    <string name="label_backend_version">Backend: %1$s</string>
+    <string name="label_github">View source on GitHub →</string>
+    <string name="label_progress">Loading…</string>
+
+    <!-- Detail rows -->
+    <string name="row_metric">Metric</string>
+    <string name="row_operator">Operator</string>
+    <string name="row_threshold">Threshold</string>
+    <string name="row_triggered">Triggered</string>
+    <string name="row_region">Region</string>
+    <string name="row_fuel">Fuel</string>
+    <string name="row_location">Location</string>
+    <string name="row_event_time">Event time</string>
+    <string name="row_alert_time">Alert time</string>
+    <string name="row_age">Age</string>
+</resources>

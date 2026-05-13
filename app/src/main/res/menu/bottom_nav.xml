@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/homeFragment"
+        android:icon="@drawable/ic_home"
+        android:title="@string/nav_home"/>
+    <item android:id="@+id/pillarsFragment"
+        android:icon="@drawable/ic_pillars"
+        android:title="@string/nav_pillars"/>
+    <item android:id="@+id/alertsFragment"
+        android:icon="@drawable/ic_alert"
+        android:title="@string/nav_alerts"/>
+    <item android:id="@+id/recommendationsFragment"
+        android:icon="@drawable/ic_recommendations"
+        android:title="@string/nav_recommendations"/>
+    <item android:id="@+id/settingsFragment"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/nav_settings"/>
+</menu>
