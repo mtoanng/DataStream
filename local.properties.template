@@ -1,0 +1,5 @@
+# Copy this file to `local.properties` (which is git-ignored) and edit if needed.
+# Android Studio populates `sdk.dir` automatically on first sync — usually you
+# don't need to change anything here.
+#
+# sdk.dir=C\:\\Users\\<you>\\AppData\\Local\\Android\\Sdk
