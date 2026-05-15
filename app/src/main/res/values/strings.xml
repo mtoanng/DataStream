@@ -68,6 +68,7 @@
     <string name="status_elevated">ELEVATED</string>
     <string name="status_stressed">STRESSED</string>
     <string name="status_critical">CRITICAL</string>
+    <string name="status_high">HIGH</string>
     <string name="status_normal">NORMAL</string>
     <string name="status_unknown">UNKNOWN</string>
     <string name="severity_info">INFO</string>

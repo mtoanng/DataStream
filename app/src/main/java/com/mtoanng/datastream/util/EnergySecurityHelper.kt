@@ -20,7 +20,9 @@ object EnergySecurityHelper {
     fun statusColor(context: Context, status: String?): Int {
         val resId = when (status?.uppercase()) {
             "SECURE", "NORMAL", "UP" -> R.color.status_secure
-            "ELEVATED"               -> R.color.status_elevated
+            // `HIGH` is emitted by `v_pillar3_grid_load_latest` for high-but-not-yet-warning
+            // load — semantically equivalent to ELEVATED.
+            "ELEVATED", "HIGH"       -> R.color.status_elevated
             "STRESSED", "WARNING"    -> R.color.status_stressed
             "CRITICAL", "DEGRADED"   -> R.color.status_critical
             "INFO"                   -> R.color.status_info
@@ -37,6 +39,7 @@ object EnergySecurityHelper {
         "ELEVATED"  -> R.string.status_elevated
         "STRESSED"  -> R.string.status_stressed
         "CRITICAL"  -> R.string.status_critical
+        "HIGH"      -> R.string.status_high
         "INFO"      -> R.string.severity_info
         "WARNING"   -> R.string.severity_warning
         "NORMAL"    -> R.string.status_normal

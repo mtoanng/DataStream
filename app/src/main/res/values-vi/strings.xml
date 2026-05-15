@@ -35,10 +35,35 @@
     <string name="pillar_3_short">Lưới</string>
     <string name="pillar_4_short">Chuyển đổi</string>
 
+    <!-- Trụ 1 — chỉ số phụ -->
+    <string name="metric_idr">Tỷ lệ phụ thuộc nhập khẩu</string>
+    <string name="metric_sfri">Dự trữ chiến lược (ngày)</string>
+    <string name="metric_hhi">HHI nguồn cung</string>
+    <string name="metric_n1">Khả năng N-1 (ngày)</string>
+
+    <!-- Trụ 2 -->
+    <string name="metric_sigma30d">σ 30 ngày</string>
+    <string name="metric_price_gap">Chênh giá so với chuẩn</string>
+    <string name="metric_beta">β dầu thô</string>
+    <string name="metric_affordability">Chỉ số khả năng chi trả</string>
+
+    <!-- Trụ 3 -->
+    <string name="metric_reserve_margin">Biên dự phòng</string>
+    <string name="metric_peak_load">Hệ số phụ tải đỉnh</string>
+    <string name="metric_shedding">Xác suất sa thải tải</string>
+    <string name="metric_freq">Độ ổn định tần số</string>
+
+    <!-- Trụ 4 -->
+    <string name="metric_renewable">Tỷ trọng tái tạo</string>
+    <string name="metric_co2">Cường độ CO₂</string>
+    <string name="metric_curtailment">Tỷ lệ cắt giảm</string>
+    <string name="metric_netzero">Tiến độ Net-zero</string>
+
     <string name="status_secure">An toàn</string>
     <string name="status_elevated">Tăng cao</string>
     <string name="status_stressed">Căng thẳng</string>
     <string name="status_critical">Khủng hoảng</string>
+    <string name="status_high">Cao</string>
     <string name="status_normal">Bình thường</string>
     <string name="status_unknown">Chưa xác định</string>
     <string name="severity_info">Thông tin</string>
@@ -46,8 +71,19 @@
 
     <string name="home_overall_score">Chỉ số An ninh Năng lượng</string>
     <string name="label_updated_at">Cập nhật %1$s</string>
+    <string name="label_pillar_n">T%1$d</string>
+    <string name="unit_days">%1$s ngày</string>
+    <string name="unit_kg_per_mwh">%1$s kg/MWh</string>
+
     <string name="alerts_title">Cảnh báo đang hoạt động</string>
+    <string name="filter_all">Tất cả</string>
+    <string name="filter_critical">Nghiêm trọng</string>
+    <string name="filter_warning">Cảnh báo</string>
+    <string name="filter_info">Thông tin</string>
+    <string name="alert_value_template">%1$s %2$s %3$s</string>
     <string name="alerts_empty">Không có cảnh báo nào.</string>
+    <string name="alert_details_title">Chi tiết cảnh báo</string>
+
     <string name="recommendations_title">Khuyến nghị hành động</string>
     <string name="recommendations_empty">Chưa có khuyến nghị mới.</string>
     <string name="dialog_ack_title">Xác nhận #%1$d</string>
@@ -61,7 +97,20 @@
     <string name="label_full_name">Họ tên</string>
     <string name="label_email">Email</string>
     <string name="label_role">Vai trò</string>
-    <string name="label_app_version">Phiên bản ứng dụng: %1$s</string>
+    <string name="label_app_version">Phiên bản app: %1$s</string>
     <string name="label_backend_version">Backend: %1$s</string>
     <string name="label_github">Mã nguồn trên GitHub →</string>
+    <string name="label_progress">Đang tải…</string>
+
+    <!-- Hàng chi tiết -->
+    <string name="row_metric">Chỉ số</string>
+    <string name="row_operator">Toán tử</string>
+    <string name="row_threshold">Ngưỡng</string>
+    <string name="row_triggered">Giá trị kích hoạt</string>
+    <string name="row_region">Vùng</string>
+    <string name="row_fuel">Nhiên liệu</string>
+    <string name="row_location">Vị trí</string>
+    <string name="row_event_time">Thời gian sự kiện</string>
+    <string name="row_alert_time">Thời gian cảnh báo</string>
+    <string name="row_age">Tuổi</string>
 </resources>

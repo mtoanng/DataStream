@@ -76,7 +76,6 @@ okhttp                     = { module = "com.squareup.okhttp3:okhttp", version.r
 okhttp-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
 moshi                      = { module = "com.squareup.moshi:moshi", version.ref = "moshi" }
 moshi-kotlin               = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi" }
-moshi-adapters             = { module = "com.squareup.moshi:moshi-adapters", version.ref = "moshi" }
 
 # Logging
 timber                     = { module = "com.jakewharton.timber:timber", version.ref = "timber" }

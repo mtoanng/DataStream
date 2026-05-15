@@ -97,7 +97,6 @@ dependencies {
     implementation(libs.okhttp.logging.interceptor)
     implementation(libs.moshi)
     implementation(libs.moshi.kotlin)
-    implementation(libs.moshi.adapters)
 
     // ---- Logging ----
     implementation(libs.timber)
