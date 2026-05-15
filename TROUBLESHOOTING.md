@@ -255,6 +255,12 @@ loopback", not your phone's loopback).
   `http://192.168.1.42:8090`). Phone and laptop must be on the same
   Wi-Fi. Also add that IP to `network_security_config.xml` — see §11.
 
+> 💡 **Note**: changing the base URL takes effect **instantly** — no app
+> restart required. Since the 16 May 2026 sweep-fix pass, `NetworkModule`
+> hands out a delegating proxy that re-resolves the underlying Retrofit
+> instance on every call, so existing repository references keep working
+> against the new URL the moment you tap **Save**.
+
 ---
 
 ## 10. Login fails with 401 even though credentials look right

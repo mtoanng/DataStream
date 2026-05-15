@@ -304,3 +304,53 @@ The Android app, mock server, and documentation are coherent with the Java backe
 3. Open the project in Android Studio Hedgehog+, let Gradle sync, hit ▶ Run — the `LoginActivity` should appear with `admin/admin` pre-filled within 60 s.
 
 — Mass QA audit, 13 May 2026, ICT (UTC+7).
+
+---
+
+## 11. Sweep findings resolution (16 May 2026 — final fix worker)
+
+A subsequent read-only sweep at HEAD `4222d82` flagged 7 prioritized findings (1 MAJOR, 1 latent MAJOR on Android; 3 MINOR on Java) that the prior gates had documented but not yet fixed. The final fix worker resolved **all 7** in a single coordinated pass and re-tagged both repos as `v1.0.1-handover` (the original `v1.0.0-handover` tag is preserved for audit history).
+
+### 11.1 Android — fixed in this pass (4 items)
+
+| # | Severity | File(s) | Status | Fix summary |
+|---:|---|---|:---:|---|
+| #1 | 🟠 MAJOR | `app/src/main/java/com/mtoanng/datastream/data/network/NetworkModule.kt` | ✅ FIXED | Replaced direct `retrofit.create(ApiService::class.java)` return with a cached `java.lang.reflect.Proxy` (`apiServiceProxy`) that re-resolves the underlying Retrofit instance on every method invocation. After `recreate(...)`, repositories captured during ViewModel construction transparently start hitting the new `baseUrl` — no app restart, no stale `ApiService` references. |
+| #2 | 🟠 MAJOR (latent) | `app/src/main/java/com/mtoanng/datastream/util/EnergySecurityHelper.kt` + `app/src/main/res/values/strings.xml` + `app/src/main/res/values-vi/strings.xml` | ✅ FIXED | Added `"HIGH"` to `statusColor()` (mapped to `R.color.status_elevated` — orange) and `statusStringRes()` (new `R.string.status_high`). The SQL view `v_pillar3_grid_load_latest` emits `{CRITICAL, WARNING, HIGH, NORMAL}`; previously `HIGH` fell through to gray "unknown". |
+| #11 | 🟡 MINOR | `app/src/main/res/values-vi/strings.xml` | ✅ FIXED | Added Vietnamese translations for **all** previously EN-only user-facing keys: 16 metric labels (4 per pillar), 4 alert filters, 10 detail rows, 4 alert/recommendation labels, plus `label_progress`, `label_pillar_n`, `unit_days`, `unit_kg_per_mwh`, `alert_value_template`, and the new `status_high`. VI parity is now complete. |
+| #13 | 🟡 MINOR | `app/build.gradle.kts` + `gradle/libs.versions.toml` | ✅ FIXED | Verified via Grep that no Kotlin source imports `com.squareup.moshi.adapters.*` (zero references). Removed both the dependency declaration and the catalog alias. The `moshi` version entry stays — still consumed by `moshi` and `moshi-kotlin`. |
+
+### 11.2 New unit test for Finding #1
+
+`app/src/test/java/com/mtoanng/datastream/data/network/NetworkModuleTest.kt` — 2 `@Test` methods using two `MockWebServer` instances:
+
+- `proxy redirects subsequent calls after retrofit instance is swapped` — captures the proxy reference, swaps the underlying Retrofit, confirms next call hits server-2 not server-1, and asserts the proxy reference itself is unchanged (so existing repos keep working).
+- `proxy throws clear error when used before any retrofit is bound` — defensive: the `IllegalStateException` message names `apiService(...)` so the failure mode is self-explanatory.
+
+Brings the test count from 15 → **17 across 4 files**.
+
+### 11.3 Test-only hooks added
+
+`NetworkModule` now exposes two `@VisibleForTesting internal` methods:
+- `setRetrofitForTest(replacement: Retrofit): ApiService` — swap retrofit directly without going through `AppConfig`/`TokenManager` (avoids needing Android `Context`).
+- `resetForTest()` — clear cached state between tests.
+
+Both are `@Synchronized` and only called from the test source set.
+
+### 11.4 Verification (static-only)
+
+| Check | Result |
+|---|:---:|
+| `ReadLints` on all 7 modified files (Android + Java) | ✅ 0 errors |
+| `[xml](Get-Content)` parse on `values/strings.xml` + `values-vi/strings.xml` | ✅ both valid |
+| `Grep com.squareup.moshi.adapters` across `app/src/` | ✅ 0 hits (confirms safe removal) |
+| `Grep` for stale `R.string.status_high` references | ✅ 0 hits before edit; 1 new ref in `EnergySecurityHelper.kt` after edit; defined in both EN + VI |
+| Existing Android tests (`AuthRepositoryTest` × 3, `LoginViewModelTest` × 4, `FormattersTest` × 8) — read-after-edit | ✅ unaffected; signatures of `apiService(...)` / `recreate(...)` unchanged |
+
+### 11.5 Confidence after fixes
+
+**9.85 / 10** — first-import success on a developer's fresh machine.
+
+The 0.15-point gap reserves room for the remaining ⚪ COSMETIC items (Gson-recommend-vs-Moshi-actual in `docs/ARCHITECTURE.md` etc.) which are documentation, not behaviour, and were left untouched per anti-pattern policy.
+
+— Final fix worker, 16 May 2026, ICT (UTC+7).

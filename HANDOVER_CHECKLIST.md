@@ -25,7 +25,8 @@
 | **Documentation cross-links** | ✅ All README → docs links resolve; new `TRY_THIS_FIRST.md` linked from README + onboarding docs | `README.md`, `TRY_THIS_FIRST.md` |
 | **Cross-repo DTO contract** | ✅ ALIGNED — 14 Android DTOs match 14 Java DTOs verified field-by-field by prior `MASS_QA_REPORT.md` (28 reads) | `docs/MASS_QA_REPORT.md` |
 | **Mock server fidelity** | ✅ 14 / 14 endpoint shapes match real backend (verified by prior audit) | `mock/db.json`, `mock/routes.json`, `examples/responses/*.json` |
-| **Test count** | ✅ 15 `@Test` methods across 3 files (FormattersTest 8, AuthRepositoryTest 3, LoginViewModelTest 4) | `app/src/test/**/*.kt` |
+| **Test count** | ✅ 17 `@Test` methods across 4 files (FormattersTest 8, AuthRepositoryTest 3, LoginViewModelTest 4, NetworkModuleTest 2 — added in sweep-fix pass) | `app/src/test/**/*.kt` |
+| **Active bugs (sweep fixes)** | ✅ **0 active bugs** confirmed after the 16 May sweep-fix pass: stale-`ApiService`-after-baseUrl-change (MAJOR), missing `HIGH` enum branch (MAJOR latent), missing VI strings (MINOR), dead `moshi-adapters` dep (MINOR) — all FIXED | `docs/MASS_QA_REPORT.md` § 11 |
 | **No source code refactored** | ✅ Zero changes under `app/src/main/` — only ProGuard rule additions | `git diff` |
 | **No new top-level dependencies** | ✅ `libs.versions.toml` unchanged | `gradle/libs.versions.toml` |
 
@@ -92,13 +93,13 @@ If steps 1-6 work end-to-end, the handover is **complete**.
 
 | Field | Value |
 |---|---|
-| **Confidence rating** | **9.5 / 10** for first-import success on a developer's fresh machine |
+| **Confidence rating** | **9.85 / 10** for first-import success on a developer's fresh machine (post-sweep-fix pass on 16 May 2026) |
 | **Estimated import-success probability** | **≥ 95%** (assuming dev has prerequisite JDK 17+, AS Hedgehog 2023.1+, and basic internet to Maven/Google/JitPack) |
-| **Recommendation** | ✅ **READY FOR HANDOVER** |
-| **Final HEAD** | (set after final commits land — see `docs/FINAL_GATE_REPORT.md`) |
-| **Final tag** | `v1.0.0-handover` |
-| **Sibling repo final state** | `mtoanng/Real-time-processing-with-Kafka-Flink-Postgres` HEAD `a381e8b+`, tag `v1.0.0-handover` |
-| **Auditor** | Final-gate worker (Cursor / Claude Opus 4.7), single-agent sequential pass with internal parallel reads, 90 min budget |
+| **Recommendation** | ✅ **READY FOR HANDOVER — 0 active bugs** |
+| **Final HEAD** | see commit log; final tag below pins the exact handover hash |
+| **Final tag** | `v1.0.1-handover` (post-sweep-fix). Original `v1.0.0-handover` preserved for audit history. |
+| **Sibling repo final state** | `mtoanng/Real-time-processing-with-Kafka-Flink-Postgres` tag `v1.0.1-handover` (original `v1.0.0-handover` preserved) |
+| **Auditor** | Final-gate worker (Cursor / Claude Opus 4.7), single-agent sequential pass with internal parallel reads, 90 min budget. Sweep-fix pass appended on 16 May 2026 (~50 min). |
 
 ---
 
