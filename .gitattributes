@@ -1,0 +1,71 @@
+# =============================================================
+#  DataStream — line-ending policy
+#  Goal: deterministic checkout on Windows + macOS + Linux,
+#  no spurious "modified" diffs from autocrlf,
+#  no broken `bash gradlew` from CRLF in shell scripts.
+# =============================================================
+
+# Default: detect text vs binary, normalise to LF in the repo,
+# checkout with the platform's native EOL only when explicitly told.
+* text=auto eol=lf
+
+# ---- Shell / Bash scripts MUST be LF (otherwise WSL fails with
+#      `set: pipefail\r: invalid option name`) -------------------
+*.sh    text eol=lf
+*.bash  text eol=lf
+gradlew text eol=lf
+
+# ---- Windows-only batch / PowerShell MUST be CRLF (cmd.exe is
+#      tolerant but some legacy hooks aren't) ---------------------
+*.bat   text eol=crlf
+*.cmd   text eol=crlf
+*.ps1   text eol=crlf
+
+# ---- Source / config text — checked-out as LF (the universal
+#      Android Studio + Gradle convention) -----------------------
+*.kt        text eol=lf
+*.kts       text eol=lf
+*.java      text eol=lf
+*.xml       text eol=lf
+*.json      text eol=lf
+*.md        text eol=lf
+*.toml      text eol=lf
+*.properties text eol=lf
+*.yml       text eol=lf
+*.yaml      text eol=lf
+*.gradle    text eol=lf
+*.pro       text eol=lf
+*.editorconfig text eol=lf
+.gitignore  text eol=lf
+.gitattributes text eol=lf
+
+# ---- Binary assets — never line-ending-mangle -------------------
+*.jar   binary
+*.aar   binary
+*.apk   binary
+*.aab   binary
+*.so    binary
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.webp  binary
+*.ico   binary
+*.pdf   binary
+*.ttf   binary
+*.otf   binary
+*.woff  binary
+*.woff2 binary
+*.zip   binary
+*.gz    binary
+*.tar   binary
+*.7z    binary
+*.keystore binary
+*.jks   binary
+
+# ---- Mark Excalidraw scenes as text-but-not-merge-friendly ----
+*.excalidraw text eol=lf -merge
+
+# ---- Mark gradle-wrapper.jar explicitly so no future contributor
+#      breaks the bytes ------------------------------------------
+gradle/wrapper/gradle-wrapper.jar binary
