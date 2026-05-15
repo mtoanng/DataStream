@@ -5,7 +5,11 @@
 >
 > 🆕 **Synced với Java backend `v1.0.0` + Phase 7.6/7.7** (commit `e64d447`, 13/05/2026). Pillar taxonomy đã refactor IEA/APERC. Backward-compat aliases giữ nguyên — code Android cũ KHÔNG break, nhưng shape DTO đã đổi. Đọc [`docs/API_CONTRACT.md`](docs/API_CONTRACT.md) để biết chi tiết.
 
-[![Status](https://img.shields.io/badge/status-App%20Source%20Ready-brightgreen)]() [![Platform](https://img.shields.io/badge/platform-Android%208.0%2B-green)]() [![Language](https://img.shields.io/badge/language-Kotlin-purple)]() [![Build](https://img.shields.io/badge/Gradle-8.5-blueviolet)]() [![AGP](https://img.shields.io/badge/AGP-8.2.0-orange)]()
+[![Status](https://img.shields.io/badge/status-Handover%20Ready-brightgreen)]() [![Platform](https://img.shields.io/badge/platform-Android%208.0%2B-green)]() [![Language](https://img.shields.io/badge/language-Kotlin%201.9.21-purple)]() [![Build](https://img.shields.io/badge/Gradle-8.5-blueviolet)]() [![AGP](https://img.shields.io/badge/AGP-8.2.0-orange)]() [![Tests](https://img.shields.io/badge/tests-15%2F15-success)]() [![License](https://img.shields.io/badge/license-Educational-blue)]()
+
+---
+
+> 🚦 **Lần đầu vào repo này?** → Mở [`TRY_THIS_FIRST.md`](TRY_THIS_FIRST.md) trước. Đó là **3-minute happy path** + bảng remediation cho 5 lỗi import phổ biến nhất + link đến mọi tài liệu khác. Nếu bạn chỉ có 5 phút, đọc file đó là đủ.
 
 ---
 
@@ -13,9 +17,11 @@
 
 > **App source code is ready.** Clone, open in Android Studio, hit Run.
 
-1. **Clone**
+1. **Clone & pre-flight check**
    ```powershell
    git clone https://github.com/mtoanng/DataStream.git
+   cd DataStream
+   .\scripts\verify-environment.ps1   # 10 checks; exits 0 when ready
    ```
 2. Open `DataStream/` in **Android Studio Hedgehog (2023.1)**, **Iguana (2023.2)**, or **Jellyfish (2024.1+)**.
 3. Wait for **Gradle sync** (~3–5 min first time, pulls ~150 MB of deps from Maven Central / Google Maven / JitPack).
@@ -94,16 +100,25 @@ app/
 
 ## 👋 Bắt đầu từ đâu?
 
-> 🆕 **Lần đầu vào repo này?** → Mở **[`docs/START_HERE.md`](docs/START_HERE.md)** trước hết. File đó là tour guide từ Day -1 đến PR cuối, có checklist + troubleshooting + skill self-assessment.
+> 🚦 **Bước 0**: chạy [`./scripts/verify-environment.ps1`](scripts/verify-environment.ps1) (Windows) hoặc [`bash scripts/verify-environment.sh`](scripts/verify-environment.sh) (mac/Linux/WSL) → script kiểm tra JDK / disk / network / Android Studio / wrapper jar trong < 10 s.
 >
-> Sau khi đọc START_HERE, đọc tiếp 3 file theo thứ tự (tổng ~30 phút):
+> 🆕 **Bước 1**: đọc [`TRY_THIS_FIRST.md`](TRY_THIS_FIRST.md) (3-min happy path + 5 lỗi import phổ biến nhất + bảng nav 3 đường vào).
+>
+> 🧭 **Bước 2**: nếu bạn là dev tham gia team Android, đọc [`docs/START_HERE.md`](docs/START_HERE.md) — tour guide 4 tuần từ Day -1 đến PR cuối.
 
-| # | File | Mô tả |
-|---|------|-------|
-| 🧭 | **[`docs/START_HERE.md`](docs/START_HERE.md)** | **Tour guide 4 tuần — đọc TRƯỚC TẤT CẢ** |
-| 1 | **[`docs/ANDROID_ONBOARDING.md`](docs/ANDROID_ONBOARDING.md)** | Briefing đầy đủ: bối cảnh, scope, stack khuyến nghị, prerequisites, first-day setup, kickoff agenda |
-| 2 | **[`docs/API_CONTRACT.md`](docs/API_CONTRACT.md)** | Đặc tả 14 endpoint + sample request/response — bookmark khi code |
-| 3 | **[`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)** | Khuyến nghị MVVM single-module + file structure + Gradle dependencies |
+| # | File | Mô tả | Audience |
+|---|------|-------|---------|
+| 🚦 | **[`TRY_THIS_FIRST.md`](TRY_THIS_FIRST.md)** | **3-min happy path + remediation table** | Mọi người (đọc đầu tiên) |
+| ✅ | [`SETUP_CHECKLIST.md`](SETUP_CHECKLIST.md) | Checklist 1 trang trước khi mở AS | Dev lần đầu |
+| 🛠 | [`TROUBLESHOOTING.md`](TROUBLESHOOTING.md) | 20 lỗi phổ biến + fix copy-paste | Dev gặp lỗi |
+| 🧭 | [`docs/START_HERE.md`](docs/START_HERE.md) | Tour guide 4 tuần kickoff → PR7 | Dev mới join team |
+| 👨‍💻 | [`docs/DEVELOPER_ONBOARDING.md`](docs/DEVELOPER_ONBOARDING.md) | Hands-on architecture walkthrough | Dev hiểu codebase |
+| 1 | [`docs/ANDROID_ONBOARDING.md`](docs/ANDROID_ONBOARDING.md) | Briefing đầy đủ: bối cảnh, scope, stack khuyến nghị | Dev mới |
+| 2 | [`docs/API_CONTRACT.md`](docs/API_CONTRACT.md) | 14 endpoint + sample request/response | Dev khi code feature |
+| 3 | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | MVVM single-module + Gradle deps | Dev hiểu kiến trúc |
+| 📐 | [`docs/diagrams/excalidraw/`](docs/diagrams/excalidraw/) | 5 architecture diagrams | Dev / mentor / grader |
+| 🚀 | [`docs/QUICKSTART_FOR_USER.md`](docs/QUICKSTART_FOR_USER.md) | Setup chi tiết cho non-dev | Người không biết Android |
+| 🤝 | [`HANDOVER_CHECKLIST.md`](HANDOVER_CHECKLIST.md) | Checklist mọi thứ đã verify trước handover | Reviewer / mentor |
 
 ---
 
@@ -112,37 +127,55 @@ app/
 ```
 DataStream/
 ├── README.md                    # 👈 Bạn đang đọc
+├── TRY_THIS_FIRST.md            # 🚦 3-min happy path + 5 lỗi import phổ biến
+├── SETUP_CHECKLIST.md
+├── TROUBLESHOOTING.md
+├── HANDOVER_CHECKLIST.md        # ✅ Checklist mọi thứ đã verify trước handover
 ├── .gitignore
+├── .gitattributes               # Line-ending policy (LF/CRLF) — đảm bảo gradlew không bị mangle trên Windows
 ├── build.gradle.kts             # Root Gradle config (AGP 8.2 + Kotlin 1.9.21)
 ├── settings.gradle.kts
 ├── gradle.properties
-├── gradlew / gradlew.bat        # Wrapper scripts (jar auto-generated by AS)
+├── gradlew / gradlew.bat        # Wrapper scripts
 ├── gradle/
 │   ├── libs.versions.toml       # Dependency version catalog
-│   └── wrapper/gradle-wrapper.properties
+│   └── wrapper/
+│       ├── gradle-wrapper.jar          # 43,462 bytes (Gradle 8.5 canonical, committed)
+│       └── gradle-wrapper.properties
 ├── local.properties.template
+│
+├── scripts/                     # ✅ Pre-flight environment check (PowerShell + Bash)
+│   ├── verify-environment.ps1
+│   └── verify-environment.sh
 │
 ├── app/                         # ★ Android Studio module (package com.mtoanng.datastream)
 │   ├── build.gradle.kts
-│   ├── proguard-rules.pro
+│   ├── proguard-rules.pro       # R8 release rules: Moshi + Retrofit + MPAndroidChart kept
 │   └── src/
-│       ├── main/                # AndroidManifest, Kotlin sources, layouts, resources
-│       └── test/                # JUnit unit tests
+│       ├── main/                # AndroidManifest, 56 .kt sources, 14 layouts, 36 XML resources
+│       └── test/                # 3 test files / 15 @Test methods (JVM unit tests)
 │
 ├── docs/
-│   ├── START_HERE.md
+│   ├── START_HERE.md            # 🧭 Tour guide 4 tuần
+│   ├── DEVELOPER_ONBOARDING.md  # Hands-on architecture walkthrough
 │   ├── ANDROID_ONBOARDING.md
 │   ├── API_CONTRACT.md
 │   ├── ARCHITECTURE.md
-│   └── KICKOFF_AGENDA.md
+│   ├── KICKOFF_AGENDA.md
+│   ├── QUICKSTART_FOR_USER.md
+│   ├── AUDIT_REPORT_ANDROID.md  # Pre-first-sync static audit
+│   ├── MASS_QA_REPORT.md        # Final cross-repo QA gate
+│   ├── FINAL_GATE_REPORT.md     # Handover gate sign-off (this audit)
+│   └── diagrams/excalidraw/     # 5 .excalidraw architecture scenes
 │
-├── mock/                        # Mock backend (json-server)
+├── mock/                        # Mock backend (json-server) — full 14-endpoint stub
 │   ├── db.json
 │   ├── routes.json
+│   ├── middleware.js
 │   ├── start.sh / start.ps1
 │   └── README.md
 │
-└── examples/responses/          # 14 JSON sample payloads
+└── examples/responses/          # 14 JSON sample payloads (one per endpoint)
 ```
 
 > ✅ The `app/` module + Gradle wrapper are now in place — open in Android Studio and sync. See the [Quickstart](#-quickstart-android-studio) section above.
@@ -258,11 +291,23 @@ Chi tiết: `docs/ANDROID_ONBOARDING.md §10`.
 
 | File | Nội dung |
 |------|----------|
+| **[TRY_THIS_FIRST.md](TRY_THIS_FIRST.md)** | **🚦 3-min happy path + remediation table** |
+| [SETUP_CHECKLIST.md](SETUP_CHECKLIST.md) | ✅ Prereqs + AVD + first-open sequence |
+| [TROUBLESHOOTING.md](TROUBLESHOOTING.md) | 🛠 20 lỗi phổ biến + fix copy-paste |
+| [HANDOVER_CHECKLIST.md](HANDOVER_CHECKLIST.md) | 🤝 Mọi thứ đã verify trước khi bàn giao |
+| [scripts/verify-environment.ps1](scripts/verify-environment.ps1) | Pre-flight check 10 mục (PowerShell) |
+| [scripts/verify-environment.sh](scripts/verify-environment.sh) | Bản bash equivalent (mac/Linux/WSL) |
 | **[docs/START_HERE.md](docs/START_HERE.md)** | **🧭 Tour guide 4 tuần — Day -1 → PR7 → demo** |
+| [docs/DEVELOPER_ONBOARDING.md](docs/DEVELOPER_ONBOARDING.md) | Hands-on architecture walkthrough cho Android dev |
 | [docs/ANDROID_ONBOARDING.md](docs/ANDROID_ONBOARDING.md) | Onboarding chi tiết bối cảnh + scope |
 | [docs/API_CONTRACT.md](docs/API_CONTRACT.md) | Đặc tả 14 endpoint + JSON samples |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | MVVM structure + Gradle deps + 7 màn breakdown |
 | [docs/KICKOFF_AGENDA.md](docs/KICKOFF_AGENDA.md) | Agenda meeting đầu với Leader (45') |
+| [docs/QUICKSTART_FOR_USER.md](docs/QUICKSTART_FOR_USER.md) | Setup chi tiết cho người không phải dev |
+| [docs/AUDIT_REPORT_ANDROID.md](docs/AUDIT_REPORT_ANDROID.md) | Pre-first-sync static audit (14 findings, 8 fixed) |
+| [docs/MASS_QA_REPORT.md](docs/MASS_QA_REPORT.md) | Cross-repo QA gate (28 DTO contract reads) |
+| [docs/FINAL_GATE_REPORT.md](docs/FINAL_GATE_REPORT.md) | Final handover sign-off + confidence rating |
+| [docs/diagrams/excalidraw/](docs/diagrams/excalidraw/) | 5 architecture diagrams (Excalidraw + PNG export instructions) |
 | [mock/README.md](mock/README.md) | Cách chạy mock backend bằng json-server |
 | [examples/responses/README.md](examples/responses/README.md) | Index 14 file JSON sample |
 
