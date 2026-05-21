@@ -27,7 +27,13 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (viewModel.isLoggedIn()) {
+        // 1. Hứng cờ "Hết hạn" từ MainActivity
+        val isExpired = intent.getBooleanExtra("EXTRA_SESSION_EXPIRED", false)
+        if (isExpired) {
+            binding.root.snack("Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại", isError = true)
+        }
+        // 2. Nếu không có cờ và vẫn còn đăng nhập thì vào Main
+        else if (viewModel.isLoggedIn()) {
             goToMain()
             return
         }

@@ -37,7 +37,7 @@ if ($Mode -eq "local") {
     Write-Host "Stop with Ctrl+C"
     Write-Host "================================================" -ForegroundColor Cyan
     Write-Host ""
-    npx json-server --watch db.json --routes routes.json --middlewares middleware.js --port $Port
+    npx json-server@0.17.4 --watch db.json --routes routes.json --middlewares middleware.js --port $Port --host 127.0.0.1
 } else {
     # Lấy LAN IP của máy
     $lanIp = (Get-NetIPAddress -AddressFamily IPv4 -PrefixOrigin Dhcp `
@@ -66,5 +66,5 @@ if ($Mode -eq "local") {
     Write-Host "Stop with Ctrl+C"
     Write-Host "================================================" -ForegroundColor Cyan
     Write-Host ""
-    npx json-server --watch db.json --routes routes.json --middlewares middleware.js --port $Port --host 0.0.0.0
+    npx json-server@0.17.4 --watch db.json --routes routes.json --middlewares middleware.js --port $Port --host 127.0.0.1 --host 0.0.0.0
 }

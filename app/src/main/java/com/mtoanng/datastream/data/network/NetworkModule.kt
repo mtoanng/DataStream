@@ -1,5 +1,6 @@
 package com.mtoanng.datastream.data.network
 
+import android.content.Context
 import com.mtoanng.datastream.BuildConfig
 import com.mtoanng.datastream.data.prefs.AppConfig
 import com.mtoanng.datastream.data.prefs.TokenManager
@@ -66,10 +67,11 @@ object NetworkModule {
     }
 
     @Synchronized
-    fun apiService(tokenManager: TokenManager, appConfig: AppConfig): ApiService {
+    fun apiService(context: Context, tokenManager: TokenManager, appConfig: AppConfig): ApiService {
         val baseUrl = appConfig.baseUrl
         if (retrofit == null || currentBaseUrl != baseUrl) {
-            retrofit = build(baseUrl, tokenManager)
+            // Đã sửa: Truyền context vào hàm build
+            retrofit = build(context, baseUrl, tokenManager)
             currentBaseUrl = baseUrl
         }
         return apiServiceProxy
@@ -77,9 +79,10 @@ object NetworkModule {
 
     /** Force a rebuild — call after the user changes baseUrl in Settings. */
     @Synchronized
-    fun recreate(tokenManager: TokenManager, appConfig: AppConfig): ApiService {
+    fun recreate(context: Context, tokenManager: TokenManager, appConfig: AppConfig): ApiService {
         retrofit = null
-        return apiService(tokenManager, appConfig)
+        // Đã sửa: Truyền context vào apiService
+        return apiService(context, tokenManager, appConfig)
     }
 
     /**
@@ -104,7 +107,8 @@ object NetworkModule {
         currentBaseUrl = ""
     }
 
-    private fun build(baseUrl: String, tokenManager: TokenManager): Retrofit {
+    // Đã sửa: Thêm tham số context: Context vào đây
+    private fun build(context: Context, baseUrl: String, tokenManager: TokenManager): Retrofit {
         val logging = HttpLoggingInterceptor().apply {
             level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY
             else HttpLoggingInterceptor.Level.BASIC
@@ -113,7 +117,8 @@ object NetworkModule {
             .connectTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
             .readTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
             .writeTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
-            .addInterceptor(AuthInterceptor(tokenManager))
+            // Đã sửa: Xuống dòng chuẩn syntax và truyền context
+            .addInterceptor(AuthInterceptor(tokenManager, context))
             .addInterceptor(logging)
             .build()
 
