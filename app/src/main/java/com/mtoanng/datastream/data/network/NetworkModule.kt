@@ -34,6 +34,9 @@ object NetworkModule {
     private var retrofit: Retrofit? = null
 
     @Volatile
+    private var cachedApiService: ApiService? = null
+
+    @Volatile
     private var currentBaseUrl: String = ""
 
     val moshi: Moshi by lazy {
@@ -52,12 +55,12 @@ object NetworkModule {
             ApiService::class.java.classLoader,
             arrayOf(ApiService::class.java),
         ) { _, method, args ->
-            val current = retrofit
+            val impl = cachedApiService
+                ?: retrofit?.create(ApiService::class.java)?.also { cachedApiService = it }
                 ?: error(
                     "NetworkModule.apiService(...) must be called at least once before " +
                         "invoking ApiService methods on the proxy.",
                 )
-            val impl = current.create(ApiService::class.java)
             try {
                 if (args == null) method.invoke(impl) else method.invoke(impl, *args)
             } catch (ite: InvocationTargetException) {
@@ -73,6 +76,7 @@ object NetworkModule {
             // Đã sửa: Truyền context vào hàm build
             retrofit = build(context, baseUrl, tokenManager)
             currentBaseUrl = baseUrl
+            cachedApiService = null // Xóa cache khi đổi Retrofit instance
         }
         return apiServiceProxy
     }

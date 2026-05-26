@@ -15,6 +15,8 @@ import com.mtoanng.datastream.data.repository.PillarRepository
 import com.mtoanng.datastream.data.repository.RecommendationRepository
 import com.mtoanng.datastream.data.repository.SecurityRepository
 import timber.log.Timber
+import com.mtoanng.datastream.data.repository.ChatRepository  // NEW
+import com.mtoanng.datastream.ui.chat.ChatViewModel            // NEW (không cần, Factory tạo)
 
 class DataStreamApp : Application() {
 
@@ -28,6 +30,10 @@ class DataStreamApp : Application() {
     // ── Gộp toàn bộ nghiệp vụ Auth vào đây ─────────────────────────────────────
     fun authRepository(): AuthRepository =
         AuthRepository(apiService(), tokenManager)
+    /** Gemini AI chatbot repository. API key đọc từ BuildConfig. */
+    fun chatRepository(): ChatRepository =                     // NEW
+        ChatRepository(apiKey = BuildConfig.GEMINI_API_KEY)
+
 
     fun securityRepository(): SecurityRepository = SecurityRepository(apiService())
     fun pillarRepository(): PillarRepository = PillarRepository(apiService())

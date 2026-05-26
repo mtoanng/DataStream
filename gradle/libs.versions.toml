@@ -1,6 +1,7 @@
 [versions]
 agp = "8.2.2"
 kotlin = "1.9.21"
+gemini = "0.9.0"
 
 # AndroidX core
 coreKtx = "1.12.0"
@@ -47,6 +48,9 @@ kotlin-android            = { id = "org.jetbrains.kotlin.android", version.ref =
 navigation-safeargs       = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigation" }
 
 [libraries]
+gemini-android = { module = "com.google.ai.client.generativeai:generativeai", version.ref = "gemini" }
+
+
 # AndroidX core
 androidx-core-ktx          = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
 androidx-appcompat         = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }

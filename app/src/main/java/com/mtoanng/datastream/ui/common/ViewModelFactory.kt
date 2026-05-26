@@ -17,6 +17,9 @@ import com.mtoanng.datastream.ui.paged.PagedRecommendationsViewModel      // NEW
 import com.mtoanng.datastream.ui.pillars.PillarsViewModel
 import com.mtoanng.datastream.ui.recommendations.RecommendationsViewModel
 import com.mtoanng.datastream.ui.settings.SettingsViewModel
+import com.mtoanng.datastream.ui.chat.ChatViewModel  // NEW
+import kotlin.jvm.java
+
 
 /**
  * Hand-rolled factory wiring repos → ViewModels.
@@ -73,6 +76,8 @@ class ViewModelFactory(private val app: DataStreamApp) : ViewModelProvider.Facto
         /** Async CSV / PDF export flow. */
         modelClass.isAssignableFrom(ExportViewModel::class.java) ->
             ExportViewModel(app.exportRepository()) as T
+        modelClass.isAssignableFrom(ChatViewModel::class.java) ->  // NEW
+            ChatViewModel(app.chatRepository()) as T
 
         else -> throw IllegalArgumentException("Unknown ViewModel ${modelClass.name}")
     }
