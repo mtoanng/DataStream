@@ -63,6 +63,35 @@ module.exports = (req, res, next) => {
         return res.status(200).json({ ...base, user });
     }
 
+    // --- NEW: POST /api/auth/social-login ---
+    if (req.method === 'POST' && reqPath === '/api/auth/social-login') {
+        const db = readDb();
+        // Cần cả idToken (Google) hoặc accessToken (Facebook)
+        const { provider, idToken, accessToken } = req.body || {};
+        const token = idToken || accessToken;
+
+        if (!token) {
+            return res.status(401).json(authError(reqPath, 'Missing social idToken or accessToken'));
+        }
+
+        const base = db.auth_login;
+        const user = {
+            ...base.user,
+            id: 888,
+            username: `social_${provider.toLowerCase()}`,
+            fullName: `${provider} User (Mock)`,
+            email: `social@${provider.toLowerCase()}.com`,
+            role: 'USER'
+        };
+
+        // Trả về thành công kèm theo token bắt đầu bằng "mock_" để App nhận biết
+        return res.status(200).json({
+            ...base,
+            accessToken: `mock_real_token_${Date.now()}`,
+            user
+        });
+    }
+
     // --- POST /api/recommendations/:id/acknowledge → ack response with ID echo ---
     // Backend (post-Phase 7.6) returns: { id, newStatus, acknowledgedBy }
     // Body accepts { status?: 'ACKNOWLEDGED' | 'DISMISSED' (default ACKNOWLEDGED), note?: string }.

@@ -8,6 +8,8 @@ import com.squareup.moshi.JsonDataException
 import retrofit2.Response
 import timber.log.Timber
 import java.io.IOException
+import java.net.ConnectException
+import java.net.SocketTimeoutException
 
 /**
  * Shared `Response<T>` -> `NetworkResult<T>` bridge. Reads the Spring error envelope
@@ -29,6 +31,17 @@ internal suspend fun <T : Any> safeApiCall(call: suspend () -> Response<T>): Net
             Timber.w("API error %d: %s", response.code(), msg)
             NetworkResult.Error(response.code(), msg)
         }
+    } catch (e: ConnectException) {
+        val msg = if (e.message?.contains("10.0.2.2") == true) {
+            "Cannot connect to host (10.0.2.2). Is the mock/backend server running on port 8090?"
+        } else {
+            "Connection refused: ${e.localizedMessage ?: "no connection"}"
+        }
+        Timber.e(e, "Connection failure")
+        NetworkResult.Error(message = msg)
+    } catch (e: SocketTimeoutException) {
+        Timber.e(e, "Network timeout")
+        NetworkResult.Error(message = "Server timed out. Check your connection or VPN.")
     } catch (e: IOException) {
         Timber.e(e, "Network IO failure")
         NetworkResult.Error(message = "Network error: ${e.localizedMessage ?: "no connection"}")

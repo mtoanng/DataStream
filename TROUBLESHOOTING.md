@@ -492,6 +492,26 @@ attribute was removed (or the XML file deleted).
 
 Then **Build → Rebuild Project**.
 
+   ```
+
+---
+
+## 21. Google Sign-In failed with status code 10
+
+**Symptom** — Snack bar shows:
+`Lỗi 10: Sai mã SHA-1 hoặc sai Client ID (Phải dùng Web ID). Kiểm tra Logcat!`
+
+**Cause** — This is a `DEVELOPER_ERROR`. It happens when:
+1. The SHA-1 of your debug/release signing certificate is not registered in the Google Cloud Console or Firebase.
+2. You are using the "Android Client ID" instead of the "Web Client ID" for the `requestIdToken` parameter.
+
+**Fix**
+1. Check Logcat for the tag `GOOGLE_AUTH_DEBUG`. The app automatically prints your current SHA-1 there on launch (see `LoginActivity.printSignatureInfo`).
+2. Go to [Google Cloud Console](https://console.cloud.google.com/apis/credentials) or Firebase Console.
+3. Add a new **Android Client ID** with your package name (`com.mtoanng.datastream`) and the SHA-1 from Logcat.
+4. Find the **Web Client ID** (type: Web application) in the same project.
+5. Copy that Web Client ID into `app/src/main/res/values/strings.xml` under `google_web_client_id`.
+
 ---
 
 ## 🆘 Still stuck?

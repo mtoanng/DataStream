@@ -1,42 +1,45 @@
 package com.mtoanng.datastream.data.repository
 
-import com.google.ai.client.generativeai.GenerativeModel
-import com.google.ai.client.generativeai.type.content
-import com.google.ai.client.generativeai.type.generationConfig
 import com.mtoanng.datastream.data.dto.AlertDto
 import com.mtoanng.datastream.data.dto.ChatMessage
 import com.mtoanng.datastream.data.dto.FuelPriceDto
+import com.mtoanng.datastream.data.dto.GithubChatRequest
+import com.mtoanng.datastream.data.dto.GithubMessage
 import com.mtoanng.datastream.data.dto.GridLoadDto
 import com.mtoanng.datastream.data.dto.RecommendationDto
 import com.mtoanng.datastream.data.dto.SecurityScoreDto
+import com.mtoanng.datastream.data.network.GithubApiService
+import com.mtoanng.datastream.data.network.NetworkModule
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 
 /**
- * Quản lý cuộc hội thoại với Gemini AI.
- *
- * Mỗi lần user gửi tin nhắn, [sendMessage] sẽ:
- * 1. Đính kèm context dữ liệu thật (security score, alerts, ...) vào system prompt
- * 2. Gửi toàn bộ lịch sử chat để Gemini nhớ ngữ cảnh
- * 3. Trả về câu trả lời dạng String
- *
- * Dữ liệu context được cập nhật từ ViewModel trước mỗi lần gửi
- * thông qua [updateContext].
+ * Quản lý chatbot sử dụng GitHub Models API (GPT-4o).
  */
-class ChatRepository(apiKey: String) {
+class ChatRepository(private val githubToken: String) {
 
-    // ── Gemini model setup ────────────────────────────────────────────────────
+    private val api: GithubApiService by lazy {
+        val logging = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
+        val client = OkHttpClient.Builder()
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .addInterceptor(logging)
+            .build()
 
-    private val model = GenerativeModel(
-        modelName = "gemini-1.5-flash",   // nhanh + miễn phí
-        apiKey = apiKey,
-        generationConfig = generationConfig {
-            temperature = 0.7f
-            maxOutputTokens = 1024
-        },
-        systemInstruction = content {
-            text(SYSTEM_PROMPT)
-        },
-    )
+        Retrofit.Builder()
+            .baseUrl("https://models.inference.ai.azure.com/")
+            .client(client)
+            // CỰC KỲ QUAN TRỌNG: Dùng Moshi từ NetworkModule để hỗ trợ Kotlin data class
+            .addConverterFactory(MoshiConverterFactory.create(NetworkModule.moshi))
+            .build()
+            .create(GithubApiService::class.java)
+    }
 
     // ── Context từ dữ liệu thật của app ──────────────────────────────────────
 
@@ -46,10 +49,6 @@ class ChatRepository(apiKey: String) {
     private var gridLoad: List<GridLoadDto> = emptyList()
     private var recommendations: List<RecommendationDto> = emptyList()
 
-    /**
-     * Cập nhật context dữ liệu thật trước khi gửi tin nhắn.
-     * Gọi từ ViewModel mỗi khi dữ liệu trên màn hình thay đổi.
-     */
     fun updateContext(
         securityScore: SecurityScoreDto? = null,
         alerts: List<AlertDto>? = null,
@@ -66,46 +65,42 @@ class ChatRepository(apiKey: String) {
 
     // ── Gửi tin nhắn ─────────────────────────────────────────────────────────
 
-    /**
-     * Gửi [userMessage] kèm toàn bộ [history] đến Gemini và trả về câu trả lời.
-     *
-     * @param userMessage  Tin nhắn mới nhất của user
-     * @param history      Lịch sử chat trước đó (không gồm [userMessage])
-     * @return Câu trả lời của AI, hoặc null nếu có lỗi
-     */
     suspend fun sendMessage(
         userMessage: String,
         history: List<ChatMessage>,
     ): Result<String> {
         return try {
-            // Xây dựng history cho Gemini (bỏ qua các tin nhắn lỗi)
-            val chatHistory = history
-                .filter { !it.isError }
-                .map { msg ->
-                    content(role = msg.role) { text(msg.text) }
-                }
+            val messages = mutableListOf<GithubMessage>()
 
-            val chat = model.startChat(history = chatHistory)
+            // 1. System Prompt
+            messages.add(GithubMessage("system", SYSTEM_PROMPT))
 
-            // Đính kèm context dữ liệu thật vào tin nhắn
+            // 2. History
+            messages.addAll(history.filter { !it.isError }.map {
+                GithubMessage(if (it.role == "user") "user" else "assistant", it.text)
+            })
+
+            // 3. User Message with Context
             val messageWithContext = buildMessageWithContext(userMessage)
+            messages.add(GithubMessage("user", messageWithContext))
 
-            val response = chat.sendMessage(messageWithContext)
-            val text = response.text ?: "Xin lỗi, mình không hiểu câu hỏi này."
-            Timber.d("Gemini response: ${text.take(100)}...")
-            Result.success(text)
+            val request = GithubChatRequest(messages = messages)
+            val response = api.githubChat("Bearer $githubToken", request)
+
+            if (response.isSuccessful) {
+                val text = response.body()?.choices?.firstOrNull()?.message?.content
+                    ?: "Xin lỗi, mình không nhận được phản hồi."
+                Result.success(text)
+            } else {
+                val errorMsg = response.errorBody()?.string() ?: "Lỗi API GitHub (${response.code()})"
+                Result.failure(Exception(errorMsg))
+            }
         } catch (e: Exception) {
-            Timber.e(e, "Gemini API error")
+            Timber.e(e, "GitHub API error")
             Result.failure(e)
         }
     }
 
-    // ── Build context ─────────────────────────────────────────────────────────
-
-    /**
-     * Gắn context dữ liệu thật vào cuối tin nhắn của user.
-     * Gemini sẽ dùng thông tin này để trả lời chính xác hơn.
-     */
     private fun buildMessageWithContext(userMessage: String): String {
         val contextParts = mutableListOf<String>()
 
@@ -113,50 +108,46 @@ class ChatRepository(apiKey: String) {
             contextParts += """
                 [DỮ LIỆU HIỆN TẠI - Chỉ số an ninh năng lượng]
                 Tổng điểm: ${score.overallScore}/100 (${score.status})
-                Trụ cột 1 (Cung cấp): ${score.pillar1Score}
-                Trụ cột 2 (Thị trường): ${score.pillar2Score}
-                Trụ cột 3 (Lưới điện): ${score.pillar3Score}
-                Trụ cột 4 (Chuyển đổi): ${score.pillar4Score}
-                Cập nhật lúc: ${score.computedAt}
+                T1: ${score.pillar1Score}, T2: ${score.pillar2Score}, T3: ${score.pillar3Score}, T4: ${score.pillar4Score}
             """.trimIndent()
         }
 
         if (alerts.isNotEmpty()) {
-            val alertSummary = alerts.take(5).joinToString("\n") { alert ->
-                "- [${alert.severity}] ${alert.metricType}: ${alert.message ?: "Không có mô tả"}"
+            val alertSummary = alerts.take(3).joinToString("\n") { alert ->
+                "- [${alert.severity}] ${alert.metricType}: ${alert.message?.take(50) ?: ""}"
             }
             contextParts += """
-                [DỮ LIỆU HIỆN TẠI - Cảnh báo đang hoạt động (${alerts.size} cảnh báo)]
+                [Cảnh báo (${alerts.size})]
                 $alertSummary
             """.trimIndent()
         }
 
         if (fuelPrices.isNotEmpty()) {
-            val priceSummary = fuelPrices.take(5).joinToString("\n") { p ->
-                "- ${p.fuelType}: ${p.price} ${p.priceUnit ?: ""} (${p.location ?: p.region ?: "N/A"})"
+            val priceSummary = fuelPrices.take(3).joinToString("\n") { p ->
+                "- ${p.fuelType}: ${p.price}"
             }
             contextParts += """
-                [DỮ LIỆU HIỆN TẠI - Giá nhiên liệu]
+                [Giá nhiên liệu]
                 $priceSummary
             """.trimIndent()
         }
 
         if (gridLoad.isNotEmpty()) {
-            val loadSummary = gridLoad.take(3).joinToString("\n") { g ->
-                "- ${g.regionName ?: g.regionCode}: ${g.loadPct ?: "N/A"}% tải (${g.status ?: "N/A"})"
+            val loadSummary = gridLoad.take(2).joinToString("\n") { g ->
+                "- ${g.regionName ?: g.regionCode}: ${g.loadPct}%"
             }
             contextParts += """
-                [DỮ LIỆU HIỆN TẠI - Tải lưới điện]
+                [Tải lưới]
                 $loadSummary
             """.trimIndent()
         }
 
         if (recommendations.isNotEmpty()) {
-            val recSummary = recommendations.take(3).joinToString("\n") { r ->
-                "- [Trụ cột ${r.pillar}] ${r.title}: ${r.message?.take(80) ?: ""}"
+            val recSummary = recommendations.take(2).joinToString("\n") { r ->
+                "- ${r.title}: ${r.message?.take(50) ?: ""}"
             }
             contextParts += """
-                [DỮ LIỆU HIỆN TẠI - Đề xuất hành động]
+                [Đề xuất]
                 $recSummary
             """.trimIndent()
         }
@@ -164,11 +155,9 @@ class ChatRepository(apiKey: String) {
         return if (contextParts.isEmpty()) {
             userMessage
         } else {
-            "${contextParts.joinToString("\n\n")}\n\n[CÂU HỎI CỦA NGƯỜI DÙNG]\n$userMessage"
+            "Bối cảnh hệ thống:\n${contextParts.joinToString(" | ")}\n\nCâu hỏi: $userMessage"
         }
     }
-
-    // ── System prompt ─────────────────────────────────────────────────────────
 
     companion object {
         private const val SYSTEM_PROMPT = """

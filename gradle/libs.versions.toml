@@ -30,6 +30,9 @@ timber = "5.0.1"
 
 # Charts
 mpAndroidChart = "v3.1.0"
+firebaseBom = "32.7.2"
+playServicesAuth = "20.7.0"
+facebook = "17.0.0"
 
 # Testing
 junit = "4.13.2"
@@ -86,6 +89,12 @@ timber                     = { module = "com.jakewharton.timber:timber", version
 
 # Charts
 mpandroidchart             = { module = "com.github.PhilJay:MPAndroidChart", version.ref = "mpAndroidChart" }
+
+# Firebase / Auth / Social
+firebase-bom               = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+firebase-auth-ktx          = { module = "com.google.firebase:firebase-auth-ktx" }
+play-services-auth         = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
+facebook-login             = { module = "com.facebook.android:facebook-login", version.ref = "facebook" }
 
 # Testing
 junit                      = { module = "junit:junit", version.ref = "junit" }

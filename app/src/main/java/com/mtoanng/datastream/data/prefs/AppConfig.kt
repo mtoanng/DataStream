@@ -36,7 +36,7 @@ class AppConfig private constructor(private val prefs: SharedPreferences) {
         private const val KEY_REFRESH = "refresh_interval_seconds"
 
         /** Emulator's loopback to the host machine. */
-        const val DEFAULT_BASE_URL = "http://172.30.184.31:8090/"
+        const val DEFAULT_BASE_URL = "http://10.0.2.2:8090/"
         const val DEFAULT_REFRESH_SECONDS = 30
 
         @Volatile private var INSTANCE: AppConfig? = null

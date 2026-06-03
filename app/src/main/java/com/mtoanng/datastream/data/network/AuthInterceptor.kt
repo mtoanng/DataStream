@@ -27,10 +27,23 @@ class AuthInterceptor(
 
         // Bắt lỗi 401 Unauthorized
         if (response.code == 401) {
-            // Gửi một broadcast toàn cục để thông báo token đã chết
-            val intent = Intent("com.mtoanng.datastream.ACTION_TOKEN_EXPIRED")
-            intent.setPackage(context.packageName) // Bảo mật: chỉ gửi trong nội bộ app
-            context.sendBroadcast(intent)
+            val path = original.url.encodedPath
+
+            // Log chi tiết để biết chính xác endpoint nào gây lỗi
+            timber.log.Timber.e("Lỗi 401 tại: $path | Token: ${token?.take(15)}...")
+
+            val isAuthPath = path.contains("/auth/login") ||
+                             path.contains("/auth/social-login") ||
+                             path.contains("/auth/refresh")
+
+            // KHÔNG đẩy ra ngoài nếu:
+            // 1. Đang ở đường dẫn login/refresh/social-login
+            // 2. Token là "mock_" (đang trong chế độ giả lập để test giao diện)
+            if (!isAuthPath && token?.contains("mock") != true) {
+                val intent = Intent("com.mtoanng.datastream.ACTION_TOKEN_EXPIRED")
+                intent.setPackage(context.packageName)
+                context.sendBroadcast(intent)
+            }
         }
 
         return response

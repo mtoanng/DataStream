@@ -27,8 +27,8 @@ android {
 
         buildConfigField(
             "String",
-            "GEMINI_API_KEY",
-            "\"${localProps.getProperty("GEMINI_API_KEY", "")}\""
+            "GITHUB_TOKEN",
+            "\"${localProps.getProperty("GITHUB_TOKEN", "")}\""
         )
     }
 
@@ -82,7 +82,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.gemini.android)
 
     // ---- AndroidX core ----
@@ -120,6 +119,12 @@ dependencies {
 
     // ---- Charts ----
     implementation(libs.mpandroidchart)
+
+    // ---- Firebase / Auth / Social ----
+    implementation(platform("com.google.firebase:firebase-bom:32.7.2"))
+    implementation("com.google.firebase:firebase-auth-ktx")
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
+    implementation("com.facebook.android:facebook-login:17.0.0")
 
     // ---- Tests ----
     testImplementation(libs.junit)

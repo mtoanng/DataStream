@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.mtoanng.datastream.BuildConfig
 import com.mtoanng.datastream.R
 import com.mtoanng.datastream.databinding.FragmentSettingsBinding
@@ -38,10 +40,14 @@ class SettingsFragment : BaseFragment() {
         }
         binding.btnTestConnection.setOnClickListener { viewModel.testConnection() }
         binding.btnLogout.setOnClickListener {
-            viewModel.logout()
-            startActivity(Intent(requireContext(), LoginActivity::class.java).apply {
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            })
+            // Logout Google trước để lần sau phải chọn lại tài khoản
+            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
+            GoogleSignIn.getClient(requireContext(), gso).signOut().addOnCompleteListener {
+                viewModel.logout()
+                startActivity(Intent(requireContext(), LoginActivity::class.java).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                })
+            }
         }
         binding.tvAppVersion.text = getString(R.string.label_app_version, BuildConfig.VERSION_NAME)
         binding.tvBackendVersion.text = getString(R.string.label_backend_version, "v1.0.0")

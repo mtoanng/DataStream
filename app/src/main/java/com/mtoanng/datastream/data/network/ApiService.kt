@@ -55,6 +55,9 @@ interface ApiService {
     @POST("api/auth/login")
     suspend fun login(@Body body: LoginRequest): Response<LoginResponse>
 
+    @POST("api/auth/social-login")
+    suspend fun socialLogin(@Body body: com.mtoanng.datastream.data.dto.SocialLoginRequest): Response<LoginResponse>
+
     @GET("api/auth/me")
     suspend fun me(): Response<UserDto>
 

@@ -12,9 +12,13 @@ import com.mtoanng.datastream.data.dto.UserDto
 class TokenManager private constructor(private val prefs: SharedPreferences) {
 
     fun saveSession(accessToken: String, expiresInMs: Long, user: UserDto) {
+        // Nếu server trả về giây (ví dụ 3600) thay vì ms, ta nhân với 1000.
+        // Ngưỡng 10^9 ms (~11 ngày) là mốc phân biệt hợp lý giữa s và ms.
+        val durationMs = if (expiresInMs < 1_000_000_000L) expiresInMs * 1000 else expiresInMs
+
         prefs.edit {
             putString(KEY_TOKEN, accessToken)
-            putLong(KEY_EXPIRES_AT, System.currentTimeMillis() + expiresInMs)
+            putLong(KEY_EXPIRES_AT, System.currentTimeMillis() + durationMs)
             putLong(KEY_USER_ID, user.id)
             putString(KEY_USERNAME, user.username)
             putString(KEY_FULL_NAME, user.fullName)
@@ -30,6 +34,12 @@ class TokenManager private constructor(private val prefs: SharedPreferences) {
         val token = getToken() ?: return false
         if (token.isBlank()) return false
         val expiresAt = prefs.getLong(KEY_EXPIRES_AT, 0L)
+
+        // Nới lỏng kiểm tra: Nếu token mock (Google) thì cho phép qua nếu expiresAt chưa quá cũ
+        if (token.startsWith("mock_")) {
+             return (expiresAt - System.currentTimeMillis()) > -300000 // Cho phép sai lệch 5 phút quá hạn
+        }
+
         return System.currentTimeMillis() < expiresAt
     }
 

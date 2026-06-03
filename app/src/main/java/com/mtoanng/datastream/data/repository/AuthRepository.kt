@@ -19,13 +19,27 @@ class AuthRepository(
     suspend fun login(username: String, password: String): NetworkResult<LoginResponse> {
         val result = safeApiCall { api.login(LoginRequest(username, password)) }
         if (result is NetworkResult.Success) {
-            tokenManager.saveSession(
-                accessToken = result.data.accessToken,
-                expiresInMs = result.data.expiresInMs,
-                user = result.data.user,
-            )
+            saveToTokenManager(result.data)
         }
         return result
+    }
+
+    suspend fun loginWithSocial(provider: String, idToken: String): NetworkResult<LoginResponse> {
+        val result = safeApiCall {
+            api.socialLogin(com.mtoanng.datastream.data.dto.SocialLoginRequest(provider, idToken))
+        }
+        if (result is NetworkResult.Success) {
+            saveToTokenManager(result.data)
+        }
+        return result
+    }
+
+    private fun saveToTokenManager(data: LoginResponse) {
+        tokenManager.saveSession(
+            accessToken = data.accessToken,
+            expiresInMs = data.expiresInMs,
+            user = data.user,
+        )
     }
 
     suspend fun me(): NetworkResult<UserDto> = safeApiCall { api.me() }
@@ -66,6 +80,21 @@ class AuthRepository(
     }
 
     // --- CÁC HÀM TIỆN ÍCH ---
+    fun saveMockSession(provider: String, expiresInMs: Long = 3600000L) {
+        tokenManager.saveSession(
+            accessToken = "mock_${provider}_token_${System.currentTimeMillis()}",
+            expiresInMs = expiresInMs,
+            user = UserDto(
+                id = 999,
+                username = "social_user",
+                fullName = "$provider User",
+                email = "user@$provider.com",
+                role = "USER",
+                enabled = true
+            )
+        )
+    }
+
     fun cachedUser(): UserDto? = tokenManager.getUser()
     fun isLoggedIn(): Boolean = tokenManager.isLoggedIn()
     fun logout() = tokenManager.clear()

@@ -41,10 +41,18 @@ class ChatFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupToolbar()
         setupRecyclerView()
         setupInput()
         observeMessages()
         feedContextToChat()
+    }
+
+    private fun setupToolbar() {
+        binding.toolbar.setNavigationIcon(android.R.drawable.ic_menu_close_clear_cancel)
+        binding.toolbar.setNavigationOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
     }
 
     private fun setupRecyclerView() {

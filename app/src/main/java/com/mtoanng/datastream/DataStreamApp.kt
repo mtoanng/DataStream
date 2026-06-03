@@ -30,9 +30,8 @@ class DataStreamApp : Application() {
     // ── Gộp toàn bộ nghiệp vụ Auth vào đây ─────────────────────────────────────
     fun authRepository(): AuthRepository =
         AuthRepository(apiService(), tokenManager)
-    /** Gemini AI chatbot repository. API key đọc từ BuildConfig. */
-    fun chatRepository(): ChatRepository =                     // NEW
-        ChatRepository(apiKey = BuildConfig.GEMINI_API_KEY)
+    /** GitHub Models Chatbot repository. Token đọc từ BuildConfig. */
+    fun chatRepository() = ChatRepository(BuildConfig.GITHUB_TOKEN)
 
 
     fun securityRepository(): SecurityRepository = SecurityRepository(apiService())
