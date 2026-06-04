@@ -51,9 +51,16 @@ class SettingsViewModel(
             }
         }
     }
-
+    /**
+     * Thực hiện đăng xuất: Gửi yêu cầu vô hiệu hóa token lên server,
+     * đồng thời xóa session ở local và cập nhật trạng thái UI.
+     */
     fun logout() {
-        authRepository.logout()
-        _user.value = null
+        viewModelScope.launch {
+            authRepository.logoutServer()
+            _user.value = null
+            // Bạn có thể kích hoạt thêm một LiveData sự kiện ở đây để Fragment biết
+            // và tự động chuyển hướng (Navigate) về LoginActivity/LoginFragment
+        }
     }
 }

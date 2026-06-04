@@ -20,5 +20,19 @@
         android:layout_gravity="bottom"
         android:background="?attr/colorSurface"
         app:menu="@menu/bottom_nav"
-        app:labelVisibilityMode="labeled"/>
+        app:labelVisibilityMode="labeled"
+        app:itemIconTint="?attr/colorOnSurfaceVariant"
+        app:itemTextColor="?attr/colorOnSurfaceVariant"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabChat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="96dp"
+        android:contentDescription="@string/nav_chat"
+        app:srcCompat="@android:drawable/ic_menu_help"
+        app:backgroundTint="?attr/colorPrimary"
+        app:tint="?attr/colorOnPrimary"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -19,7 +19,7 @@
         <item name="colorOnSurfaceVariant">@color/text_secondary</item>
 
         <item name="android:statusBarColor">@color/brand_primary_dark</item>
-        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightStatusBar">true</item>
 
         <item name="materialAlertDialogTheme">@style/ThemeOverlay.Material3.MaterialAlertDialog</item>
         <item name="bottomSheetDialogTheme">@style/ThemeOverlay.Material3.BottomSheetDialog</item>
@@ -27,6 +27,8 @@
 
     <style name="Theme.VESMonitor.Login" parent="Theme.VESMonitor">
         <item name="android:windowBackground">@color/background_light</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
     </style>
 
     <style name="Widget.VESMonitor.Card" parent="Widget.Material3.CardView.Elevated">

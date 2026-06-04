@@ -1,7 +1,14 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.navigation.safeargs)
+}
+
+val localProps = Properties().also { props ->
+    val f = rootProject.file("local.properties")
+    if (f.exists()) props.load(f.inputStream())
 }
 
 android {
@@ -17,7 +24,14 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables { useSupportLibrary = true }
+
+        buildConfigField(
+            "String",
+            "GITHUB_TOKEN",
+            "\"${localProps.getProperty("GITHUB_TOKEN", "")}\""
+        )
     }
+
 
     buildTypes {
         debug {
@@ -68,6 +82,8 @@ android {
 }
 
 dependencies {
+    implementation(libs.gemini.android)
+
     // ---- AndroidX core ----
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -103,6 +119,12 @@ dependencies {
 
     // ---- Charts ----
     implementation(libs.mpandroidchart)
+
+    // ---- Firebase / Auth / Social ----
+    implementation(platform("com.google.firebase:firebase-bom:32.7.2"))
+    implementation("com.google.firebase:firebase-auth-ktx")
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
+    implementation("com.facebook.android:facebook-login:17.0.0")
 
     // ---- Tests ----
     testImplementation(libs.junit)

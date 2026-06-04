@@ -41,6 +41,28 @@ class LoginViewModel(
         }
     }
 
+    fun loginWithGoogle(idToken: String) {
+        _state.value = State.Loading
+        viewModelScope.launch {
+            when (val r = authRepository.loginWithSocial("GOOGLE", idToken)) {
+                is NetworkResult.Success -> _state.value = State.Success
+                is NetworkResult.Error   -> _state.value = State.Failure(r.message)
+                NetworkResult.Loading    -> Unit
+            }
+        }
+    }
+
+    fun loginWithFacebook(accessToken: String) {
+        _state.value = State.Loading
+        viewModelScope.launch {
+            when (val r = authRepository.loginWithSocial("FACEBOOK", accessToken)) {
+                is NetworkResult.Success -> _state.value = State.Success
+                is NetworkResult.Error   -> _state.value = State.Failure(r.message)
+                NetworkResult.Loading    -> Unit
+            }
+        }
+    }
+
     fun isLoggedIn(): Boolean = authRepository.isLoggedIn()
 
     fun currentBaseUrl(): String = appConfig.baseUrl

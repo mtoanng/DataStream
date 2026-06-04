@@ -1,6 +1,7 @@
 [versions]
-agp = "8.2.0"
+agp = "8.2.2"
 kotlin = "1.9.21"
+gemini = "0.9.0"
 
 # AndroidX core
 coreKtx = "1.12.0"
@@ -29,6 +30,9 @@ timber = "5.0.1"
 
 # Charts
 mpAndroidChart = "v3.1.0"
+firebaseBom = "32.7.2"
+playServicesAuth = "20.7.0"
+facebook = "17.0.0"
 
 # Testing
 junit = "4.13.2"
@@ -47,6 +51,9 @@ kotlin-android            = { id = "org.jetbrains.kotlin.android", version.ref =
 navigation-safeargs       = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigation" }
 
 [libraries]
+gemini-android = { module = "com.google.ai.client.generativeai:generativeai", version.ref = "gemini" }
+
+
 # AndroidX core
 androidx-core-ktx          = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
 androidx-appcompat         = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
@@ -82,6 +89,12 @@ timber                     = { module = "com.jakewharton.timber:timber", version
 
 # Charts
 mpandroidchart             = { module = "com.github.PhilJay:MPAndroidChart", version.ref = "mpAndroidChart" }
+
+# Firebase / Auth / Social
+firebase-bom               = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+firebase-auth-ktx          = { module = "com.google.firebase:firebase-auth-ktx" }
+play-services-auth         = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
+facebook-login             = { module = "com.facebook.android:facebook-login", version.ref = "facebook" }
 
 # Testing
 junit                      = { module = "junit:junit", version.ref = "junit" }
