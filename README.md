@@ -334,11 +334,11 @@ Chi tiết + alternative: `docs/ARCHITECTURE.md`.
 
 ---
 
-## 📞 Liên hệ Leader
+## 📞 Liên hệ - 0912780449
 
 - Backend issue (API contract, JWT) → group chat
 - Mock server không work → tự debug + Stack Overflow + AI tool (Cursor / ChatGPT)
-- Cần token mẫu / OpenAPI spec / data mới → Leader cung cấp qua chat
+- Cần token mẫu / OpenAPI spec / data mới 
 
 ---
 
