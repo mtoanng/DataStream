@@ -1,15 +1,8 @@
 # 📱 DataStream — VES-Monitor Mobile (Android)
 
-> Đồ án môn **Phát triển ứng dụng di động (Android)** — ứng dụng giám sát **An ninh năng lượng Việt Nam** thời gian thực.
-> Repo này **độc lập** với đồ án Java (backend Spring Boot + Flink + Postgres). Mobile app chỉ consume **14 endpoint REST API** mà backend đó expose.
->
-> 🆕 **Synced với Java backend `v1.0.0` + Phase 7.6/7.7** (commit `e64d447`, 13/05/2026). Pillar taxonomy đã refactor IEA/APERC. Backward-compat aliases giữ nguyên — code Android cũ KHÔNG break, nhưng shape DTO đã đổi. Đọc [`docs/API_CONTRACT.md`](docs/API_CONTRACT.md) để biết chi tiết.
-
 [![Status](https://img.shields.io/badge/status-Handover%20Ready-brightgreen)]() [![Platform](https://img.shields.io/badge/platform-Android%208.0%2B-green)]() [![Language](https://img.shields.io/badge/language-Kotlin%201.9.21-purple)]() [![Build](https://img.shields.io/badge/Gradle-8.5-blueviolet)]() [![AGP](https://img.shields.io/badge/AGP-8.2.0-orange)]() [![Tests](https://img.shields.io/badge/tests-15%2F15-success)]() [![License](https://img.shields.io/badge/license-Educational-blue)]()
 
----
 
-> 🚦 **Lần đầu vào repo này?** → Mở [`TRY_THIS_FIRST.md`](TRY_THIS_FIRST.md) trước. Đó là **3-minute happy path** + bảng remediation cho 5 lỗi import phổ biến nhất + link đến mọi tài liệu khác. Nếu bạn chỉ có 5 phút, đọc file đó là đủ.
 
 ---
 
